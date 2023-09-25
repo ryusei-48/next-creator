@@ -1,0 +1,99 @@
+div.gallery_wrapper {
+  display: block;
+  position: relative;
+  width: 100%;
+  padding: 15px;
+  > div.view_control {
+    position: absolute;
+    bottom: 100%;
+    right: 0;
+    padding: 10px 20px;
+    display: flex;
+    flex-flow: wrap;
+    align-items: center;
+    text-align: center;
+    font-size: 15pt;
+    input[type="file"] {
+      opacity: 0;
+      transform: scale(0);
+      width: 0;
+      height: 0;
+    }
+    label {
+      padding: 5px 10px;
+    }
+    label.media_upload_label {
+      color: white;
+      font-size: 12pt;
+      background-color: blueviolet;
+      border-radius: 10px;
+      padding: 5px 12px;
+      cursor: pointer;
+      &:active {
+        background-color: rgb(114, 36, 187);
+      }
+    }
+    select {
+      padding: 5px 10px;
+      border: none;
+      border-bottom: 2px solid var( --input-border-underline );
+      &:focus {
+        outline: none;
+      }
+    }
+  }
+  > ul {
+    display: flex;
+    flex-flow: wrap;
+    gap: 10px;
+    > li {
+      flex-basis: calc( 100% / 6 - 10px );
+      > div.media_wrapper {
+        width: 100%;
+        aspect-ratio: 16 / 9;
+        position: relative;
+        cursor: zoom-in;
+        overflow: hidden;
+        &::before {
+          content: '';
+          background-color: transparent;
+          position: absolute;
+          top: 0; left: 0;
+          width: 100%;
+          height: 100%;
+          transition: background .3s ease-in-out;
+          z-index: 1;
+        }
+        &:hover::before {
+          background-color: rgba(85, 85, 85, .3);
+          backdrop-filter: blur( 7px );
+        }
+        > img {
+          width: 100%;
+          position: absolute;
+          top: 50%; left: 50%;
+          transform: translate( -50%, -50% ) scale(1);
+          transition: all .3s ease-in-out;
+          z-index: 0;
+        }
+        &:hover > img {
+          transform: translate( -50%, -50% ) scale(1.2);
+        }
+      }
+    }
+  }
+  > div.media_get_more {
+    width: 100%;
+    text-align: center;
+    margin-top: 20px;
+    > button {
+      display: inline-block;
+      padding: 5px 15px;
+      border-radius: 15px;
+      background-color: blueviolet;
+      &:active {
+        background-color: rgb(103, 32, 170);
+      }
+    }
+  }
+}

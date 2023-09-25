@@ -1,0 +1,22 @@
+.ckeditor_wrapper {
+  display: inline-block;
+  margin: 0 auto;
+  width: 100%;
+  max-width: 1000px;
+  vertical-align: baseline;
+  min-height: 600px;
+  > input[type="text"].title {
+    display: block;
+    margin-bottom: 15px;
+    padding: 8px;
+    border: none;
+    border-bottom: 2px solid var( --ck-color-input-border );
+    font-size: 15pt;
+    width: 100%;
+    background-color: var( --ck-custom-background );
+    &:focus {
+      outline: none;
+      border-bottom: 2px solid var( --ck-color-widget-type-around-button-active );
+    }
+  }
+}

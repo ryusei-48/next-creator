@@ -1,0 +1,43 @@
+{
+  "name": "ryusei.io",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev -p 8648",
+    "build": "next build",
+    "start": "next start -p 8648",
+    "lint": "next lint"
+  },
+  "dependencies": {
+    "@ckeditor/ckeditor5-build-classic": "^39.0.2",
+    "@ckeditor/ckeditor5-code-block": "^39.0.2",
+    "@ckeditor/ckeditor5-core": "^39.0.2",
+    "@ckeditor/ckeditor5-editor-classic": "^39.0.2",
+    "@ckeditor/ckeditor5-essentials": "^39.0.2",
+    "@ckeditor/ckeditor5-paragraph": "^39.0.2",
+    "@ckeditor/ckeditor5-react": "^6.1.0",
+    "@next-auth/prisma-adapter": "latest",
+    "@prisma/client": "latest",
+    "@types/bcrypt": "latest",
+    "@types/draft-js": "^0.11.12",
+    "@types/node": "latest",
+    "@types/react": "latest",
+    "@types/react-dom": "latest",
+    "axios": "latest",
+    "bcrypt": "latest",
+    "ckeditor5-custom-build": "file:lib/ckeditor5-custom",
+    "draft-js": "^0.11.7",
+    "file-type": "^18.5.0",
+    "next": "latest",
+    "next-auth": "^4.23.1",
+    "react": "latest",
+    "react-dom": "latest",
+    "react-hook-form": "latest",
+    "sharp": "^0.32.6",
+    "typescript": "latest"
+  },
+  "devDependencies": {
+    "prisma": "latest",
+    "sass": "latest"
+  }
+}

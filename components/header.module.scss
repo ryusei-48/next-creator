@@ -1,0 +1,62 @@
+.admin_toolbar {
+  width: 100vw;
+  position: fixed;
+  display: flex;
+  flex-direction: row;
+  padding: 4px;
+  font-size: 16px;
+  //height: 24px;
+  background-color: var(--admin-bar-background);
+  z-index: 500;
+  > .tool_links {
+    flex-basis: 80%;
+    display: flex;
+    flex-flow: wrap;
+    ul {
+      display: flex;
+      flex-flow: wrap;
+      gap: 15px;
+      li {
+        flex-basis: auto;
+        a {
+          color: rgb(var(--foreground-rgb));
+          padding: 0 15px;
+        }
+      }
+    }
+  }
+  > .status_box {
+    flex-basis: 20%;
+  }
+}
+
+.header {
+  display: flex;
+  align-content: stretch;
+  width: 100vw;
+  padding: 10px;
+}
+
+.header.toolbar_enable {
+  margin-top: 26px;
+}
+
+.siteTitle {
+  flex-basis: auto;
+  span {
+    font-size: 20pt;
+  }
+}
+
+.navigations {
+  flex-basis: auto;
+  flex-grow: 1;
+  padding: 0 15px;
+  span {
+    float: right;
+  }
+}
+
+.sessionControl {
+  flex-basis: auto;
+}

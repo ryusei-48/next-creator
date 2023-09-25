@@ -1,0 +1,1 @@
+div.wrapper{display:block;max-width:1400px;width:100%;margin:0 auto}div.wrapper>div.container{width:100%;display:flex;justify-content:center;flex-direction:row}div.wrapper>div.container>div.edit_control{max-width:1000px;width:100%;padding:10px}div.wrapper>div.container>div.widgets{flex-basis:400px;flex-grow:1;padding:10px}
