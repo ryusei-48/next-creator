@@ -22,7 +22,8 @@ model User {
 
 model Category {
   id            Int            @id @default(autoincrement())
-  name          String         @unique
+  name          String         @db.VarChar(50)
+  slug          String         @unique @db.VarChar(50)
   icon          String?
   parent        String?
   register_date DateTime       @default(now())

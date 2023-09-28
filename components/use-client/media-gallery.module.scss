@@ -25,7 +25,7 @@ div.gallery_wrapper {
     label.media_upload_label {
       color: white;
       font-size: 12pt;
-      background-color: blueviolet;
+      background-color: var( --primary-color );
       border-radius: 10px;
       padding: 5px 12px;
       cursor: pointer;
@@ -39,6 +39,19 @@ div.gallery_wrapper {
       border-bottom: 2px solid var( --input-border-underline );
       &:focus {
         outline: none;
+      }
+    }
+    fieldset {
+      display: inline-block;
+      height: 34px;
+      margin-left: 10px;
+      legend {
+        display: inline;
+        clear: both;
+        width: auto;
+      }
+      input {
+        margin: 0 10px;
       }
     }
   }
@@ -79,6 +92,35 @@ div.gallery_wrapper {
         &:hover > img {
           transform: translate( -50%, -50% ) scale(1.2);
         }
+        > span.name {
+          position: absolute;
+          display: block;
+          width: 100%;
+          left: 0; bottom: 0;
+          padding: 5px;
+          font-size: 13pt;
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          z-index: 2;
+        }
+        > button.delete {
+          display: block;
+          position: absolute;
+          top: 0; right: 0;
+          margin-top: 5px;
+          margin-right: 5px;
+          padding: 0;
+          font-size: 11pt;
+          background-color: gray;
+          color: white;
+          z-index: 2;
+          opacity: 0;
+          transition: all .3s ease-in-out;
+        }
+        &:hover > button.delete {
+          opacity: 1;
+        }
       }
     }
   }
@@ -94,6 +136,53 @@ div.gallery_wrapper {
       &:active {
         background-color: rgb(103, 32, 170);
       }
+    }
+  }
+  > div.media_viewr_modal_back {
+    display: block;
+    position: fixed;
+    width: 100vw;
+    height: 100vh;
+    top: 0; left: 0;
+    opacity: 0;
+    z-index: -10;
+    background-color: transparent;
+    transition: all .4s ease-in-out;
+    > div.media_viewr_modal {
+      position: fixed;
+      top: 50%; left: 50%;
+      width: 85vw;
+      aspect-ratio: 16 / 9;
+      transform: scale(.9) translate( -50%, -35% );
+      background-color: hsl(0deg 0% 12.75% / 80%);
+      backdrop-filter: blur( 10px );
+      transition: all .4s ease-in-out;
+      z-index: -9;
+      padding: 30px;
+      > div.media_view {
+        display: block;
+        width: 100%;
+        aspect-ratio: 16 / 9;
+        overflow-y: auto;
+        > img {
+          display: block;
+          max-width: 100%;
+          margin: 0 auto;
+        }
+      }
+      > button.close {
+        position: absolute;
+        top: -5px; left: 6px;
+        font-size: 22pt;
+      }
+    }
+  }
+  > div.media_viewr_modal_back.show {
+    opacity: 1;
+    z-index: 5;
+    > div.media_viewr_modal {
+      z-index: 6;
+      transform: scale(1) translate( -50%, -50% );
     }
   }
 }

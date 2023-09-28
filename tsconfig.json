@@ -24,7 +24,7 @@
     }
   },
   "include": [
-    "next-env.d.ts", "**/*.ts", "**/*.tsx",
+    "next-env.d.ts", "**/*.ts", "**/*.tsx", "types/override-react.d.ts",
     ".next/types/**/*.ts", "lib/test.js", "lib/**/*.ts"
   ],
   "exclude": ["node_modules"]
