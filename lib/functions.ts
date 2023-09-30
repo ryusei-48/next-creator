@@ -1,4 +1,35 @@
 import fs, { constants } from 'fs';
+import { mkdir } from 'fs/promises';
+
+const APP_PATH = process.env.APP_ROOT_PATH;
+const MEDIA_ROOT_PATH = `${ APP_PATH }/public/media`;
+
+export async function getSavePath( filename: string ) {
+
+  const year = getStrDatetime('y');
+  const month = getStrDatetime('m');
+  const day = getStrDatetime('d');
+  const savePath = `${ MEDIA_ROOT_PATH }/${ year }/${ month }/${ day }`;
+  const savePathRelative = `/media/${ year }/${ month }/${ day }`
+  const prefix = randomString( 15 );
+
+  process.umask(0);
+  if ( !await pathExist( `${ MEDIA_ROOT_PATH }/${ year }` ) ) {
+    await mkdir( `${ MEDIA_ROOT_PATH }/${ year }`, "0755" );
+  }
+  if ( !await pathExist( `${ MEDIA_ROOT_PATH }/${ year }/${ month }` ) ) {
+    await mkdir( `${ MEDIA_ROOT_PATH }/${ year }/${ month }`, "0755" );
+  }
+  if ( !await pathExist( savePath ) ) {
+    await mkdir( savePath, "0755" );
+  }
+
+  return {
+    savePath, savePathRelative,
+    filePath: `${ savePath }/${ prefix }_${ filename }`,
+    filePathRelative: `${ savePathRelative }/${ prefix }_${ filename }`
+  }
+}
 
 export function randomString(len: number = 10): string {
 

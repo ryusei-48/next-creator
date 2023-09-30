@@ -25,7 +25,9 @@ model Category {
   name          String         @db.VarChar(50)
   slug          String         @unique @db.VarChar(50)
   icon          String?
-  parent        String?
+  icon_mime     String?
+  parent        Int            @default(0)
+  rank          Int            @default(0)
   register_date DateTime       @default(now())
   update_date   DateTime       @updatedAt
   CategoryPost  CategoryPost[]
