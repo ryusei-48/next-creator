@@ -10,7 +10,7 @@
   --foreground-color: 0, 0, 0;
   --background-main-color: 244, 249, 240;
   --background-primary-color: #cdcdcd;
-  --background-secondary-color: 60, 65, 64;
+  --background-secondary-color: rgb(204, 225, 221);
 
   --primary-color: blueviolet;
   --secondary-color: darkgreen;
@@ -28,13 +28,18 @@
   --ck-code-block-color: orange;
   --ck-code-block-border: 1px solid #a5a5a5;
   --ck-code-block-background-color: hsl(0deg 0% 74.16% / 30%);
+
+  // React Select
+  --react-select-neutral0: rgb(237, 237, 237);
+  --react-select-primary: var( --primary-color );
+  --react-select-primary25: rgb(189, 189, 189);
 }
 
 @mixin base-dark-theme() {
   --foreground-color: 255, 255, 255;
   --background-main-color: 0, 0, 0;
   --background-primary-color: #3b3b3b;
-  --background-secondary-color: 60, 65, 64;
+  --background-secondary-color: rgb(44, 48, 47);
 
   --primary-color: darkviolet;
   --secondary-color: darkgreen;
@@ -50,6 +55,11 @@
   --callout-border-rgb: 108, 108, 108;
   --card-rgb: 100, 100, 100;
   --card-border-rgb: 200, 200, 200;
+
+  // React Select
+  --react-select-neutral0: rgb(47, 47, 47);
+  --react-select-primary: var( --primary-color );
+  --react-select-primary25: rgb(87, 87, 87);
 }
 
 :root.ck-theme-dark {
@@ -219,6 +229,7 @@ ul {
 }
 
 button {
+  position: relative;
   //border: 1px solid rgb( var( --border-color ) );
   padding: 0;
   border: none;

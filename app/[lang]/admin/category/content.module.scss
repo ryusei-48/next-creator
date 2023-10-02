@@ -11,18 +11,31 @@ div.category_manage_wrap {
   width: 100%;
   max-width: 1400px;
   margin: 0 auto;
+  overflow: visible;
   div.category_tree_wrap {
     flex-basis: 50%;
     max-height: 70vh;
     padding: 10px;
+    > h3 {
+      display: inline-block;
+      margin-right: 20px;
+    }
+    > button.cat_new {
+      padding: 2px 6px;
+      font-size: 12pt;
+      background-color: var( --primary-color );
+      border-radius: 5px;
+    }
     div.tree {
       width: 100%;
       height: 100%;
       overflow-y: auto;
+      margin-top: 15px;
       //> ul { margin-left: 0 !important; }
       ul.category_group {
         display: block;
         padding-left: 20px;
+        min-width: 300px;
         //border-left: 1px solid rgb( var( --border-color ) );
         position: relative;
         &::before {
@@ -39,6 +52,22 @@ div.category_manage_wrap {
           white-space: nowrap;
           padding: 5px;
           font-size: 14pt;
+          cursor: default;
+          transition: all .3s;
+          > div.item {
+            display: block;
+            > span.control.focus {
+              opacity: 1;
+            }
+            > span.control {
+              margin-left: 40px;
+              opacity: 0;
+              transition: all .3s;
+              > button {
+                cursor: pointer;
+              }
+            }
+          }
         }
       }
     }
@@ -46,41 +75,45 @@ div.category_manage_wrap {
   div.category_register_wrap {
     flex-basis: 50%;
     padding: 30px;
-    > form {
-      display: block;
+    overflow: visible;
+    > div.form_switch {
       width: 100%;
-      > div.form_item {
+      > form {
         display: block;
         width: 100%;
-        margin: 10px 0;
-        padding: 0 5px;
-        label {
+        > div.form_item {
           display: block;
           width: 100%;
-          font-size: 13pt;
-          margin-bottom: 10px;
-        }
-        > input {
-          display: block;
-          width: 100%;
-          font-size: 13pt;
-          padding: 4px;
-        }
-        > span.error_message {
-          display: block;
-          width: 100%;
-          background-color: red;
-          color: white;
-          margin-top: 6px;
-          padding: 2px 4px;
-        }
-        button.add_category_btn {
-          position: relative;
-          display: inline-block;
-          padding: 5px 15px;
-          color: white;
-          background-color: var( --primary-color );
-          font-size: 16pt;
+          margin: 10px 0;
+          padding: 0 5px;
+          label {
+            display: block;
+            width: 100%;
+            font-size: 13pt;
+            margin-bottom: 10px;
+          }
+          > input {
+            display: block;
+            width: 100%;
+            font-size: 13pt;
+            padding: 4px;
+          }
+          > span.error_message {
+            display: block;
+            width: 100%;
+            background-color: red;
+            color: white;
+            margin-top: 6px;
+            padding: 2px 4px;
+          }
+          button.add_category_btn {
+            position: relative;
+            display: inline-block;
+            padding: 5px 15px;
+            color: white;
+            background-color: var( --primary-color );
+            font-size: 16pt;
+          }
         }
       }
     }

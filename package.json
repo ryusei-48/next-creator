@@ -68,6 +68,7 @@
     "react": "latest",
     "react-dom": "latest",
     "react-hook-form": "latest",
+    "react-select": "^5.7.5",
     "sharp": "^0.32.6",
     "typescript": "latest"
   },
