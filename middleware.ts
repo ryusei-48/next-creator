@@ -6,8 +6,10 @@ export function middleware( request: Request ) {
 
   // Store current request url in a custom header, which you can read later
   const requestHeaders = new Headers(request.headers);
-  requestHeaders.set('x-url', request.url);
-  requestHeaders.set('base-url', process.env.APP_URL || '');
+  const urlClass = new URL( request.url );
+
+  requestHeaders.set( 'x-url', process.env.APP_URL! + urlClass.pathname );
+  requestHeaders.set( 'base-url', process.env.APP_URL || '' );
 
   const { isRedirect, url, language } = getLocale( request );
   //console.log( isRedirect, url, language );

@@ -14,6 +14,7 @@ async function CategoryCreate( req: NextRequest ) {
   if ( !session ) return NextResponse.json({ message: 'unauthenticated' }, { status: 401 });
 
   const formData = await req.formData();
+  console.log('create category');
 
   const iconFile = formData.get('category_icon') as File | null;
   const icon = iconFile && iconFile.size !== 0 ? Buffer.from( await iconFile.arrayBuffer() ) : null;

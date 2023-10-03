@@ -21,7 +21,7 @@ type CategoryNode = ({
 } & CategoryData)[]
 
 type CatEditDetails = {
-  name: string, slug: string, id: strin,
+  name: string, slug: string, id: string,
   rank: string, parent: string, icon: string
 } | null
 
@@ -122,6 +122,7 @@ export default function Content({ lang }: { lang: string }) {
                           setValue_edit( 'category_slug', dataset.slug );
                           setValue_edit( 'category_rank', dataset.rank );
                           setValue_edit( 'category_parent', dataset.parent );
+                          reset_edit({ 'category_icon': null });
                         }
                       }}
                     >編集</button>
@@ -148,14 +149,17 @@ export default function Content({ lang }: { lang: string }) {
       type === 'new' ? getValues_new('category_parent') :
         getValues_edit('category_parent')
     )
+    console.log( 'register cat.' );
 
-    fetch( '/api/category/create', {
-      method: 'POST', body: formData
+    fetch( `/api/category/${ type === 'new' ? 'create' : 'update' }`, {
+      method: 'POST', body: formData, cache: 'no-store'
     }).then( async (response) => {
+      console.log( response.ok );
       if ( response.ok ) {
-        alert('⭕カテゴリーを追加しました。'); reset_new();
+        alert(`⭕カテゴリーを${ type === 'new' ? '追加' : '更新' }しました。`);
+        type === 'new' && reset_new();
         categoryTreeUpdate();
-      }else alert('❌カテゴリーの追加に失敗しました。');
+      }else alert(`❌カテゴリーの${ type === 'new' ? '追加' : '更新' }に失敗しました。`);
     });
   }
 
@@ -183,6 +187,7 @@ export default function Content({ lang }: { lang: string }) {
       <Controller
         name={ name }
         rules={{ required: true }}
+        defaultValue={ defaultValue ?? "0" }
         control={ control }
         render={({ field: { onChange, value }}) => (
           <Select

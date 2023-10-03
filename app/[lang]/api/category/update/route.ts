@@ -8,12 +8,14 @@ import { getSavePath } from '@/lib/functions';
 
 const prisma = new PrismaClient();
 
-async function CategoryCreate( req: NextRequest ) {
+async function CategoryUpdate( req: NextRequest ) {
   
   const session = await getServerSession( options );
   if ( !session ) return NextResponse.json({ message: 'unauthenticated' }, { status: 401 });
 
   const formData = await req.formData();
+
+  const id = formData.get('category_id') as string;
 
   const iconFile = formData.get('category_icon') as File | null;
   const icon = iconFile && iconFile.size !== 0 ? Buffer.from( await iconFile.arrayBuffer() ) : null;
@@ -27,7 +29,8 @@ async function CategoryCreate( req: NextRequest ) {
     iconPath = filePathRelative;
   }
 
-  const mediaList = await prisma.category.create({
+  const mediaList = await prisma.category.update({
+    where: { id: Number( id ) },
     data: {
       name: formData.get('category_name') as string,
       slug: formData.get('category_slug') as string,
@@ -40,4 +43,4 @@ async function CategoryCreate( req: NextRequest ) {
   return NextResponse.json( mediaList, { status: 200 });
 }
 
-export { CategoryCreate as POST }
+export { CategoryUpdate as POST }
