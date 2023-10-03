@@ -1,6 +1,8 @@
 "use client";
 import React, { useState, useEffect, useRef, useCallback } from 'react';
 import style from './content.module.scss';
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faAngleDoubleRight } from '@fortawesome/free-solid-svg-icons';
 import {
   useForm, Controller, type Control, type FieldValues,
   type ResolverResult
@@ -88,12 +90,19 @@ export default function Content({ lang }: { lang: string }) {
                 <div className={ style.item } onMouseOver={(e) => {
                     e.stopPropagation();
                     e.currentTarget.style.backgroundColor = 'var( --background-secondary-color )';
-                    (e.currentTarget.childNodes[2] as HTMLSpanElement).style.opacity = "1";
+                    (e.currentTarget.childNodes[3] as HTMLSpanElement).style.opacity = "1";
                   }} onMouseOut={(e) => {
                     e.stopPropagation();
                     e.currentTarget.style.removeProperty('background-color');
-                    (e.currentTarget.childNodes[2] as HTMLSpanElement).style.removeProperty('opacity');
+                    (e.currentTarget.childNodes[3] as HTMLSpanElement).style.removeProperty('opacity');
                 }}>
+                  <span  className={ style.icon }>
+                    {
+                      cat.icon ?
+                        <img src={ `../api/media-stream/icon?id=${ cat.id }` } aria-label='アイコン' loading="lazy" /> :
+                        <FontAwesomeIcon icon={ faAngleDoubleRight }></FontAwesomeIcon>
+                    }
+                  </span>
                   { cat.name }
                   <span style={{ marginLeft: '15px', color: 'gray' }}>{ cat.slug }</span>
                   <span className={ style.control }>
@@ -108,9 +117,11 @@ export default function Content({ lang }: { lang: string }) {
                             name: dataset.name, slug: dataset.slug, rank: dataset.rank,
                             parent: dataset.parent, icon: dataset.icon || 'none', id: dataset.id
                           });
+                          setValue_edit( 'category_id', dataset.id );
                           setValue_edit( 'category_name', dataset.name );
                           setValue_edit( 'category_slug', dataset.slug );
                           setValue_edit( 'category_rank', dataset.rank );
+                          setValue_edit( 'category_parent', dataset.parent );
                         }
                       }}
                     >編集</button>
@@ -150,14 +161,23 @@ export default function Content({ lang }: { lang: string }) {
 
   function getParentSelectComponent(
     control: Control<FieldValues, any>, name: string,
-    categorys: CategoryData[], label?: string
+    categorys: CategoryData[], label?: string, defaultValue?: string
     ) {
 
-    const option = [
-      { label: 'なし（ルート）', value: 0 },
-      ...categorys.map((cat) => {
-      return { label: `${ cat.name } [${ cat.slug }]`, value: cat.id };
+    const initialValue = { label: 'なし（ルート）', value: "0" }
+    const options = [
+      initialValue, ...categorys.map((cat) => {
+      return { label: `${ cat.name } [${ cat.slug }]`, value: `${ cat.id }` };
     })];
+
+    let selectedValue: { label: string, value: string } | undefined = undefined;
+    if ( defaultValue ) {
+      for ( let option of options ) {
+        if ( option.value === defaultValue ) {
+          selectedValue = option; break;
+        }
+      }
+    }
 
     return (
       <Controller
@@ -166,14 +186,14 @@ export default function Content({ lang }: { lang: string }) {
         control={ control }
         render={({ field: { onChange, value }}) => (
           <Select
-            options={ option }
-            defaultValue={{ label: 'なし（ルート）', value: 0 }}
+            options={ options }
+            defaultValue={ selectedValue ?? initialValue }
             styles={{
               option: provided => ({ ...provided, color: 'var( --foreground-color )' }),
               control: provided => ({ ...provided, color: 'var( --foreground-color )' }),
               singleValue: provided => ({ ...provided, color: 'var( --foreground-color )' })
             }}
-            value={ option.find((c) => c.value === value )}
+            value={ options.find((c) => c.value === value )}
             onChange={(val) => val && onChange(val.value)}
             maxMenuHeight={ 300 }
             menuPortalTarget={document.body}
@@ -375,7 +395,7 @@ export default function Content({ lang }: { lang: string }) {
                 }
               </div>
               <div className={ style.form_item }>
-                <label id='category-parent-input'>親カテゴリー（表示専用）</label>
+                <label id='category-parent-input'>親カテゴリー</label>
                 { categoryNode &&
                   getParentSelectComponent(
                     control_edit, 'category_parent',
@@ -389,6 +409,7 @@ export default function Content({ lang }: { lang: string }) {
                 <span>※推奨サイズ：50 X 50ピクセル程度</span>
               </div>
               <div className={ style.form_item } style={{ textAlign: 'center' }}>
+                <input type="hidden" { ...register_edit( 'category_id', { required: true })} />
                 <button type="submit" className={ style.add_category_btn }>更新</button>
               </div>
             </form>

@@ -2,7 +2,6 @@ import './globals.scss'
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 import NextAuthProvider from '@/components/use-client/provider';
-import { KumaRegistry } from "@kuma-ui/next-plugin/registry";
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -19,9 +18,7 @@ export default function RootLayout({
   return (
     <html lang={ lang }>
       <body className={inter.className}>
-        <KumaRegistry>
-          <NextAuthProvider>{ children }</NextAuthProvider>
-        </KumaRegistry>
+        <NextAuthProvider>{ children }</NextAuthProvider>
       </body>
     </html>
   )

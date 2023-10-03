@@ -15,6 +15,9 @@
   --primary-color: blueviolet;
   --secondary-color: darkgreen;
 
+  // スクロールバー
+  --scrollbar-track-color: rgb(210, 210, 210);
+
   //--loading-background-image: radial-gradient( circle farthest-corner at 10% 20%,  rgba(0,152,155,1) 0.1%, rgba(0,94,120,1) 94.2% );
   --loading-background-image: var( --background-main-color );
 
@@ -43,6 +46,9 @@
 
   --primary-color: darkviolet;
   --secondary-color: darkgreen;
+
+  // スクロールバー
+  --scrollbar-track-color: rgb(65, 65, 65);
 
   //--loading-background-image: linear-gradient(118.4deg, rgb(122, 35, 52) 27.5%, rgb(62, 9, 27) 92.7%);
   --loading-background-image: var( --background-main-color );
@@ -195,6 +201,36 @@
   color-scheme: light;
 }
 
+// スクロールバーカスタマイズ
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0);
+  border: none;
+  border-radius: 10px;
+  box-shadow: inset 0 0 2px #777;
+  display: none;
+}
+
+::-webkit-scrollbar-corner {
+  display: none;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var( --scrollbar-track-color );
+  border-radius: 10px;
+  box-shadow: none;
+}
+/*
+::-webkit-scrollbar-thumb:horizontal {
+  background: rgb(65, 65, 65);
+  border-radius: 10px;
+  box-shadow: none;
+}*/
+
 * {
   box-sizing: border-box;
   padding: 0;
@@ -204,13 +240,15 @@
 html,
 body {
   max-width: 100vw;
+  min-height: 100vh;
   overflow-x: hidden;
 }
 
 body {
   color: rgb(var(--foreground-color));
   background-color: rgb( var( --background-main-color ) );
-  transition: .5s;
+  opacity: 0;
+  transition: all .4s;
 }
 
 a {
@@ -234,6 +272,7 @@ button {
   padding: 0;
   border: none;
   background-color: transparent;
+  color: white;
   &:active::before {
     position: absolute;
     top: 0; left: 0;
