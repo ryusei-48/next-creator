@@ -1,5 +1,6 @@
 import Image from 'next/image'
 import Header from '@/components/header';
+import Footer from '@/components/footer';
 import styles from './page.module.css'
 import { options as authOptions } from '@/lib/auth-options';
 import { getServerSession } from "next-auth";
@@ -17,6 +18,7 @@ export default async function PostManage() {
     <>
       <Header />
       <Content />
+      <Footer />
     </>
   )
 }

@@ -1,4 +1,5 @@
 import Header from '@/components/header';
+import Footer from '@/components/footer';
 import { options as authOptions } from '@/lib/auth-options';
 import { getServerSession } from "next-auth";
 import { redirect } from 'next/navigation';
@@ -17,6 +18,7 @@ export default async function PostNewPage() {
     <>
       <Header />
       <Content />
+      <Footer />
     </>
   )
 }

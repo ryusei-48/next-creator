@@ -44,7 +44,7 @@ div.category_manage_wrap {
           content: '';
           width: 1px;
           height: calc( 100% - 1em );
-          background-color: rgb( var( --border-color ) );
+          background-color: var( --border-color );
         }
         li {
           display: block;

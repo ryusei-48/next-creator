@@ -21,7 +21,8 @@
   //--loading-background-image: radial-gradient( circle farthest-corner at 10% 20%,  rgba(0,152,155,1) 0.1%, rgba(0,94,120,1) 94.2% );
   --loading-background-image: var( --background-main-color );
 
-  --border-color: 64, 74, 77;
+  --border-color: rgb(64, 74, 77);
+  --border-color-secondary: rgb(104, 117, 121);
 
   --input-border-underline: rgb(0, 85, 255);
 
@@ -42,7 +43,7 @@
   --foreground-color: 255, 255, 255;
   --background-main-color: 0, 0, 0;
   --background-primary-color: #3b3b3b;
-  --background-secondary-color: rgb(44, 48, 47);
+  --background-secondary-color: rgb(45 49 49);
 
   --primary-color: darkviolet;
   --secondary-color: darkgreen;
@@ -53,7 +54,8 @@
   //--loading-background-image: linear-gradient(118.4deg, rgb(122, 35, 52) 27.5%, rgb(62, 9, 27) 92.7%);
   --loading-background-image: var( --background-main-color );
 
-  --border-color: 64, 74, 77;
+  --border-color: rgb(81, 86, 88);
+  --border-color-secondary: rgb(160, 180, 186);
 
   --admin-bar-background: var( --background-primary-color );
 
@@ -239,6 +241,8 @@
 
 html,
 body {
+  position: relative;
+  //padding-bottom: 50px;
   max-width: 100vw;
   min-height: 100vh;
   overflow-x: hidden;

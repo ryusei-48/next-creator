@@ -55,6 +55,11 @@ div.gallery_wrapper {
       }
     }
   }
+  > div.view_control.block {
+    position: unset;
+    display: block;
+    text-align: right;
+  }
   > ul {
     display: flex;
     flex-flow: wrap;

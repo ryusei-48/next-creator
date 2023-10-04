@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState, useRef, type SetStateAction } from 'react';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrashCan } from '@fortawesome/free-regular-svg-icons';
 import { faXmark } from '@fortawesome/free-solid-svg-icons';
@@ -23,7 +23,10 @@ type mediaInfoOne = {
   register_date: Date, update_date: Date;
 }
 
-export default function MediaGallery() {
+export default function MediaGallery({ mode = 'default', thumbnailState }: {
+  mode: 'default' | 'post_new' | 'post_edit',
+  thumbnailState?: React.Dispatch<SetStateAction<number | null>>
+}) {
 
   const [ mediaViews, setMediaViews ] = useState<React.JSX.Element[] | null>( null );
   const [ modalMediaView, setModalMediaView ] = useState<React.JSX.Element | null>( null )
@@ -134,7 +137,7 @@ export default function MediaGallery() {
 
   return (
     <div className={ style.gallery_wrapper }>
-      <div className={ style.view_control }>
+      <div className={ style.view_control + ` ${ mode === 'post_new' && style.block }` }>
         <label className={ style.media_upload_label } htmlFor='media-upload-trigger'>アップロード</label>
         <input id="media-upload-trigger" type="file" aria-label='アップロードする' role="button" onChange={ mediaUpload } />
         <fieldset>
