@@ -7,17 +7,6 @@ import MediaGallery from '@/components/use-client/media-gallery';
 import dynamic from 'next/dynamic';
 //import CkEditor from '@/components/use-client/ckeditor';
 
-type CategoryData = {
-  id: number, name: string, slug: string,
-  rank: number, parent: number, icon: string | null,
-  icon_mime: string | null, register_date: string,
-  update_date: string
-}
-
-type CategoryNode = ({
-  children: CategoryNode
-} & CategoryData)[]
-
 const CkEditor = dynamic(() => import( '@/components/use-client/ckeditor' ));
 
 export default function Content() {
@@ -25,8 +14,8 @@ export default function Content() {
   const [ thumbnailId, setThumbnailId ] = useState<number | null>( null );
   const [ categoryNode, setCategoryNode ] = useState<CategoryNode | null>( null );
   const [ checkedCategorys, setCheckedCategorys ] = useState<{[key: number]: boolean } | null>( null );
-  const checkedCategorysRef = useRef<{[key: number]: boolean } | null>( null );
-  const thumbnailRef = useRef<HTMLImageElement | null>( null );
+  const [ mediaInsertMode, setMediaInsertMode ] = useState<'ck' | 'thumb'>('thumb');
+  const [ thumbnail, setThumbnail ] = useState<React.JSX.Element | null>( null );
   const thumbSelectDialog = useRef<HTMLDialogElement | null>( null );
   let ignore = false;
 
@@ -34,10 +23,14 @@ export default function Content() {
     async function startFetching() {
       if ( !ignore ) {
         const { searchEdit, selectableList } = await getCategory();
-        checkedCategorysRef.current = selectableList;
         setCheckedCategorys( selectableList );
         setCategoryNode( searchEdit );
-        console.log( 'aaaaaaaa' );
+
+        window.addEventListener('thumb-selected', (e) => {
+          setThumbnail(
+            <img src={ e.detail } width={ 800 } sizes='100vw' loading="lazy" />
+          )
+        });
       }
     }
 
@@ -106,25 +99,38 @@ export default function Content() {
     )
   }
 
+  function mediaSelectDialogClose() {
+
+    thumbSelectDialog.current?.close();
+  }
+
   return (
     <div className={ style.wrapper }>
       <h2>新規作成</h2>
       <div className={ style.container }>
-        <div className={ style.edit_control }><CkEditor /></div>
+        <div className={ style.edit_control }>
+          <CkEditor mediaSelectDialog={ thumbSelectDialog } setMediaInsertMode={ setMediaInsertMode } />
+        </div>
         <div className={ style.widgets }>
           <div className={ style.thumbnail }>
             <h3>サムネイル設定</h3>
             <div className={ style.selector }>
               <span className={ style.no_thumb_text }>No thumbnail<br/>追加する</span>
-              <img ref={ thumbnailRef } style={{ display: 'none' }} src="" loading="lazy" />
-              <button className={ style.select_btn } onClick={() => { thumbSelectDialog.current?.showModal() }}>サムネイル追加</button>
+              { thumbnail || <img style={{ display: 'none' }} src="" loading="lazy" /> }
+              <button className={ style.select_btn } onClick={() => {
+                thumbSelectDialog.current?.showModal();
+                setMediaInsertMode('thumb');
+              }}>サムネイル追加</button>
             </div>
             <dialog ref={ thumbSelectDialog }>
               <div className={ style.thumb_select_dialog }>
-                <h3>サムネイルの選択</h3>
-                <button className={ style.close } onClick={() => { thumbSelectDialog.current?.close() }}>閉じる</button>
+                <h3>{ mediaInsertMode === 'thumb' ? 'サムネイルの選択' : 'メディアの挿入' }</h3>
+                <button className={ style.close } onClick={() => mediaSelectDialogClose()}>閉じる</button>
                 <div className={ style.gallery_component }>
-                  <MediaGallery mode="post_new" thumbnailState={ setThumbnailId } />
+                  <MediaGallery
+                    mode="post_new" thumbSelectDialog={ thumbSelectDialog }
+                    thumbnailState={ setThumbnailId } mediaInsertMode={ mediaInsertMode }
+                  />
                 </div>
               </div>
             </dialog>

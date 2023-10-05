@@ -32,11 +32,13 @@ div.wrapper {
           width: 100%;
           aspect-ratio: 16 / 9;
           position: relative;
+          overflow: hidden;
           > span.no_thumb_text, > img,
           > button.select_btn {
             position: absolute;
             top: 50%; left: 50%;
             transform: translate( -50%, -50% );
+            z-index: 2;
           }
           > span.no_thumb_text {
             font-size: 15pt;
@@ -95,7 +97,7 @@ div.wrapper {
       > div.category {
         display: block;
         width: 100%;
-        margin-top: 10px;
+        margin-top: 15px;
         > div.tree_view {
           display: block;
           width: 100%;

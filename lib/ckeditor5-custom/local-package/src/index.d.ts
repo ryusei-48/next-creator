@@ -10,4 +10,11 @@ declare module '@ckeditor/ckeditor5-core' {
   }
 }
 
+export declare global {
+  type MediaSelectEvent = { src: string, srcset: string, width: string }
+  interface WindowEventMap {
+    "media-selected": CustomEvent<MediaSelectEvent | null>;
+  }
+}
+
 export { insertMedia, insertMediaConfig }

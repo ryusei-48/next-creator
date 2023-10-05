@@ -20,7 +20,7 @@ export default function Content() {
   return (
     <div>
       <h2>メディア</h2>
-      <MediaGallery />
+      <MediaGallery mode="default" />
     </div>
   )
 }

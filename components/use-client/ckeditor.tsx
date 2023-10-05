@@ -6,7 +6,10 @@ import ClassicEditor from 'ckeditor5-custom-build';
 import './ckeditor-override.css';
 import style from './ckeditor.module.scss';
 
-export default function CkEditor() {
+export default function CkEditor({ mediaSelectDialog, setMediaInsertMode }: {
+  mediaSelectDialog: React.MutableRefObject<HTMLDialogElement | null> 
+  setMediaInsertMode: React.Dispatch<React.SetStateAction<"ck" | "thumb">>
+}) {
 
   useEffect(() => {
     if ( window.matchMedia('(prefers-color-scheme: dark)').matches ) {
@@ -14,8 +17,11 @@ export default function CkEditor() {
     }
   });
 
-  const selectoMedia = async () => {
-    return { url: 'https://storage.googleapis.com/zenn-user-upload/def5058c7279-20230115.png' }
+  const selectoMedia = () => {
+    if ( mediaSelectDialog && mediaSelectDialog.current ) {
+      mediaSelectDialog.current.showModal();
+      setMediaInsertMode('ck');
+    }
   }
 
   return (
@@ -32,7 +38,7 @@ export default function CkEditor() {
             viewportOffset: { top: 34, left: 0, right: 0, bottom: 0 }
           },
           placeholder: 'ここに本文を入力',
-          insertMedia: { callback: selectoMedia },
+          insertMedia: { mediaSelectModal: selectoMedia },
           heading: {
             options: [
               { model: 'paragraph', title: 'Paragraph', class: 'ck-heading_paragraph' },

@@ -5,5 +5,5 @@ export default class insertMedia extends Plugin {
 }
 
 export declare interface insertMediaConfig {
-  callback: () => Promise<{ url: string } | { urls: {[key: string]: string} } | null>;
+  mediaSelectModal: () => void;
 }

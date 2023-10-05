@@ -22,27 +22,31 @@ export default class insertMedia extends Plugin {
 
       view.on('execute', async () => {
 
-        const urls = await config?.callback();
+        config?.mediaSelectModal();
 
-        let defaultUrl: String | null = null;
-        let srcset: {[key: string]: string} | null = null;
+        const mediaDitail = await new Promise<MediaSelectEvent | null>((resolve) => {
 
-        if ( urls && "url" in urls ) {
-          defaultUrl = urls.url;
-        }else if ( urls && "urls" in urls ) {
-          defaultUrl = urls.urls.default;
-        }
+          const handleMediaDitail = (e: CustomEvent<MediaSelectEvent | null>) => {
+            //console.log( 'Custom event: ', e.detail );
+            window.removeEventListener('media-selected', handleMediaDitail );
+            if ( e.detail ) {
+              resolve({ src: e.detail?.src, srcset: e.detail?.srcset, width: e.detail.width });
+            }else resolve( null );
+          }
 
-        if ( defaultUrl || ( defaultUrl && srcset ) ) {
+          window.addEventListener('media-selected', handleMediaDitail );
+        });
+
+        if ( mediaDitail ) {
           this.editor.model.change( writer => {
             const insertPosition = this.editor.model.document.selection.getFirstPosition();
             const imageElement = writer.createElement('imageBlock', {
-              src: defaultUrl, srcset: srcset && srcset
+              src: mediaDitail.src, srcset: { data: mediaDitail.srcset, width: mediaDitail.width, sizes: '100vw' }
               //srcset: {"data":"https://33333.cdn.cke-cs.com/rc1DFuFpHqcR3Mah6y0e/images/81c7dd4a263b4719ce5761fce9b4c1024b1a12a7bce1ad90.jpg/w_115 115w, https://33333.cdn.cke-cs.com/rc1DFuFpHqcR3Mah6y0e/images/81c7dd4a263b4719ce5761fce9b4c1024b1a12a7bce1ad90.jpg/w_195 195w, https://33333.cdn.cke-cs.com/rc1DFuFpHqcR3Mah6y0e/images/81c7dd4a263b4719ce5761fce9b4c1024b1a12a7bce1ad90.jpg/w_275 275w","width":275}
             });
             writer.insert( imageElement, insertPosition! );
           });
-        }        
+        }
       });
 
       return view;

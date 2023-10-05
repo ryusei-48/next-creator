@@ -9,22 +9,6 @@ import {
 } from 'react-hook-form';
 import Select, { type OptionsOrGroups } from 'react-select';
 
-type CategoryData = {
-  id: number, name: string, slug: string,
-  rank: number, parent: number, icon: string | null,
-  icon_mime: string | null, register_date: string,
-  update_date: string
-}
-
-type CategoryNode = ({
-  children: CategoryNode
-} & CategoryData)[]
-
-type CatEditDetails = {
-  name: string, slug: string, id: string,
-  rank: string, parent: string, icon: string
-} | null
-
 export default function Content({ lang }: { lang: string }) {
 
   const {

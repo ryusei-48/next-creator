@@ -9,7 +9,10 @@ import i18n from "@/locales/ja.dict.json";
 
 type ImageTagAttr = {
   src: string, srcset?: string, width?: number, sizes?: string,
-  name: string, id: number, deleteFunc: ( id: string, name: string ) => void,
+  name: string, id: number, mode: 'default' | 'post_new' | 'post_edit',
+  thumbSelectDialog?: React.MutableRefObject<HTMLDialogElement | null>,
+  mediaInsertMode?: 'ck' | 'thumb',
+  deleteFunc: ( id: string, name: string ) => void,
   showDetailFunc: ( id: string ) => void
 };
 
@@ -23,8 +26,11 @@ type mediaInfoOne = {
   register_date: Date, update_date: Date;
 }
 
-export default function MediaGallery({ mode = 'default', thumbnailState }: {
-  mode: 'default' | 'post_new' | 'post_edit',
+export default function MediaGallery({
+  mode = 'default', thumbSelectDialog, thumbnailState, mediaInsertMode
+}: {
+  mode: 'default' | 'post_new' | 'post_edit', mediaInsertMode?: 'ck' | 'thumb',
+  thumbSelectDialog?: React.MutableRefObject<HTMLDialogElement | null>,
   thumbnailState?: React.Dispatch<SetStateAction<number | null>>
 }) {
 
@@ -37,7 +43,9 @@ export default function MediaGallery({ mode = 'default', thumbnailState }: {
   //const baseUrl = process.env.NEXT_PUBLIC_APP_URL;
   const mediaTake = 30;
 
-  useEffect(() => { loadMediaInfo( 0, mediaTake ); console.log( i18n['site-title'] ) }, []);
+  useEffect(() => {
+    loadMediaInfo( 0, mediaTake );
+  }, [mediaInsertMode]);
 
   function loadMediaInfo(
     skip: number, take: number, sort: 'asc' | 'desc' = 'desc',
@@ -63,7 +71,8 @@ export default function MediaGallery({ mode = 'default', thumbnailState }: {
                 .map( size => '../../api/media-stream?id=' + info.id + '&w=' + size + ` ${ size }w, ` )
                 .join(' ').replace(/,\s$/, ''),
               width: Number( Object.keys(info.url.paths).slice(-2)[0] ), sizes: '800px',
-              deleteFunc: deleteMedia, showDetailFunc: showMediaDetailModal
+              deleteFunc: deleteMedia, showDetailFunc: showMediaDetailModal,
+              thumbSelectDialog, mode, mediaInsertMode
             });
         })]);
         mediaOffset.current = 0;
@@ -179,7 +188,10 @@ export default function MediaGallery({ mode = 'default', thumbnailState }: {
   )
 }
 
-function MediaViewLiConponent({ id, name, src, srcset, width, sizes, showDetailFunc, deleteFunc }: ImageTagAttr ) {
+function MediaViewLiConponent({
+  id, name, src, srcset, width, sizes, mode, showDetailFunc, deleteFunc,
+  thumbSelectDialog, mediaInsertMode
+}: ImageTagAttr ) {
 
   return (
     <li
@@ -192,6 +204,37 @@ function MediaViewLiConponent({ id, name, src, srcset, width, sizes, showDetailF
       <div className={ style.media_wrapper }>
         <img src={ src } srcSet={ srcset } sizes={ sizes } width={ width } loading="lazy" />
         <span className={ style.name } title={ name }>{ name }</span>
+        {
+          mode === 'post_new' && mediaInsertMode === 'ck' &&
+          <button
+            className={ style.insert } data-width={ width }
+            data-id={ id } data-src={ src } data-srcset={ srcset || '' }
+            onClick={(e) => {
+              e.stopPropagation();
+              const sendEvent = new CustomEvent('media-selected', { detail: {
+                src: e.currentTarget.dataset.src, srcset: e.currentTarget.dataset.srcset,
+                width: e.currentTarget.dataset.width
+              }});
+              window.dispatchEvent( sendEvent );
+              thumbSelectDialog?.current?.close();
+            }}
+          >挿入</button>
+        }
+        {
+          mode === 'post_new' && mediaInsertMode === 'thumb' &&
+          <button
+            className={ style.insert } data-width={ width }
+            data-id={ id } data-src={ src } data-srcset={ srcset || '' }
+            onClick={(e) => {
+              e.stopPropagation();
+              const sendEvent = new CustomEvent('thumb-selected', {
+                detail: `../../api/media-stream?id=${ e.currentTarget.dataset.id! }&w=800`
+              });
+              window.dispatchEvent( sendEvent );
+              thumbSelectDialog?.current?.close();
+            }}
+          >選択</button>
+        }
         <button
           className={ style.delete }
           data-id={ id }
@@ -199,6 +242,8 @@ function MediaViewLiConponent({ id, name, src, srcset, width, sizes, showDetailF
           onClick={(e) => {
             e.stopPropagation();
             const dataset = e.currentTarget.dataset;
+            console.log( mode, mediaInsertMode );
+            console.log( mode === 'post_new' && mediaInsertMode === 'thumb' && 'goog' );
             deleteFunc( dataset.id!, dataset.name! );
           }}
         >
