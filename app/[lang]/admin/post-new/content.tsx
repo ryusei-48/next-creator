@@ -2,7 +2,8 @@
 import React, { useState, useRef, useEffect } from 'react';
 import style from './content.module.scss';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faAngleDoubleRight } from '@fortawesome/free-solid-svg-icons';
+import { faAngleDoubleRight, faXmark } from '@fortawesome/free-solid-svg-icons';
+import { faTrashCan } from '@fortawesome/free-regular-svg-icons';
 import MediaGallery from '@/components/use-client/media-gallery';
 import dynamic from 'next/dynamic';
 //import CkEditor from '@/components/use-client/ckeditor';
@@ -28,8 +29,9 @@ export default function Content() {
 
         window.addEventListener('thumb-selected', (e) => {
           setThumbnail(
-            <img src={ e.detail } width={ 800 } sizes='100vw' loading="lazy" />
+            <img src={ e.detail.src } width={ 800 } sizes='100vw' loading="lazy" />
           )
+          setThumbnailId( Number( e.detail.id ) );
         });
       }
     }
@@ -122,14 +124,25 @@ export default function Content() {
                 setMediaInsertMode('thumb');
               }}>サムネイル追加</button>
             </div>
+            {
+              thumbnail &&
+              <button className={ style.delete }
+                onClick={() => {
+                  setThumbnail( null );
+                  setThumbnailId( null );
+                }}
+              ><FontAwesomeIcon icon={ faTrashCan }></FontAwesomeIcon>&nbsp;削除</button>
+            }
             <dialog ref={ thumbSelectDialog }>
               <div className={ style.thumb_select_dialog }>
                 <h3>{ mediaInsertMode === 'thumb' ? 'サムネイルの選択' : 'メディアの挿入' }</h3>
-                <button className={ style.close } onClick={() => mediaSelectDialogClose()}>閉じる</button>
+                <button className={ style.close } onClick={() => mediaSelectDialogClose()}>
+                  <FontAwesomeIcon fontSize={ "16pt" } icon={ faXmark }></FontAwesomeIcon>&nbsp;閉じる
+                </button>
                 <div className={ style.gallery_component }>
                   <MediaGallery
                     mode="post_new" thumbSelectDialog={ thumbSelectDialog }
-                    thumbnailState={ setThumbnailId } mediaInsertMode={ mediaInsertMode }
+                    mediaInsertMode={ mediaInsertMode }
                   />
                 </div>
               </div>
@@ -144,6 +157,10 @@ export default function Content() {
             </div>
           </div>
         </div>
+      </div>
+      <div className={ style.post_push }>
+        <button className={ style.draft }>下書き保存</button>
+        <button className={ style.publish }>公開</button>
       </div>
     </div>
   )

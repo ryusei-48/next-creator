@@ -1,8 +1,6 @@
 "use client";
-import { useEffect } from 'react';
-import { CKEditor } from '@ckeditor/ckeditor5-react';
+import React, { useEffect, useRef } from 'react';
 import ClassicEditor from 'ckeditor5-custom-build';
-//import '@ckeditor/ckeditor5-build-classic/build/translations/ja';
 import './ckeditor-override.css';
 import style from './ckeditor.module.scss';
 
@@ -11,29 +9,17 @@ export default function CkEditor({ mediaSelectDialog, setMediaInsertMode }: {
   setMediaInsertMode: React.Dispatch<React.SetStateAction<"ck" | "thumb">>
 }) {
 
+  const ckeditorRef = useRef<HTMLDivElement | null>( null );
+  let ignore = false;
+
   useEffect(() => {
-    if ( window.matchMedia('(prefers-color-scheme: dark)').matches ) {
-      document.documentElement.classList.add('ck-theme-dark');
-    }
-  });
-
-  const selectoMedia = () => {
-    if ( mediaSelectDialog && mediaSelectDialog.current ) {
-      mediaSelectDialog.current.showModal();
-      setMediaInsertMode('ck');
-    }
-  }
-
-  return (
-    <div className={ style.ckeditor_wrapper }>
-      <input
-        type="text"
-        placeholder='記事タイトル'
-        className={ style.title }
-      />
-      <CKEditor
-        editor={ ClassicEditor }
-        config={{
+    async function startFetching() {
+      if ( !ignore ) {
+        if ( window.matchMedia('(prefers-color-scheme: dark)').matches ) {
+          document.documentElement.classList.add('ck-theme-dark');
+        }
+    
+        ClassicEditor.create( ckeditorRef.current!, {
           ui: {
             viewportOffset: { top: 34, left: 0, right: 0, bottom: 0 }
           },
@@ -83,14 +69,7 @@ export default function CkEditor({ mediaSelectDialog, setMediaInsertMode }: {
           updateSourceElementOnDestroy: true,
           mediaEmbed: { previewsInData: true },
           language: 'ja',
-        }}
-        //data={ '<p>Hello from CKEditor&nbsp;5!</p>' }
-        onReady={(editor) => {
-          //console.log( Array.from( editor.ui.componentFactory.names() ) );
-          //editor.setData('<p>Hello from CKEditor&nbsp;5!</p>');
-          //console.log( editor.getData() );
-          //window.editor = editor;
-
+        }).then((editor) => {
           editor.model.schema.extend('imageBlock', { allowAttributes: 'loading' });
           editor.conversion.for('downcast').attributeToAttribute({
             model: 'loading',
@@ -103,15 +82,29 @@ export default function CkEditor({ mediaSelectDialog, setMediaInsertMode }: {
                 conversionApi.writer.setAttribute( 'loading', 'lazy', img );
             });
           });
-        }}
-        onChange={(_, editor) => {
-          //console.log( editor.getData() );
-          console.log( editor.model.schema.getDefinitions() );
-        }}
-        onBlur={(_, editor) => {
-          //       
-        }}
-      ></CKEditor>    
+        });
+      }
+    }
+
+    startFetching();
+    return () => { ignore = true };
+  }, []);
+
+  const selectoMedia = () => {
+    if ( mediaSelectDialog && mediaSelectDialog.current ) {
+      mediaSelectDialog.current.showModal();
+      setMediaInsertMode('ck');
+    }
+  }
+
+  return (
+    <div className={ style.ckeditor_wrapper }>
+      <input
+        type="text"
+        placeholder='記事タイトル'
+        className={ style.title }
+      />
+      <div ref={ ckeditorRef }></div>
     </div>
   )
 }

@@ -27,11 +27,10 @@ type mediaInfoOne = {
 }
 
 export default function MediaGallery({
-  mode = 'default', thumbSelectDialog, thumbnailState, mediaInsertMode
+  mode = 'default', thumbSelectDialog, mediaInsertMode
 }: {
   mode: 'default' | 'post_new' | 'post_edit', mediaInsertMode?: 'ck' | 'thumb',
-  thumbSelectDialog?: React.MutableRefObject<HTMLDialogElement | null>,
-  thumbnailState?: React.Dispatch<SetStateAction<number | null>>
+  thumbSelectDialog?: React.MutableRefObject<HTMLDialogElement | null>
 }) {
 
   const [ mediaViews, setMediaViews ] = useState<React.JSX.Element[] | null>( null );
@@ -228,7 +227,10 @@ function MediaViewLiConponent({
             onClick={(e) => {
               e.stopPropagation();
               const sendEvent = new CustomEvent('thumb-selected', {
-                detail: `../../api/media-stream?id=${ e.currentTarget.dataset.id! }&w=800`
+                detail: {
+                  src: `../../api/media-stream?id=${ e.currentTarget.dataset.id! }&w=800`,
+                  id: e.currentTarget.dataset.id
+                }
               });
               window.dispatchEvent( sendEvent );
               thumbSelectDialog?.current?.close();

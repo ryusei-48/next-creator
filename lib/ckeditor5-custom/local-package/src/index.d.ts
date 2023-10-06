@@ -1,12 +1,24 @@
-import { default as insertMedia } from './insert-media';
-import type { insertMediaConfig } from "./insert-media.d";
+/**
+ * @module insert-media
+ */
 
-declare module '@ckeditor/ckeditor5-core' {
+import { Plugin, type Editor } from 'ckeditor5/src/core';
+
+export default class InsertMedia extends Plugin {
+  init(): void;
+}
+
+export interface InsertMediaConfig {
+  mediaSelectModal: () => void;
+}
+
+export declare module '@ckeditor/ckeditor5-core' {
   interface PluginsMap {
-      ['insert-media']: insertMedia;
+      ['insert-media']: InsertMedia;
   }
+
   interface EditorConfig {
-      insertMedia?: insertMediaConfig;
+      insertMedia?: InsertMediaConfig;
   }
 }
 
@@ -17,4 +29,4 @@ export declare global {
   }
 }
 
-export { insertMedia, insertMediaConfig }
+export { InsertMedia, InsertMediaConfig }

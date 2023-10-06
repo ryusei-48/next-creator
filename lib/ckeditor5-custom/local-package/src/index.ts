@@ -1,3 +1,3 @@
-import { default as insertMedia } from './insert-media';
+import { default as InsertMedia } from './insert-media';
 
-export { insertMedia };
+export { InsertMedia };

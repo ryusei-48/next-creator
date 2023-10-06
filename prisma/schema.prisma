@@ -37,11 +37,14 @@ model Post {
   id            Int            @id @default(autoincrement())
   userId        Int
   title         String         @db.VarChar(100)
-  body          String         @db.MediumText
+  body          Json           
+  thumbnail     Int?
+  status        String         @db.VarChar(15)
   register_date DateTime       @default(now())
   update_date   DateTime       @updatedAt
   CategoryPost  CategoryPost[]
   user          User           @relation(fields: [userId], references: [id])
+  media         Media?         @relation(fields: [thumbnail], references: [id])
 }
 
 model CategoryPost {
@@ -61,4 +64,5 @@ model Media {
   memo    String?  @db.Text
   register_date DateTime       @default(now())
   update_date   DateTime       @updatedAt
+  post    Post[]
 }

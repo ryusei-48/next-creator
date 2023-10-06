@@ -11,3 +11,10 @@ export declare global {
     }
   }
 }
+
+export declare module '@ckeditor/ckeditor5-core' {
+
+  interface EditorConfig {
+    insertMedia: { mediaSelectModal: () => void }
+  }
+}

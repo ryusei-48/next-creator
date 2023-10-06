@@ -2,7 +2,7 @@ export declare global {
   
   export interface WindowEventMap {
     "media-selected": CustomEvent<{ src: string, srcset: string, width: string } | null>,
-    "thumb-selected": CustomEvent<string>
+    "thumb-selected": CustomEvent<{ src: string, id: string }>
   }
   
   export interface DocumentEventMap {

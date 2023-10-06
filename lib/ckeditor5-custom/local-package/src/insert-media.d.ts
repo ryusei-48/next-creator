@@ -1,9 +1,9 @@
 import { Plugin, type Editor } from 'ckeditor5/src/core';
 
-export default class insertMedia extends Plugin {
+export default class InsertMedia extends Plugin {
   init(): void;
 }
 
-export declare interface insertMediaConfig {
+export declare interface InsertMediaConfig {
   mediaSelectModal: () => void;
 }

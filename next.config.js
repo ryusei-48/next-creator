@@ -3,7 +3,7 @@
 const nextConfig = {
   reactStrictMode: true,
   experimental: {
-    serverComponentsExternalPackages: [ 'sharp', 'fs/promises', 'fs' ]
+    serverComponentsExternalPackages: [ 'sharp', 'fs/promises', 'fs', 'bcrypt' ]
   },
   rewrites: async () => {
     return [

@@ -1,8 +1,7 @@
 import { Plugin } from '@ckeditor/ckeditor5-core';
 import ButtonView from '@ckeditor/ckeditor5-ui/src/button/buttonview';
-//import icon from './template.svg';
 
-export default class insertMedia extends Plugin {
+export default class InsertMedia extends Plugin {
 
   init() {
 

@@ -64,7 +64,7 @@ import {
 import { TextTransformation } from '@ckeditor/ckeditor5-typing';
 import { SimpleUploadAdapter } from '@ckeditor/ckeditor5-upload';
 import { WordCount } from '@ckeditor/ckeditor5-word-count';
-import { insertMedia } from "@ckeditor/ckeditor5-local-plugin";
+import { InsertMedia } from "@ckeditor/ckeditor5-local-plugin";
 
 // You can read more about extending the build with additional plugins in the "Installing plugins" guide.
 // See https://ckeditor.com/docs/ckeditor5/latest/installation/plugins/installing-plugins.html for details.
@@ -132,7 +132,7 @@ class Editor extends ClassicEditor {
 		TodoList,
 		Underline,
 		WordCount,
-		insertMedia
+		InsertMedia
 	];
 
 	public static override defaultConfig = {

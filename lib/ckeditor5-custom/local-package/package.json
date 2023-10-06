@@ -29,6 +29,7 @@
   "bugs": "https://support.ckeditor.com/hc/en-us/requests/new",
   "files": [
     "lang",
+    "src/*.ts",
     "src/**/*.js",
     "src/**/*.d.ts",
     "theme",
