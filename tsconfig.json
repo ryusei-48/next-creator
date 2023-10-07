@@ -25,8 +25,7 @@
   },
   "include": [
     "next-env.d.ts", "**/*.ts", "**/*.tsx", "types/override-react.d.ts",
-    ".next/types/**/*.ts", "lib/test.js", "lib/**/*.ts", "types/*.ts",
-    "lib/ckeditor5-custom/local-package/src/index.d.ts"
+    ".next/types/**/*.ts", "lib/test.js", "lib/**/*.ts", "types/*.ts"
   ],
   "exclude": ["node_modules"]
 }

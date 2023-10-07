@@ -41,7 +41,7 @@ export default async function header() {
         </div>
       }
       <header className={ `${ style.header } ${ session && style.toolbar_enable }` }>
-        <div className={ style.siteTitle }><span>Ryusei.IO</span></div>
+        <div className={ style.siteTitle }><span>{ process.env.NEXT_PUBLIC_SITE_TITLE }</span></div>
         <div className={ style.navigations }><span>{ headersList.get("x-url") || "" }</span></div>
         <div className={ style.sessionControl }>
           { !session && <LoginButton/> }
