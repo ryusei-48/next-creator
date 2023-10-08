@@ -37,6 +37,7 @@
     "react-hook-form": "latest",
     "react-select": "latest",
     "sass": "latest",
+    "ts-node": "^10.9.1",
     "typescript": "latest"
   }
 }

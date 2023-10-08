@@ -26,6 +26,6 @@
   "include": [
     "next-env.d.ts", "**/*.ts", "**/*.tsx", "types/override-react.d.ts",
     ".next/types/**/*.ts", "lib/test.js", "lib/**/*.ts", "types/*.ts"
-  ],
+, "test/prisma.js"  ],
   "exclude": ["node_modules"]
 }

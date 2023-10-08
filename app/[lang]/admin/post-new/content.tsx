@@ -1,12 +1,13 @@
 "use client";
 import React, { useState, useRef, useEffect } from 'react';
+import { useSession } from 'next-auth/react';
 import style from './content.module.scss';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faAngleDoubleRight, faXmark } from '@fortawesome/free-solid-svg-icons';
 import { faTrashCan } from '@fortawesome/free-regular-svg-icons';
 import MediaGallery from '@/components/use-client/media-gallery';
 import dynamic from 'next/dynamic';
-//import CkEditor from '@/components/use-client/ckeditor';
+import type { ClassicEditor as Editor } from 'ckeditor5-custom-build';
 
 const CkEditor = dynamic(() => import( '@/components/use-client/ckeditor' ));
 
@@ -18,6 +19,8 @@ export default function Content() {
   const [ mediaInsertMode, setMediaInsertMode ] = useState<'ck' | 'thumb'>('thumb');
   const [ thumbnail, setThumbnail ] = useState<React.JSX.Element | null>( null );
   const thumbSelectDialog = useRef<HTMLDialogElement | null>( null );
+  const editorRef = useRef<Editor | null>( null );
+  const session = useSession();
   let ignore = false;
 
   useEffect(() => {
@@ -111,7 +114,11 @@ export default function Content() {
       <h2>新規作成</h2>
       <div className={ style.container }>
         <div className={ style.edit_control }>
-          <CkEditor mediaSelectDialog={ thumbSelectDialog } setMediaInsertMode={ setMediaInsertMode } />
+          <CkEditor
+            editorRef={ editorRef }
+            mediaSelectDialog={ thumbSelectDialog }
+            setMediaInsertMode={ setMediaInsertMode }
+          />
         </div>
         <div className={ style.widgets }>
           <div className={ style.thumbnail }>
@@ -159,7 +166,18 @@ export default function Content() {
         </div>
       </div>
       <div className={ style.post_push }>
-        <button className={ style.draft }>下書き保存</button>
+        <button className={ style.draft }
+          onClick={() => {
+            console.log( editorRef.current?.getData(), session.data?.user?.id );
+            console.log( thumbnailId, checkedCategorys );
+
+            fetch('/api/post/create', {
+              method: 'POST', body: JSON.stringify({
+                
+              })
+            });
+          }}
+        >下書き保存</button>
         <button className={ style.publish }>公開</button>
       </div>
     </div>

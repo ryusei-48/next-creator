@@ -42,3 +42,4 @@ declare class Editor extends ClassicEditor {
 }
 export default Editor;
 export type { EditorConfig } from '@ckeditor/ckeditor5-core';
+export type { ClassicEditor } from '@ckeditor/ckeditor5-editor-classic';

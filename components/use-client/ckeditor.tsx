@@ -1,10 +1,11 @@
 "use client";
 import React, { useEffect, useRef } from 'react';
-import ClassicEditor, { type EditorConfig } from 'ckeditor5-custom-build';
+import ClassicEditor, { type EditorConfig, type ClassicEditor as Editor } from 'ckeditor5-custom-build';
 import './ckeditor-override.css';
 import style from './ckeditor.module.scss';
 
-export default function CkEditor({ mediaSelectDialog, setMediaInsertMode }: {
+export default function CkEditor({ editorRef, mediaSelectDialog, setMediaInsertMode }: {
+  editorRef: React.MutableRefObject<Editor | null>
   mediaSelectDialog: React.MutableRefObject<HTMLDialogElement | null> 
   setMediaInsertMode: React.Dispatch<React.SetStateAction<"ck" | "thumb">>
 }) {
@@ -75,6 +76,8 @@ export default function CkEditor({ mediaSelectDialog, setMediaInsertMode }: {
                 conversionApi.writer.setAttribute( 'loading', 'lazy', img );
             });
           });
+
+          editorRef.current = editor;
         });
       }
     }

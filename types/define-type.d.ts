@@ -25,3 +25,19 @@ export declare global {
     rank: string, parent: string, icon: string
   } | null
 }
+
+export declare module "next-auth" {
+  interface User {
+    id?: string;
+  }
+
+  interface Session {
+    user?: User;
+  }
+}
+
+export declare module "next-auth/jwt" {
+  interface JWT {
+    id?: string;
+  }
+}

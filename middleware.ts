@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import Negotiator from 'negotiator';
 import { match } from '@formatjs/intl-localematcher';
+import myConfig from './config.json';
 
 export function middleware( request: Request ) {
 
@@ -29,8 +30,8 @@ function getLocale( request: Request ): {
   isRedirect: boolean, language: string, url: string | undefined
 } {
 
-  const locals = [ 'ja', 'en' ];
-  const defaultLocal = locals[0];
+  const locals = myConfig.locale['accept-lang'];
+  const defaultLocal = myConfig.locale.default;
   const requestedLanguage = new Negotiator({ headers: {
     'accept-language': request.headers.get('accept-language') || undefined
   } }).language() || defaultLocal;
