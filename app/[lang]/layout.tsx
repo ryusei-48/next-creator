@@ -8,6 +8,10 @@ const inter = Inter({ subsets: ['latin'] })
 export const metadata: Metadata = {
   title: 'Ryusei.IO',
   description: '弱視のWebプログラマーのブログです。個人開発関連、技術メモ、お役立ち情報を配信します。',
+  other: {
+    //"accept-locales": myConfig.locale['accept-lang'],
+    //"use-language": myConfig.locale.default
+  }
 }
 
 export default function RootLayout({

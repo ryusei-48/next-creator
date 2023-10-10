@@ -102,19 +102,45 @@ div.category_manage_wrap {
           width: 100%;
           margin: 10px 0;
           padding: 0 5px;
+          > div.lang_tabs {
+            display: flex;
+            flex-flow: wrap;
+            width: 100%;
+            margin-bottom: 10px;
+            > button.tab {
+              padding: 3px 15px;
+              font-size: 13pt;
+              border-bottom: 2px solid transparent;
+            }
+            > button.tab.selected {
+              color: var( --primary-color );
+              border-bottom: 2px solid var( --primary-color );
+            }
+          }
+          > div.tab_content {
+            display: block;
+            width: 100%;
+            > div.content {
+              display: none;
+              width: 100%;
+            }
+            > div.content.show {
+              display: block;
+            }
+          }
           label {
             display: block;
             width: 100%;
             font-size: 13pt;
             margin-bottom: 10px;
           }
-          > input {
+          input {
             display: block;
             width: 100%;
             font-size: 13pt;
             padding: 4px;
           }
-          > span.error_message {
+          span.error_message {
             display: block;
             width: 100%;
             background-color: red;

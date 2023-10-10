@@ -10,7 +10,7 @@ export declare global {
   }
   
   export type CategoryData = {
-    id: number, name: string, slug: string,
+    id: number, name: {[key: string]: string}, slug: string,
     rank: number, parent: number, icon: string | null,
     icon_mime: string | null, register_date: string,
     update_date: string

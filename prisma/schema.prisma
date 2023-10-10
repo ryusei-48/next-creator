@@ -22,7 +22,7 @@ model User {
 
 model Category {
   id            Int            @id @default(autoincrement())
-  name          String         @db.VarChar(50)
+  name          Json
   slug          String         @unique @db.VarChar(50)
   icon          String?
   icon_mime     String?
@@ -36,7 +36,7 @@ model Category {
 model Post {
   id            Int            @id @default(autoincrement())
   userId        Int
-  title         String         @db.VarChar(100)
+  title         Json
   body          Json           
   thumbnail     Int?
   status        String         @db.VarChar(15)

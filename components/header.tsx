@@ -29,7 +29,7 @@ export default async function header() {
               <ul>
                 <li><Link href={ '/' }>トップ</Link></li>
                 <li><Link href={ '/admin' }>投稿一覧</Link></li>
-                <li><Link href={ '/admin/post-new' }>新規作成</Link></li>
+                <li><Link href={ '/admin/post' }>新規作成</Link></li>
                 <li><Link href={ '/admin/media' }>メディア</Link></li>
                 <li><Link href={ '/admin/category' }>カテゴリー</Link></li>
               </ul>

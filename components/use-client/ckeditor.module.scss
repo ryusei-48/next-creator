@@ -1,22 +1,51 @@
 .ckeditor_wrapper {
-  display: inline-block;
+  display: block;
   margin: 0 auto;
   width: 100%;
   max-width: 1000px;
-  vertical-align: baseline;
   min-height: 600px;
-  > input[type="text"].title {
-    display: block;
-    margin-bottom: 15px;
-    padding: 8px;
-    border: none;
-    border-bottom: 2px solid var( --ck-color-input-border );
-    font-size: 15pt;
+  > div.lang_tabs {
+    display: flex;
+    flex-flow: wrap;
     width: 100%;
-    background-color: var( --ck-custom-background );
-    &:focus {
-      outline: none;
-      border-bottom: 2px solid var( --ck-color-widget-type-around-button-active );
+    gap: 5px;
+    margin-bottom: 10px;
+    > button.tab {
+      flex-basis: auto;
+      padding: 3px 15px;
+      font-size: 14pt;
+      border-bottom: 2px solid transparent;
+    }
+    > button.tab.selected {
+      color: var( --primary-color );
+      border-bottom: 2px solid var( --primary-color );
+    }
+  }
+  > div.editors {
+    //display: inline-block;
+    width: 100%;
+    //vertical-align: baseline;
+    > div.instance {
+      display: none;
+      width: 100%;
+      vertical-align: baseline;
+      > input[type="text"].title {
+        display: block;
+        margin-bottom: 15px;
+        padding: 8px;
+        border: none;
+        border-bottom: 2px solid var( --ck-color-input-border );
+        font-size: 15pt;
+        width: 100%;
+        background-color: var( --ck-custom-background );
+        &:focus {
+          outline: none;
+          border-bottom: 2px solid var( --ck-color-widget-type-around-button-active );
+        }
+      }
+    }
+    > div.instance.show {
+      display: inline-block;
     }
   }
 }

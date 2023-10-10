@@ -5,6 +5,7 @@ import { NextResponse } from "next/server";
 import { PrismaClient, Prisma } from '@prisma/client';
 import { writeFile } from 'fs/promises';
 import { getSavePath } from '@/lib/functions';
+import myConfig from '@/public.config.json';
 
 const prisma = new PrismaClient();
 
@@ -14,7 +15,11 @@ async function CategoryCreate( req: NextRequest ) {
   if ( !session ) return NextResponse.json({ message: 'unauthenticated' }, { status: 401 });
 
   const formData = await req.formData();
-  console.log('create category');
+
+  const name: {[key: string]: string} = {}
+  for ( let lang of myConfig.locale['accept-lang'] ) {
+    name[ lang ] = formData.get( `category_name_${ lang }` ) as string;
+  }
 
   const iconFile = formData.get('category_icon') as File | null;
   const icon = iconFile && iconFile.size !== 0 ? Buffer.from( await iconFile.arrayBuffer() ) : null;
@@ -30,7 +35,7 @@ async function CategoryCreate( req: NextRequest ) {
 
   const mediaList = await prisma.category.create({
     data: {
-      name: formData.get('category_name') as string,
+      name,
       slug: formData.get('category_slug') as string,
       parent: Number( formData.get('category_parent') as string ),
       rank: Number( formData.get('category_rank') as string ),

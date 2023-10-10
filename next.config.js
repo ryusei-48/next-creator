@@ -1,6 +1,6 @@
 //// @ts-check
 /** @type {import('next').NextConfig} */
-const myConfig = require('./config.json');
+const myConfig = require('./public.config.json');
 
 const defaultLang = myConfig.locale['default'];
 

@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server';
 import Negotiator from 'negotiator';
 import { match } from '@formatjs/intl-localematcher';
-import myConfig from './config.json';
+import myConfig from './public.config.json';
 
 export function middleware( request: Request ) {
 

@@ -9,7 +9,12 @@ import {
 } from 'react-hook-form';
 import Select, { type OptionsOrGroups } from 'react-select';
 
-export default function Content({ lang }: { lang: string }) {
+export default function Content({
+  lang, defaultLang, locales, localeLabels
+}: {
+  lang: string, defaultLang: string,
+  locales: string[], localeLabels: {[key: string]: {[key: string]: string}}
+}) {
 
   const {
     register: register_new, handleSubmit: handleSubmit_new,
@@ -23,6 +28,8 @@ export default function Content({ lang }: { lang: string }) {
   } = useForm({ mode: 'onChange' });
   const categoryData = useRef<CategoryData[] | null>( null );
   const categoryTree = useRef<CategoryNode | null>( null );
+  const [ useLang_new, setUseLang_new ] = useState<string>( lang );
+  const [ useLang_edit, setUseLang_edit ] = useState<string>( lang );
   const [ categoryNode, setCategoryNode ] = useState<React.JSX.Element | null>( null );
   const [ formSwitch, setFormSwitch ] = useState(0);
   const [ catEditDetails, setCatEditDetails ] = useState<CatEditDetails>(null);
@@ -87,11 +94,11 @@ export default function Content({ lang }: { lang: string }) {
                         <FontAwesomeIcon icon={ faAngleDoubleRight }></FontAwesomeIcon>
                     }
                   </span>
-                  { cat.name }
+                  { cat.name[ lang ] }
                   <span style={{ marginLeft: '15px', color: 'gray' }}>{ cat.slug }</span>
                   <span className={ style.control }>
                     <button
-                      data-name={ cat.name } data-slug={ cat.slug } data-icon={ cat.icon || 'none' }
+                      data-name={ cat.name[ lang ] } data-slug={ cat.slug } data-icon={ cat.icon || 'none' }
                       data-id={ cat.id } data-rank={ cat.rank } data-parent={ cat.parent }
                       onClick={(e) => {
                         const dataset = e.currentTarget.dataset;
@@ -102,11 +109,14 @@ export default function Content({ lang }: { lang: string }) {
                             parent: dataset.parent, icon: dataset.icon || 'none', id: dataset.id
                           });
                           setValue_edit( 'category_id', dataset.id );
-                          setValue_edit( 'category_name', dataset.name );
+                          for ( let acceptLang of locales ) {
+                            setValue_edit( `category_name_${ acceptLang }`, cat.name[ acceptLang ] );
+                          }
                           setValue_edit( 'category_slug', dataset.slug );
                           setValue_edit( 'category_rank', dataset.rank );
-                          setValue_edit( 'category_parent', dataset.parent );
                           reset_edit({ 'category_icon': null });
+
+                          setValue_edit( 'category_parent', dataset.parent );
                         }
                       }}
                     >編集</button>
@@ -133,7 +143,6 @@ export default function Content({ lang }: { lang: string }) {
       type === 'new' ? getValues_new('category_parent') :
         getValues_edit('category_parent')
     )
-    console.log( 'register cat.' );
 
     fetch( `/api/category/${ type === 'new' ? 'create' : 'update' }`, {
       method: 'POST', body: formData, cache: 'no-store'
@@ -155,7 +164,7 @@ export default function Content({ lang }: { lang: string }) {
     const initialValue = { label: 'なし（ルート）', value: "0" }
     const options = [
       initialValue, ...categorys.map((cat) => {
-      return { label: `${ cat.name } [${ cat.slug }]`, value: `${ cat.id }` };
+      return { label: `${ cat.name[ lang ] } [${ cat.slug }]`, value: `${ cat.id }` };
     })];
 
     let selectedValue: { label: string, value: string } | undefined = undefined;
@@ -176,7 +185,7 @@ export default function Content({ lang }: { lang: string }) {
         render={({ field: { onChange, value }}) => (
           <Select
             options={ options }
-            defaultValue={ selectedValue ?? initialValue }
+            //defaultValue={ /*selectedValue ?? initialValue*/ }
             styles={{
               option: provided => ({ ...provided, color: 'var( --foreground-color )' }),
               control: provided => ({ ...provided, color: 'var( --foreground-color )' }),
@@ -241,23 +250,50 @@ export default function Content({ lang }: { lang: string }) {
             }
             >
               <div className={ style.form_item }>
-                <label htmlFor='category-name-input'>カテゴリー名</label>
-                <input type="text" id="category-name-input"
-                  { ...register_new( "category_name", {
-                    required: {
-                      value: true, message: '入力必須項目です。'
-                    },
-                    maxLength: {
-                      value: 50, message: '50文字以内で入力してください。'
-                    }
-                  })}
-                />
-                {
-                  errors_new.category_name && errors_new.category_name.message &&
-                  <span className={ style.error_message }>
-                    { errors_new.category_name.message as string }
-                  </span>
-                }
+                <div className={ style.lang_tabs }>
+                  {
+                    locales.length > 1 && locales.map((acceptLang) => {
+                      return (
+                        <button
+                          type="button"
+                          className={ `${ style.tab } ${ useLang_new === acceptLang && style.selected }` }
+                          onClick={() => {
+                            setUseLang_new( acceptLang );
+                          }}
+                        >
+                          { localeLabels[ lang ][ acceptLang ] }
+                        </button>
+                      )
+                    })
+                  }
+                </div>
+                <div className={ style.tab_content }>
+                  {
+                    locales.map((acceptLang) => {
+                      return (
+                        <div className={ `${ style.content } ${ useLang_new === acceptLang && style.show }` }>
+                          <label htmlFor='category-name-input'>カテゴリー名</label>
+                          <input type="text" id="category-name-input"
+                            { ...register_new( `category_name_${ acceptLang }`, {
+                              required: {
+                                value: true, message: '入力必須項目です。'
+                              },
+                              maxLength: {
+                                value: 50, message: '50文字以内で入力してください。'
+                              }
+                            })}
+                          />
+                          {
+                            errors_new[`category_name_${ acceptLang }`]?.message &&
+                            <span className={ style.error_message }>
+                              { errors_new[`category_name_${ acceptLang }`]?.message as string }
+                            </span>
+                          }
+                        </div>
+                      )
+                    })
+                  }
+                </div>
               </div>
               <div className={ style.form_item }>
                 <label htmlFor='category-slug-input'>スラッグ（半角英数字[A-Za-z0-9_-]）</label>
@@ -290,7 +326,7 @@ export default function Content({ lang }: { lang: string }) {
                       value: true, message: '入力必須項目です。'
                     }
                   })}
-                  value={ "0" }
+                  defaultValue={ "0" }
                 />
                 {
                   errors_new.category_rank && errors_new.category_rank.message &&
@@ -327,23 +363,50 @@ export default function Content({ lang }: { lang: string }) {
             }
             >
               <div className={ style.form_item }>
-                <label htmlFor='category-name-input'>カテゴリー名</label>
-                <input type="text" id="category-name-input"
-                  { ...register_edit( "category_name", {
-                    required: {
-                      value: true, message: '入力必須項目です。'
-                    },
-                    maxLength: {
-                      value: 50, message: '50文字以内で入力してください。'
-                    }
-                  })}
-                />
-                {
-                  errors_edit.category_name && errors_edit.category_name.message &&
-                  <span className={ style.error_message }>
-                    { errors_edit.category_name.message as string }
-                  </span>
-                }
+              <div className={ style.lang_tabs }>
+                  {
+                    locales.length > 1 && locales.map((acceptLang) => {
+                      return (
+                        <button
+                          type="button"
+                          className={ `${ style.tab } ${ useLang_edit === acceptLang && style.selected }` }
+                          onClick={() => {
+                            setUseLang_edit( acceptLang );
+                          }}
+                        >
+                          { localeLabels[ lang ][ acceptLang ] }
+                        </button>
+                      )
+                    })
+                  }
+                </div>
+                <div className={ style.tab_content }>
+                  {
+                    locales.map((acceptLang) => {
+                      return (
+                        <div className={ `${ style.content } ${ useLang_edit === acceptLang && style.show }` }>
+                          <label htmlFor='category-name-input'>カテゴリー名</label>
+                          <input type="text" id="category-name-input"
+                            { ...register_edit( `category_name_${ acceptLang }`, {
+                              required: {
+                                value: true, message: '入力必須項目です。'
+                              },
+                              maxLength: {
+                                value: 50, message: '50文字以内で入力してください。'
+                              }
+                            })}
+                          />
+                          {
+                            errors_edit[`category_name_${ acceptLang }`]?.message &&
+                            <span className={ style.error_message }>
+                              { errors_edit[`category_name_${ acceptLang }`]?.message as string }
+                            </span>
+                          }
+                        </div>
+                      )
+                    })
+                  }
+                </div>
               </div>
               <div className={ style.form_item }>
                 <label htmlFor='category-slug-input'>スラッグ（半角英数字[A-Za-z0-9_-]）</label>

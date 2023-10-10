@@ -194,7 +194,7 @@ function MediaViewLiConponent({
 
   return (
     <li
-      tabIndex={ 0 } aria-label={ name } data-id={ id }
+      tabIndex={ 0 } aria-label={ name } data-id={ id } key={ id }
       onClick={(e) => { showDetailFunc( e.currentTarget.dataset.id! ) }}
       onKeyDown={(e) => {
         e.code === 'Enter' && showDetailFunc( e.currentTarget.dataset.id! )

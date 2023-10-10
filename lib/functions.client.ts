@@ -1,3 +1,24 @@
+import { useState, useEffect } from 'react';
+
+export function useLocalStorage(key: string) {
+  const [value, setValue] = useState<string | null>( null );
+
+  useEffect(() => {
+    const res = window.localStorage.getItem(key);
+    if (!res) {
+      setValue("local storage is empty");
+    }
+    setValue(res);
+  }, []);
+
+  const setLocalStorage = (newValue: string) => {
+    window.localStorage.setItem(key, newValue);
+    setValue(newValue);
+  };
+
+  return { value, setLocalStorage };
+}
+
 export function randomString(len: number = 10): string {
 
   let str: string = "0123456789abcdefghijklmnopqrstuvwxyz";

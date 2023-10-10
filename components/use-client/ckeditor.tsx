@@ -1,16 +1,23 @@
 "use client";
-import React, { useEffect, useRef } from 'react';
-import ClassicEditor, { type EditorConfig, type ClassicEditor as Editor } from 'ckeditor5-custom-build';
+import React, { useEffect, useRef, useState } from 'react';
+import ClassicEditor, { type EditorConfig, ClassicEditor as Editor } from 'ckeditor5-custom-build';
 import './ckeditor-override.css';
 import style from './ckeditor.module.scss';
 
-export default function CkEditor({ editorRef, mediaSelectDialog, setMediaInsertMode }: {
-  editorRef: React.MutableRefObject<Editor | null>
-  mediaSelectDialog: React.MutableRefObject<HTMLDialogElement | null> 
+export default function CkEditor({
+  locales, defaultLang, localeLabels, titleInputRef,
+  editorRef, mediaSelectDialog, setMediaInsertMode
+}: {
+  locales: string[], defaultLang: string,
+  localeLabels: {[key: string]: {[key: string]: string}},
+  titleInputRef: React.MutableRefObject<{[key: string]: HTMLInputElement}>,
+  editorRef: React.MutableRefObject<{[key: string]: Editor}>,
+  mediaSelectDialog: React.MutableRefObject<HTMLDialogElement | null> ,
   setMediaInsertMode: React.Dispatch<React.SetStateAction<"ck" | "thumb">>
 }) {
 
-  const ckeditorRef = useRef<HTMLDivElement | null>( null );
+  const [ useLang, setUseLang ] = useState<string>( defaultLang );
+  const ckeditorRef = useRef<{[key: string]: Editor}>({});
   let ignore = false;
 
   useEffect(() => {
@@ -19,6 +26,73 @@ export default function CkEditor({ editorRef, mediaSelectDialog, setMediaInsertM
         if ( window.matchMedia('(prefers-color-scheme: dark)').matches ) {
           document.documentElement.classList.add('ck-theme-dark');
         }
+      }
+    }
+
+    startFetching();
+    return () => { ignore = true };
+  }, []);
+
+  const selectoMedia = () => {
+    if ( mediaSelectDialog && mediaSelectDialog.current ) {
+      mediaSelectDialog.current.showModal();
+      setMediaInsertMode('ck');
+    }
+  }
+
+  return (
+    <div className={ style.ckeditor_wrapper }>
+      <div className={ style.lang_tabs }>
+        {
+          locales.length > 1 && locales.map((lang, index) => {
+            return (
+              <button key={ index } className={ `${ style.tab } ${ useLang === lang && style.selected }` }
+                data-lang={ lang }
+                onClick={(e) => {
+                  setUseLang( lang );
+                }}
+              >{ localeLabels[ defaultLang ][ lang ] }</button>
+            );
+          })
+        }
+      </div>
+      <div className={ style.editors }>
+        {
+          locales.map((lang, index) => {
+            return (
+              <div key={ index } className={ `${ style.instance } ${ useLang === lang && style.show }` }>
+                <input
+                  type="text"
+                  placeholder='記事タイトル'
+                  className={ style.title }
+                  ref={(element) => {
+                    titleInputRef.current[ lang ] = element!;
+                  }}
+                />
+                <CreateCkEditor
+                  lang={ lang } editorRef={ editorRef }
+                  selectoMedia={ selectoMedia }
+                />
+              </div>
+            )
+          })
+        }
+      </div>
+    </div>
+  )
+}
+
+export function CreateCkEditor({ lang, editorRef, selectoMedia }: {
+  lang: string, editorRef: React.MutableRefObject<{[key: string]: Editor}>,
+  selectoMedia: () => void
+}) {
+
+  const ckeditorRef = useRef<HTMLDivElement | null>( null );
+  let ignore = false;
+
+  useEffect(() => {
+    async function startFetching() {
+      if ( !ignore ) {
     
         ClassicEditor.create( ckeditorRef.current!, {
           ui: { viewportOffset: { top: 34, left: 0, right: 0, bottom: 0 } },
@@ -77,7 +151,7 @@ export default function CkEditor({ editorRef, mediaSelectDialog, setMediaInsertM
             });
           });
 
-          editorRef.current = editor;
+          editorRef.current[ lang ] = editor;
         });
       }
     }
@@ -86,21 +160,7 @@ export default function CkEditor({ editorRef, mediaSelectDialog, setMediaInsertM
     return () => { ignore = true };
   }, []);
 
-  const selectoMedia = () => {
-    if ( mediaSelectDialog && mediaSelectDialog.current ) {
-      mediaSelectDialog.current.showModal();
-      setMediaInsertMode('ck');
-    }
-  }
-
   return (
-    <div className={ style.ckeditor_wrapper }>
-      <input
-        type="text"
-        placeholder='記事タイトル'
-        className={ style.title }
-      />
-      <div ref={ ckeditorRef }></div>
-    </div>
+    <div ref={ ckeditorRef }></div>
   )
 }

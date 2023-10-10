@@ -6,7 +6,9 @@ import { redirect } from 'next/navigation';
 import myConfig from '@/public.config.json';
 import Content from './content';
 
-export default async function Category({ params: { lang }}: { params: { lang: string }}) {
+export default async function PostPage({ params: { lang } }: {
+  params: { lang: string }
+}) {
 
   const session = await getServerSession(authOptions);
 
@@ -16,9 +18,8 @@ export default async function Category({ params: { lang }}: { params: { lang: st
     <>
       <Header />
       <Content
-        lang={ lang } defaultLang={ myConfig.locale.default }
-        locales={ myConfig.locale['accept-lang'] }
-        localeLabels={ myConfig.locale.labels }
+        locales={ myConfig.locale['accept-lang'] } defaultLang={ myConfig.locale.default }
+        useLang={ lang } localeLabels={ myConfig.locale.labels }
       />
       <Footer />
     </>
