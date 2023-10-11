@@ -44,14 +44,14 @@ model Post {
   update_date   DateTime       @updatedAt
   CategoryPost  CategoryPost[]
   user          User           @relation(fields: [userId], references: [id])
-  media         Media?         @relation(fields: [thumbnail], references: [id])
+  media         Media?         @relation(fields: [thumbnail], references: [id], onDelete: SetNull, onUpdate: SetNull)
 }
 
 model CategoryPost {
   categoryId Int
   postId     Int
-  category   Category @relation(fields: [categoryId], references: [id])
-  post       Post     @relation(fields: [postId], references: [id])
+  category   Category @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+  post       Post     @relation(fields: [postId], references: [id], onDelete: Cascade)
 
   @@id([categoryId, postId])
 }

@@ -218,7 +218,7 @@ div.wrapper {
       background-color: transparent;
       border: 1px dotted rgb( var( --foreground-color ) );
     }
-    button.publish {
+    button.publish, button.update {
       background-color: var( --primary-color );
     }
   }

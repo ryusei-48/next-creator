@@ -8,6 +8,7 @@ import { faTrashCan } from '@fortawesome/free-regular-svg-icons';
 import MediaGallery from '@/components/use-client/media-gallery';
 import dynamic from 'next/dynamic';
 import type { ClassicEditor as Editor } from 'ckeditor5-custom-build';
+import type { Prisma } from '@prisma/client';
 
 const CkEditor = dynamic(() => import( '@/components/use-client/ckeditor' ));
 
@@ -16,6 +17,9 @@ export default function Content({ useLang, defaultLang, locales, localeLabels }:
   defaultLang: string
 }) {
 
+  const [ mode, setMode ] = useState<'new' | 'edit'>('new');
+  const [ postId, setPostId ] = useState<number>(0);
+  const [ postStatus, setPostStatus ] = useState<'draft' | 'publish' | 'trash'>('draft');
   const [ thumbnailId, setThumbnailId ] = useState<number | null>( null );
   const [ categoryNode, setCategoryNode ] = useState<CategoryNode | null>( null );
   const [ checkedCategorys, setCheckedCategorys ] = useState<{[key: number]: boolean } | null>( null );
@@ -24,12 +28,17 @@ export default function Content({ useLang, defaultLang, locales, localeLabels }:
   const thumbSelectDialog = useRef<HTMLDialogElement | null>( null );
   const titleInputRef = useRef<{[key: string]: HTMLInputElement}>({});
   const editorRef = useRef<{[key: string]: Editor}>({});
+  const postData = useRef<GetPostData | null>( null );
   const session = useSession();
   let ignore = false;
 
   useEffect(() => {
     async function startFetching() {
       if ( !ignore ) {
+        const searchParams = new URL( location.href ).searchParams;
+        setMode( searchParams.get( 'mode' ) as 'new' | 'edit' || 'new' );
+        setPostId( Number( searchParams.get( 'id' ) || 0 ) );
+
         const { searchEdit, selectableList } = await getCategory();
         setCheckedCategorys( selectableList );
         setCategoryNode( searchEdit );
@@ -43,9 +52,46 @@ export default function Content({ useLang, defaultLang, locales, localeLabels }:
       }
     }
 
+    const breakInterval = setInterval( async () => {
+      if (
+        mode === 'edit' && postId > 0 &&
+        locales.length === Object.keys( titleInputRef.current ).length &&
+        locales.length === Object.keys( editorRef.current ).length
+      ) {
+        
+        postData.current = await getPostData( postId );
+
+        setPostStatus( postData.current!.status );
+
+        for ( let lang of locales ) {
+          titleInputRef.current[ lang ].value = postData.current!.title[ lang ]!;
+          editorRef.current[ lang ].setData( postData.current!.body[ lang ]! );
+        }
+
+        setThumbnail(
+          <img src={ `../../api/media-stream?id=${ postData.current!.media?.id }&w=800` }
+            width={ 800 } sizes='100vw' loading="lazy"
+          />
+        )
+
+        setThumbnailId( postData.current!.media?.id || null )
+
+        setCheckedCategorys((checked) => {
+          if ( checked && postData.current!.CategoryPost ) {
+            for ( let cat of postData.current!.CategoryPost ) {
+              checked[ cat.category.id ] = true;
+            }
+          }
+          return checked;
+        })
+
+        clearInterval( breakInterval );
+      }
+    }, 100);
+
     startFetching();
     return () => { ignore = true };
-  }, []);
+  }, [mode, postId]);
 
   function getCategoryNode( tree: CategoryNode ) {
 
@@ -108,6 +154,72 @@ export default function Content({ useLang, defaultLang, locales, localeLabels }:
     )
   }
 
+  function sendPostData( setStatus: 'draft' | 'publish' | 'trash' ) {
+
+    const title: {[key: string]: string} = {}
+    const body: {[key: string]: string} = {}
+    for ( let lang of locales ) {
+      title[ lang ] = titleInputRef.current[ lang ].value;
+      body[ lang ] = editorRef.current[ lang ].getData();
+    }
+  
+    const checkedList = checkedCategorys ? Object.keys( checkedCategorys ).filter((id) => {
+      return checkedCategorys[ Number( id ) ] ? true : false;
+    }) : [];
+  
+    const CategoryPost: {[key: string]: any} = {}
+    if ( checkedCategorys && postStatus === 'draft' && mode === 'edit' ) {
+      const createCheckedList = postData.current!.CategoryPost.length !== 0 ? checkedList.filter((cat) => {
+        for ( let cat_d of postData.current!.CategoryPost ) {
+          if ( cat_d.category.id === Number( cat ) ) return false;
+        }
+        return true;
+      }) : checkedList;
+      const deleteCheckedList = postData.current?.CategoryPost.filter((cat) => {
+        for ( let cat_d of checkedList ) {
+          if ( Number( cat_d ) === cat.category.id ) return false;
+        }
+        return true;
+      })
+  
+      if ( createCheckedList.length > 0 ) {
+        CategoryPost.create = [...createCheckedList.map((id) => {
+          return { category: { connect: { id: Number( id ) } } }
+        })];
+      }
+      if ( deleteCheckedList && deleteCheckedList.length > 0 ) {
+        CategoryPost.deleteMany = [...deleteCheckedList.map((id) => {
+          return { postId: postId, categoryId: Number( id.category.id ) }
+        })];
+      }
+    }else {
+      CategoryPost.create = checkedCategorys ? Object.keys( checkedCategorys ).filter((id) => {
+        return checkedCategorys[ Number( id ) ] ? true : false;
+      }).map((id) => {
+        return { category: { connect: { id: Number( id ) } } }
+      }) : []
+    }
+  
+    const sendJson: any = {
+      title, body,
+      media: { connect: { id: thumbnailId } }, CategoryPost,
+      status: setStatus, user: { connect: { id: Number( session.data?.user?.id ) } }
+    }
+  
+    if ( !thumbnailId ) delete sendJson.media;
+  
+    fetch(`/api/post/${ postStatus === 'draft' && mode === 'edit' ? 'update' : 'create' }`, {
+      method: 'POST', body: JSON.stringify(
+        postStatus === 'draft' && mode === 'edit' ?
+          { id: postId, update: sendJson } : sendJson
+      )
+    }).then((response) => {
+      if ( response.ok ) {
+        alert(`下書きを保存しました。`);
+      }
+    });
+  }
+
   function mediaSelectDialogClose() {
 
     thumbSelectDialog.current?.close();
@@ -115,7 +227,7 @@ export default function Content({ useLang, defaultLang, locales, localeLabels }:
 
   return (
     <div className={ style.wrapper }>
-      <h2>新規作成</h2>
+      <h2>{ mode === 'new' ? '新規作成' : '記事編集' }</h2>
       <div className={ style.container }>
         <div className={ style.edit_control }>
           <CkEditor
@@ -173,35 +285,27 @@ export default function Content({ useLang, defaultLang, locales, localeLabels }:
         </div>
       </div>
       <div className={ style.post_push }>
-        <button className={ style.draft }
-          onClick={() => {
-
-            const title: {[key: string]: string} = {}
-            const body: {[key: string]: string} = {}
-            for ( let lang of locales ) {
-              title[ lang ] = titleInputRef.current[ lang ].value;
-              body[ lang ] = editorRef.current[ lang ].getData();
+        {
+          mode === 'new' || postStatus === 'draft' ?
+          <>
+            <button className={ style.draft }
+              onClick={() => { sendPostData('draft') }}
+            >下書き保存</button>
+            <button className={ style.publish }
+              onClick={() => { sendPostData('publish') }}
+            >公開</button>
+          </> :
+          <>
+            {
+              ( postStatus === 'publish' || postStatus === 'trash' ) &&
+              <button className={ style.draft }>下書きに戻す</button>
             }
-
-            fetch('/api/post/create', {
-              method: 'POST', body: JSON.stringify({
-                title, body,
-                media: { connect: { id: thumbnailId } }, CategoryPost: {
-                  create: checkedCategorys ? Object.keys( checkedCategorys ).filter((id) => {
-                    return checkedCategorys[ Number( id ) ] ? true : false;
-                  }).map((id) => {
-                    return { category: { connect: { id: Number( id ) } } }
-                  }) : []
-                }, status: 'draft', user: { connect: { id: Number( session.data?.user?.id ) } }
-              })
-            }).then((response) => {
-              if ( response.ok ) {
-                alert(`下書きを保存しました。`);
-              }
-            });
-          }}
-        >下書き保存</button>
-        <button className={ style.publish }>公開</button>
+            {
+              postStatus === 'publish' &&
+              <button className={ style.update }>更新</button>
+            }
+          </>
+        }
       </div>
     </div>
   )
@@ -235,5 +339,29 @@ async function getCategory() {
           resolve({ searchEdit: searchEdit( categorys, 0 ), selectableList });
         }
       });
+  });
+}
+
+type GetPostData = {
+  body: {[key: string]: string}, title: {[key: string]: string},
+  status: 'draft' | 'publish' | 'trash',
+  media: { id: number, url: Prisma.JsonValue } | null,
+  user: { nameid: string },
+  CategoryPost: {
+    category: { id: number, name: string }
+  }[]
+} | null
+
+async function getPostData( id: number ) {
+
+  return new Promise<GetPostData>((resolve) => {
+
+    fetch('/api/post/get', {
+      method: 'POST', body: JSON.stringify({ id })
+    }).then( async (response) => {
+      if ( response.ok ) {
+        resolve( await response.json() );
+      }else resolve( null );
+    });
   });
 }
