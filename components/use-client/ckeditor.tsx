@@ -6,18 +6,19 @@ import style from './ckeditor.module.scss';
 
 export default function CkEditor({
   locales, defaultLang, localeLabels, titleInputRef,
-  editorRef, mediaSelectDialog, setMediaInsertMode
+  editorRef, mediaSelectDialog, descInputRef, setMediaInsertMode
 }: {
   locales: string[], defaultLang: string,
   localeLabels: {[key: string]: {[key: string]: string}},
   titleInputRef: React.MutableRefObject<{[key: string]: HTMLInputElement}>,
   editorRef: React.MutableRefObject<{[key: string]: Editor}>,
+  descInputRef: React.MutableRefObject<{[key: string]: HTMLTextAreaElement}>,
   mediaSelectDialog: React.MutableRefObject<HTMLDialogElement | null> ,
   setMediaInsertMode: React.Dispatch<React.SetStateAction<"ck" | "thumb">>
 }) {
 
   const [ useLang, setUseLang ] = useState<string>( defaultLang );
-  const ckeditorRef = useRef<{[key: string]: Editor}>({});
+  //const ckeditorRef = useRef<{[key: string]: Editor}>({});
   let ignore = false;
 
   useEffect(() => {
@@ -73,6 +74,25 @@ export default function CkEditor({
                   lang={ lang } editorRef={ editorRef }
                   selectoMedia={ selectoMedia }
                 />
+                <div className={ style.description }>
+                  <label htmlFor={ `desc-text-${ index }` }>記事の説明・抜粋</label>
+                  <textarea
+                    ref={(element) => {
+                      descInputRef.current[ lang ] = element!;
+                    }}
+                    id={ `desc-text-${ index }` }
+                    placeholder='目安：スマホ７０文字、PC９０～１２０文字程度'
+                    onChange={(e) => {
+                      e.currentTarget.style.height = '0';
+                      e.currentTarget.style.height = `max( ${ e.currentTarget.scrollHeight }px, 4em )`;
+
+                      const count = e.currentTarget.value.length;
+                      const showSpan = e.currentTarget.parentElement?.childNodes[2] as HTMLSpanElement;
+                      showSpan.textContent = `文字数：${ count }`;
+                    }}
+                  ></textarea>
+                  <span className={ style.text_count }>文字数：--</span>
+                </div>
               </div>
             )
           })
@@ -88,6 +108,7 @@ export function CreateCkEditor({ lang, editorRef, selectoMedia }: {
 }) {
 
   const ckeditorRef = useRef<HTMLDivElement | null>( null );
+  const textCountRef = useRef<HTMLSpanElement | null>( null );
   let ignore = false;
 
   useEffect(() => {
@@ -133,6 +154,13 @@ export function CreateCkEditor({ lang, editorRef, selectoMedia }: {
               'strikethrough', 'subscript', 'superscript', 'todoList'
             ], shouldNotGroupWhenFull: true
           },
+          wordCount: {
+            onUpdate: ({ characters }) => {
+              if ( textCountRef.current ) {
+                textCountRef.current.textContent = `文字数：${ characters }`;
+              }
+            }
+          },
           simpleUpload: { uploadUrl: `${ process.env.NEXT_PUBLIC_APP_URL }/api/upload`, withCredentials: false },
           updateSourceElementOnDestroy: true,
           mediaEmbed: { previewsInData: true }, language: 'ja',
@@ -161,6 +189,9 @@ export function CreateCkEditor({ lang, editorRef, selectoMedia }: {
   }, []);
 
   return (
-    <div ref={ ckeditorRef }></div>
+    <>
+      <div ref={ ckeditorRef }></div>
+      <span ref={ textCountRef } className={ style.count }>文字数：--</span>
+    </>
   )
 }

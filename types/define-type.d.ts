@@ -24,6 +24,31 @@ export declare global {
     name: string, slug: string, id: string,
     rank: string, parent: string, icon: string
   } | null
+
+  export namespace Post {
+
+    type GetPost = {
+      id: number,
+      body: {[key: string]: string},
+      title: {[key: string]: string},
+      status: string,
+      register_date: string,
+      update_date: string,
+      media: {
+          id: number,
+          url: { paths: {[key: string]: string} },
+      } | null,
+      CategoryPost: {
+          category: {
+              id: number,
+              name: {[key: string]: string},
+          },
+      }[],
+      user: {
+        nameid: string
+      }
+    }
+  }
 }
 
 export declare module "next-auth" {

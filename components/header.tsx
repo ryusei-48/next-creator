@@ -27,9 +27,9 @@ export default async function header() {
           <div className={ style.tool_links }>
             <nav>
               <ul>
-                <li><Link href={ '/' }>トップ</Link></li>
-                <li><Link href={ '/admin' }>投稿一覧</Link></li>
-                <li><Link href={ '/admin/post' }>新規作成</Link></li>
+                <li><Link href={ '/' }>サイトを表示</Link></li>
+                <li><Link href={ '/admin/post-list' }>投稿一覧</Link></li>
+                <li><a href={ '/admin/post' }>新規作成</a></li>
                 <li><Link href={ '/admin/media' }>メディア</Link></li>
                 <li><Link href={ '/admin/category' }>カテゴリー</Link></li>
               </ul>

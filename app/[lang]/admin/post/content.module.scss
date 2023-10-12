@@ -4,6 +4,13 @@ div.wrapper {
   width: 100%;
   margin: 0 auto;
   position: relative;
+  h2 {
+    span.status {
+      display: inline-block;
+      margin-left: 20px;
+      font-size: 12pt;
+    }
+  }
   > div.container {
     width: 100%;
     display: flex;

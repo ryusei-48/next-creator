@@ -42,7 +42,7 @@
 @mixin base-dark-theme() {
   --foreground-color: 255, 255, 255;
   --background-main-color: 0, 0, 0;
-  --background-primary-color: #3b3b3b;
+  --background-primary-color: #232323;
   --background-secondary-color: rgb(45 49 49);
 
   --primary-color: darkviolet;
@@ -254,6 +254,11 @@ body {
   //opacity: 0;
   transition: all .4s;
 }
+
+h1 { font-size: 26pt; }
+h2 { font-size: 22pt; }
+h3 { font-size: 18pt; }
+h4 { font-size: 14pt; }
 
 a {
   color: inherit;

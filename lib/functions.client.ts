@@ -42,9 +42,9 @@ export function sleep( sec: number ) {
   })
 }
 
-export function getStrDatetime( format?: string ) {
+export function getStrDatetime( format?: string, dateString?: string ) {
 
-  const date = new Date();
+  const date = dateString ? new Date( dateString ) : new Date();
 
   const y = date.getFullYear();
   const m = ('0' + (date.getMonth() + 1)).slice(-2);
@@ -59,4 +59,12 @@ export function getStrDatetime( format?: string ) {
   }
 
   return y + '-' + m + '-' + d + ' ' + h + ':' + mi + ':' + s;
+}
+
+export function utcToLocalDate( date: string, format: string ) {
+
+  const utcDate = new Date( date );
+  const localDate = new Date( utcDate.getTime() - utcDate.getTimezoneOffset() * 60 * 1000 );
+
+  return getStrDatetime( format, localDate.toISOString() );
 }

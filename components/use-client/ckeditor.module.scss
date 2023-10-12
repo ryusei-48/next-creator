@@ -43,6 +43,41 @@
           border-bottom: 2px solid var( --ck-color-widget-type-around-button-active );
         }
       }
+      span.count {
+        display: block;
+        width: 100%;
+        margin-top: 10px;
+        padding-top: 3px;
+        padding-right: 5px;
+        font-size: 11pt;
+        text-align: right;
+      }
+      div.description {
+        display: block;
+        width: 100%;
+        margin-top: 15px;
+        label {
+          display: inline-block;
+          font-size: 13pt;
+        }
+        textarea {
+          display: block;
+          margin-top: 10px;
+          width: 100%;
+          padding: 6px;
+          min-height: 2.4em !important;
+          font-size: 12pt;
+          resize: none;
+          background-color: var( --ck-custom-background );
+        }
+        span.text_count {
+          display: block;
+          width: 100%;
+          padding: 3px 5px;
+          font-size: 11pt;
+          text-align: right;
+        }
+      }
     }
     > div.instance.show {
       display: inline-block;

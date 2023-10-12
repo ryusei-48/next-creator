@@ -3,22 +3,25 @@ import Footer from '@/components/footer';
 import styles from './page.module.css'
 import { options as authOptions } from '@/lib/auth-options';
 import { getServerSession } from "next-auth";
-import Link from 'next/link';
 import { redirect } from 'next/navigation';
+import myConfig from '@/public.config.json';
+import Content from './content';
 
-export default async function PostManage() {
+export default async function PostManage({ params: { lang } }: {
+  params: { lang: string }
+}) {
 
   const session = await getServerSession(authOptions);
 
   if ( !session ) redirect( '/' );
 
-  redirect('/admin/post-list');
-
   return (
     <>
       <Header />
-      <h1>投稿編集ページ</h1>
-      <p>{ session?.user?.name }</p>
+      <Content
+        locales={ myConfig.locale['accept-lang'] } defaultLang={ myConfig.locale.default }
+        useLang={ lang } localeLabels={ myConfig.locale.labels }
+      />
       <Footer />
     </>
   )
