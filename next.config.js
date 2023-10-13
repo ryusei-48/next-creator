@@ -1,8 +1,10 @@
 //// @ts-check
 /** @type {import('next').NextConfig} */
 const myConfig = require('./public.config.json');
+const dns = require("dns");
 
 const defaultLang = myConfig.locale['default'];
+dns.setDefaultResultOrder("ipv4first");
 
 const nextConfig = {
   reactStrictMode: true,

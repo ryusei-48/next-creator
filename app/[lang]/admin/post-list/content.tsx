@@ -11,9 +11,21 @@ export default function Content({ useLang, defaultLang, locales, localeLabels }:
 }) {
 
   const [ postListJSX, setPostListJSX ] = useState<React.JSX.Element[] | null>( null );
+  const [ isNext, setIsNext ] = useState<boolean>( false );
+  const defaultTakeNum = 20;
+  const takedPostNumRef = useRef<number>( 0 );
+  let ignore = false;
 
   useEffect(() => {
-    getPostList();
+
+    async function startFetching() {
+      if ( !ignore ) {
+        getPostList();
+      }
+    }
+
+    startFetching();
+    return () => { ignore = true };
   }, []);
 
   function getPostList() {
@@ -21,12 +33,15 @@ export default function Content({ useLang, defaultLang, locales, localeLabels }:
     fetch(`/api/post/get-many`, {
       method: 'POST', body: JSON.stringify({
         orderBy: [{ register_date: 'desc' }],
-        take: 20, skip: 0
+        take: defaultTakeNum, skip: takedPostNumRef.current
       })
     }).then( async (response) => {
       if ( response.ok ) {
-        const postList = await response.json() as { isNext: Boolean, result: Post.GetPost[] };
+        const postList = await response.json() as { isNext: boolean, result: Post.GetPost[] };
         const components: React.JSX.Element[] = []
+
+        takedPostNumRef.current += defaultTakeNum;
+        setIsNext( postList.isNext );
 
         for ( let post of postList.result ) {
 
@@ -46,6 +61,12 @@ export default function Content({ useLang, defaultLang, locales, localeLabels }:
               </td>
               <td>
                 { post.title[ useLang ] }
+                {
+                  post.description &&
+                  <span className={ style.description }>
+                    { post.description[ useLang ] }
+                  </span>
+                }
               </td>
               <td>{ post.CategoryPost.map((cat) => {
                 return `${ cat.category.name[ useLang ] }`;
@@ -54,14 +75,20 @@ export default function Content({ useLang, defaultLang, locales, localeLabels }:
               <td>{ getStrDatetime( 'y-m-d h:mi', post.register_date ) }</td>
               <td>{ getStrDatetime( 'y-m-d h:mi', post.update_date ) }</td>
               <td>
-                <Link href={`./post?mode=edit&id=${ post.id }`}>編集</Link>
-                <button>ゴミ箱へ</button>
+                <Link className={ style.edit } href={`./post?mode=edit&id=${ post.id }`}>編集</Link>
+                <button className={ style.trash }>ゴミ箱へ</button>
               </td>
             </tr>
           )
         }
 
-        setPostListJSX( components );
+        setPostListJSX((jsx) => {
+          if ( jsx ) {
+            return [ ...jsx, ...components ];
+          }else {
+            return components;
+          }
+        });
       }
     });
   }
@@ -86,6 +113,14 @@ export default function Content({ useLang, defaultLang, locales, localeLabels }:
             { postListJSX }
           </tbody>
         </table>
+        {
+          isNext &&
+          <div className={ style.show_more }>
+            <button
+              onClick={() => { getPostList() }}
+            >更に表示</button>
+          </div>
+        }
       </div>
     </div>
   )

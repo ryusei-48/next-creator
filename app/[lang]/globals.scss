@@ -37,6 +37,8 @@
   --react-select-neutral0: rgb(237, 237, 237);
   --react-select-primary: var( --primary-color );
   --react-select-primary25: rgb(189, 189, 189);
+
+  --container-max-width: 1300px;
 }
 
 @mixin base-dark-theme() {
@@ -253,6 +255,13 @@ body {
   background-color: rgb( var( --background-main-color ) );
   //opacity: 0;
   transition: all .4s;
+}
+
+div.container {
+  display: block;
+  width: 100%;
+  margin: 0 auto;
+  max-width: var( --container-max-width );
 }
 
 h1 { font-size: 26pt; }

@@ -37,16 +37,19 @@ export default async function header() {
           </div>
           <div className={ style.status_box }>
             <ThemeChangeButton style={{ height: '100%', fontSize: '16px' }} />
+            <LogoutButton/>
           </div>
         </div>
       }
       <header className={ `${ style.header } ${ session && style.toolbar_enable }` }>
-        <div className={ style.siteTitle }><span>{ process.env.NEXT_PUBLIC_SITE_TITLE }</span></div>
-        <div className={ style.navigations }><span>{ headersList.get("x-url") || "" }</span></div>
-        <div className={ style.sessionControl }>
-          { !session && <LoginButton/> }
-          { !session && <RegisterButton/> }
-          { session && <LogoutButton/> }
+        <div className={ `container ${ style.header }` }>
+          <div className={ style.siteTitle }><span>{ process.env.NEXT_PUBLIC_SITE_TITLE }</span></div>
+          <div className={ style.navigations }><span>{ headersList.get("x-url") || "" }</span></div>
+          <div className={ style.sessionControl }>
+            { !session && <LoginButton/> }
+            { !session && <RegisterButton/> }
+            { session && <LogoutButton/> }
+          </div>
         </div>
       </header>
     </>

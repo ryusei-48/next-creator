@@ -9,7 +9,10 @@ const prisma = new PrismaClient();
 async function GetPostMany( request: NextRequest ) {
 
   const session = await getServerSession( options );
-  if ( !session ) return NextResponse.json({ message: 'unauthenticated' }, { status: 401 });
+  const access_token = request.headers.get('API_ACCESS_TOKEN');
+  if ( !session && process.env.API_ACCESS_TOKEN !== access_token ) {
+    return NextResponse.json({ message: 'unauthenticated' }, { status: 401 });
+  }
 
   const postJson = await request.json() as {
     orderBy: Prisma.PostOrderByWithRelationInput[],
@@ -20,7 +23,7 @@ async function GetPostMany( request: NextRequest ) {
     orderBy: postJson.orderBy,
     take: postJson.take + 1, skip: postJson.skip, select: {
       id: true, title: true, body: true, status: true,
-      user: { select: { nameid: true } },
+      user: { select: { nameid: true } }, description: true,
       media: { select: { id: true, url: true } },
       CategoryPost: { select: { category: { select: { id: true, name: true } } } },
       register_date: true, update_date: true

@@ -54,14 +54,23 @@ div.wrapper {
         width: 40%;
         font-size: 14pt;
         padding: 5px 10px;
+        span.description {
+          display: block;
+          width: 100%;
+          margin-top: 10px;
+          font-size: 11pt;
+          opacity: .7;
+        }
       }
       td:nth-child(3), th:nth-child(3) {
         width: 15%;
         padding: 5px 10px;
+        text-align: center;
       }
       td:nth-child(4), th:nth-child(4) {
         width: 10%;
         padding: 5px 10px;
+        text-align: center;
       }
       td:nth-child(5), th:nth-child(5) {
         width: 7%;
@@ -71,7 +80,36 @@ div.wrapper {
       }
       td:nth-child(7), th:nth-child(7) {
         width: 6%;
+        text-align: center;
+        > .edit {
+          display: block;
+          width: 100%;
+          padding: 3px 5px;
+          font-size: 12pt;
+          background-color: var( --primary-color );
+        }
+        > .trash {
+          display: block;
+          width: 100%;
+          padding: 3px 5px;
+          font-size: 12pt;
+          margin-top: 10px;
+          background-color: transparent;
+          border: 1px solid rgb( var( --foreground-color ) );
+        }
       }
+    }
+  }
+  div.show_more {
+    display: block;
+    width: 100%;
+    margin-top: 20px;
+    text-align: center;
+    button {
+      display: inline-block;
+      padding: 3px 15px;
+      background-color: transparent;
+      border: 1px solid rgb( var( --foreground-color ) );
     }
   }
 }

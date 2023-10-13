@@ -1,106 +1,56 @@
-import Image from 'next/image'
 import Header from '@/components/header';
-import styles from './page.module.css'
-import { options as authOptions } from '@/lib/auth-options';
-import { getServerSession } from "next-auth";
+import Footer from '@/components/footer';
+import style from './page.module.scss'
 import Link from 'next/link';
 
 export default async function Home() {
 
-  const session = await getServerSession(authOptions);
+  const postListRes = await fetch(`http://172.28.120.84:8648/api/post/get-many`, {
+    method: 'POST', body: JSON.stringify({
+      orderBy: [{ register_date: 'desc' }],
+      take: 20, skip: 0
+    }), headers: {
+      "API_ACCESS_TOKEN": process.env.API_ACCESS_TOKEN!
+    }
+  });
+
+  let postList: { isNext: boolean, result: Post.GetPost[] } | null = null;
+  if ( postListRes.ok ) {
+    postList = await postListRes.json();
+    console.log( postList );
+  }
 
   return (
     <>
       <Header />
-      <main className={styles.main}>
-        <div className={styles.description}>
-          <p>
-            Get started by editing&nbsp;
-            <code className={styles.code}>app/page.tsx</code>
-          </p>
-          <div>
-            <a
-              href="https://vercel.com?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              By{' '}
-              <Image
-                src="/vercel.svg"
-                alt="Vercel Logo"
-                className={styles.vercelLogo}
-                width={100}
-                height={24}
-                priority
-              />
-            </a>
-          </div>
+      <div className={ style.wrapper }>
+        <div className={ `container ${ style.container_over }` }>
+          <article className={ style.post_entries }>
+            <h2>最新記事</h2>
+            {
+              postList &&
+              postList.result.map((post) => {
+                return (
+                  <section>
+                    <div className={ style.thumbnail }>
+                      {
+                        post.media ?
+                        <img src={ `./api/media-stream?w=800&id=${ post.media.id }` } alt="サムネイル画像" loading="lazy" /> :
+                        <span className={ style.no_image }>No Image</span>
+                      }
+                    </div>
+                    <div className={ style.details }>
+                      <h3>{ post.title[ 'ja' ] }</h3>
+                      { post.description && <aside>{ post.description[ 'ja' ] }</aside> }
+                    </div>
+                  </section>
+                )
+              })
+            }
+          </article>
         </div>
-
-        <div className={styles.center}>
-          <Image
-            className={styles.logo}
-            src="/next.svg"
-            alt="Next.js Logo"
-            width={180}
-            height={37}
-            priority
-          />
-        </div>
-
-        <div className={styles.grid}>
-          <a
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            className={styles.card}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <h2>
-              Docs <span>-&gt;</span>
-            </h2>
-            <p>Find in-depth information about Next.js features and API.</p>
-          </a>
-
-          <a
-            href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            className={styles.card}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <h2>
-              Learn <span>-&gt;</span>
-            </h2>
-            <p>Learn about Next.js in an interactive course with&nbsp;quizzes!</p>
-          </a>
-
-          <a
-            href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            className={styles.card}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <h2>
-              Templates <span>-&gt;</span>
-            </h2>
-            <p>Explore the Next.js 13 playground.</p>
-          </a>
-
-          <a
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            className={styles.card}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <h2>
-              Deploy <span>-&gt;</span>
-            </h2>
-            <p>
-              Instantly deploy your Next.js site to a shareable URL with Vercel.
-            </p>
-          </a>
-        </div>
-        <p>{ session ? JSON.stringify(session) : <Link href="./auth">ログイン</Link> }</p>
-      </main>
+      </div>
+      <Footer />
     </>
   )
 }

@@ -31,6 +31,7 @@ export declare global {
       id: number,
       body: {[key: string]: string},
       title: {[key: string]: string},
+      description: {[key: string]: string} | null,
       status: string,
       register_date: string,
       update_date: string,

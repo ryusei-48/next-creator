@@ -31,7 +31,7 @@
 }
 
 .header {
-  display: flex;
+  display: flex !important;
   align-content: stretch;
   width: 100vw;
   padding: 10px;
