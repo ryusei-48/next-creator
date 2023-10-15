@@ -32,7 +32,7 @@
 
 .header {
   display: flex !important;
-  align-content: stretch;
+  align-items: center;
   width: 100vw;
   padding: 10px;
 }
@@ -41,22 +41,38 @@
   margin-top: 26px;
 }
 
+span.toolbar_enable {
+  display: block;
+  width: 100%;
+  height: 70px;
+}
+
 .siteTitle {
   flex-basis: auto;
-  span {
+  .text {
     font-size: 20pt;
   }
 }
 
-.navigations {
+nav.navigations {
   flex-basis: auto;
   flex-grow: 1;
   padding: 0 15px;
-  span {
-    float: right;
+  ul {
+    display: block;
+    width: 100%;
+    li {
+      float: right;
+      padding: 5px 15px;
+    }
   }
 }
 
-.sessionControl {
+div.author_sns {
   flex-basis: auto;
+  text-align: center;
+  a {
+    font-size: 12pt;
+    margin: 0 5px;
+  }
 }

@@ -16,6 +16,7 @@
     "negotiator": "latest",
     "next": "latest",
     "next-auth": "latest",
+    "nodemailer": "^6.9.6",
     "sharp": "latest"
   },
   "devDependencies": {
@@ -28,6 +29,7 @@
     "@types/bcrypt": "latest",
     "@types/negotiator": "latest",
     "@types/node": "latest",
+    "@types/nodemailer": "^6.4.11",
     "@types/react": "latest",
     "@types/react-dom": "latest",
     "ckeditor5-custom-build": "file:lib/ckeditor5-custom",

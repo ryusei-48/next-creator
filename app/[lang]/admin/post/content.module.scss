@@ -113,6 +113,33 @@ div.wrapper {
           transform: translate( -50%, -50% );
         }
       }
+      > div.permalink {
+        display: block;
+        width: 100%;
+        margin-top: 15px;
+        margin-bottom: 15px;
+        > div.input {
+          width: 100%;
+          margin-top: 18px;
+          > span {
+            display: inline-block;
+            width: 5%;;
+            font-size: 15pt;
+            padding: 3px 0;
+          }
+          > input[type="text"] {
+            display: inline-block;
+            width: 94%;
+            font-size: 15pt;
+            padding: 3px 5px;
+            border-bottom: 2px solid var(--ck-color-input-border);
+            background-color: var(--ck-custom-background);
+            &:focus {
+              border-bottom: 2px solid var(--ck-color-widget-type-around-button-active);
+            }
+          }
+        }
+      }
       > div.category {
         display: block;
         width: 100%;

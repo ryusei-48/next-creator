@@ -1,5 +1,7 @@
 "use client";
 import { useState, CSSProperties } from 'react';
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faSun, faMoon, faCircleHalfStroke } from '@fortawesome/free-solid-svg-icons';
 
 export default function ThemeChangeSwitch({ style }: { style: CSSProperties | undefined }) {
 
@@ -33,6 +35,12 @@ export default function ThemeChangeSwitch({ style }: { style: CSSProperties | un
   }
 
   return (
-    <button style={ style } onClick={ handleThemeChange }>{ 'テーマ：' + theme }</button>
+    <button style={ style } onClick={ handleThemeChange }
+      title={ `テーマ：` + theme } aria-label={ `テーマ：` + theme }
+    >
+      { theme === 'system' && <FontAwesomeIcon width={`20px`} icon={ faCircleHalfStroke }></FontAwesomeIcon> }
+      { theme === 'dark' && <FontAwesomeIcon width={`20px`} icon={ faMoon }></FontAwesomeIcon> }
+      { theme === 'light' && <FontAwesomeIcon color="black" width={`20px`} icon={ faSun }></FontAwesomeIcon> }
+    </button>
   )
 }

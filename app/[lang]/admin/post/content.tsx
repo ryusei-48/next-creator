@@ -29,6 +29,7 @@ export default function Content({ useLang, defaultLang, locales, localeLabels }:
   const titleInputRef = useRef<{[key: string]: HTMLInputElement}>({});
   const editorRef = useRef<{[key: string]: Editor}>({});
   const descInputRef = useRef<{[key: string]: HTMLTextAreaElement}>({});
+  const permalinkInput = useRef<HTMLInputElement | null>( null );
   const postData = useRef<GetPostData | null>( null );
   const session = useSession();
   let ignore = false;
@@ -70,6 +71,10 @@ export default function Content({ useLang, defaultLang, locales, localeLabels }:
           if ( postData.current!.description ) {
             descInputRef.current[ lang ].value = postData.current!.description[ lang ];
           }
+        }
+
+        if ( postData.current?.permalink ) {
+          permalinkInput.current!.value = postData.current.permalink;
         }
 
         setThumbnail(
@@ -205,9 +210,15 @@ export default function Content({ useLang, defaultLang, locales, localeLabels }:
         return { category: { connect: { id: Number( id ) } } }
       }) : []
     }
+
+    let permalink: string | null = null;
+    if ( permalinkInput.current!.value !== "" ) {
+      permalink = permalinkInput.current!.value;
+    }
+    console.log( permalink );
   
     const sendJson: any = {
-      title, body, description,
+      title, body, description, permalink,
       media: { connect: { id: thumbnailId } }, CategoryPost,
       status: setStatus, user: { connect: { id: Number( session.data?.user?.id ) } }
     }
@@ -300,6 +311,13 @@ export default function Content({ useLang, defaultLang, locales, localeLabels }:
               </div>
             </dialog>
           </div>
+          <div className={ style.permalink }>
+            <h3>パーマリンク</h3>
+            <div className={ style.input }>
+              <span>/</span>
+              <input ref={ permalinkInput } type="text" placeholder="my-post" />
+            </div>
+          </div>
           <div className={ style.category }>
             <h3>カテゴリー選択</h3>
             <div className={ style.tree_view }>
@@ -375,7 +393,7 @@ async function getCategory() {
 type GetPostData = {
   body: {[key: string]: string}, title: {[key: string]: string},
   description: {[key: string]: string} | null,
-  status: 'draft' | 'publish' | 'trash',
+  permalink: string | null, status: 'draft' | 'publish' | 'trash',
   media: { id: number, url: Prisma.JsonValue } | null,
   user: { nameid: string },
   CategoryPost: {

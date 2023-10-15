@@ -1,0 +1,43 @@
+div.sidebar {
+  flex-basis: calc( 340px - 15px );
+  padding: 10px;
+  aside.profile {
+    display: block;
+    width: 100%;
+    figure.icon {
+      display: block;
+      width: 60%;
+      position: relative;
+      aspect-ratio: 1 / 1;
+      margin: 10px auto;
+      overflow: hidden;
+      //border-radius: 100%;
+      .image {
+        position: absolute;
+        top: 50%; left: 50%;
+        transform: translate( -50%, -50% );
+        width: 180px;
+        height: 180px;
+        border-radius: 100%;
+      }
+    }
+    span.author_name {
+      display: block;
+      width: 100%;
+      text-align: center;
+      font-size: 16pt;
+      margin: 10px 0;
+    }
+    div.author_description {
+      padding: 5px;
+    }
+    div.author_sns {
+      margin: 10px 0;
+      text-align: center;
+      a {
+        font-size: 12pt;
+        margin: 0 5px;
+      }
+    }
+  }
+}

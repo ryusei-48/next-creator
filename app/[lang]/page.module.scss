@@ -1,5 +1,55 @@
 div.wrapper {
   display: block;
   width: 100%;
-  
+  div.container_over {
+    display: flex;
+    flex-flow: wrap;
+    justify-content: center;
+    gap: 15px;
+    main.post_entries {
+      flex-basis: calc( 100% - 355px );
+      padding: 5px;
+      display: flex;
+      flex-flow: wrap;
+      justify-content: left;
+      align-content: center;
+      gap: 15px;
+      > h2 {
+        flex-basis: 100%;
+      }
+      article {
+        //flex-basis: calc( 50% - 15px );
+        flex-basis: 100%;
+        display: flex;
+        flex-flow: wrap;
+        > div.thumbnail {
+          //width: 30%;
+          flex-basis: 30%;
+          figure {
+            width: 100%;
+            aspect-ratio: 16 / 9;
+            position: relative;
+            overflow: hidden;
+            > img {
+              position: absolute;
+              top: 50%; left: 50%;
+              transform: translate( -50%, -50% );
+              width: 100%;
+            }
+            > span.no_image {
+              display: block;
+              position: absolute;
+              top: 50%; left: 50%;
+              transform: translate( -50%, -50% );
+              font-size: 17pt;
+            }
+          }
+        }
+        div.details {
+          flex-basis: 70%;
+          padding: 10px;
+        }
+      }
+    }
+  }
 }
