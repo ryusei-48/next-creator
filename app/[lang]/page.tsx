@@ -1,7 +1,11 @@
 import Header from '@/components/header';
+import Container from '@/components/container';
 import Sidebar from '@/components/sidebar';
 import Footer from '@/components/footer';
 import style from './page.module.scss'
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faClock } from '@fortawesome/free-solid-svg-icons';
+import { getStrDatetime } from '@/lib/functions';
 import myConfig from '@/public.config.json';
 import Link from 'next/link';
 
@@ -26,15 +30,15 @@ export default async function Home({ params: { lang } }: {
   return (
     <>
       <Header />
-      <div className={ style.wrapper }>
-        <div className={ `container ${ style.container_over }` }>
-          <main className={ style.post_entries }>
-            <h2>最新記事</h2>
-            {
-              postList &&
-              postList.result.map((post) => {
-                return (
-                  <article>
+      <Container>
+        <main className={ style.post_entries }>
+          <h2>最新記事</h2>
+          {
+            postList &&
+            postList.result.map((post) => {
+              return (
+                <article>
+                  <Link className={ style.link_wrap } href={ post.permalink ? `./article/${ post.permalink }` : `./article?id=${ post.id }` }>
                     <div className={ style.thumbnail }>
                       <figure>
                         {
@@ -46,20 +50,24 @@ export default async function Home({ params: { lang } }: {
                     </div>
                     <div className={ style.details }>
                       <h3>{ post.title[ lang ] }</h3>
-                      { post.description && <aside>{ post.description[ lang ] }</aside> }
+                      { post.description && <aside className={ style.description }>{ post.description[ lang ] }</aside> }
+                      <span className={ style.datetime }>
+                        <FontAwesomeIcon width={`11pt`} icon={ faClock }></FontAwesomeIcon>
+                        &nbsp;{ getStrDatetime( "y-m-d h:mi", post.register_date ) }
+                      </span>
                     </div>
-                  </article>
-                )
-              })
-            }
-          </main>
-          <Sidebar
-            useLang={ lang } defaultLang={ myConfig.locale.default }
-            locales={ myConfig.locale['accept-lang'] }
-            localeLabels={ myConfig.locale.labels }
-          />
-        </div>
-      </div>
+                  </Link>
+                </article>
+              )
+            })
+          }
+        </main>
+        <Sidebar
+          useLang={ lang } defaultLang={ myConfig.locale.default }
+          locales={ myConfig.locale['accept-lang'] }
+          localeLabels={ myConfig.locale.labels }
+        />
+      </Container>
       <Footer />
     </>
   )

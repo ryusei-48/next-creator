@@ -54,9 +54,9 @@ export function sleep( sec: number ) {
   })
 }
 
-export function getStrDatetime( format?: string ) {
+export function getStrDatetime( format?: string, dateString?: string ) {
 
-  const date = new Date();
+  const date = dateString ? new Date( dateString ) : new Date();
 
   const y = date.getFullYear();
   const m = ('0' + (date.getMonth() + 1)).slice(-2);
@@ -82,4 +82,9 @@ export async function pathExist( path: string ) {
       } else resolve( false );
     });
   });
+}
+
+export function postBodyFormat( html: string ) {
+
+  return html.replaceAll( "{{root-domain-url}}", process.env.APP_URL! );
 }

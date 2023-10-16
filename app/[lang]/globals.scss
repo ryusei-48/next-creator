@@ -8,6 +8,7 @@
     'Fira Mono', 'Droid Sans Mono', 'Courier New', monospace;
 
   --foreground-color: 0, 0, 0;
+  --foreground-color-secondary: gray;
   --background-main-color: 244, 249, 240;
   --background-primary-color: #cdcdcd;
   --background-secondary-color: rgb(204, 225, 221);
@@ -43,6 +44,7 @@
 
 @mixin base-dark-theme() {
   --foreground-color: 255, 255, 255;
+  --foreground-color-secondary: rgb(181, 181, 181);
   --background-main-color: 0, 0, 0;
   --background-primary-color: #232323;
   --background-secondary-color: rgb(45 49 49);

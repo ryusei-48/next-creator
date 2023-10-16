@@ -43,6 +43,7 @@ export declare global {
           category: {
               id: number,
               name: {[key: string]: string},
+              icon_mime: string | null
           },
       }[],
       user: {

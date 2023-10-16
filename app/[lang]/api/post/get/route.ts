@@ -3,13 +3,17 @@ import { options } from '@/lib/auth-options';
 import type { NextRequest } from 'next/server';
 import { NextResponse } from "next/server";
 import { PrismaClient, Prisma } from '@prisma/client';
+import { postBodyFormat } from '@/lib/functions';
 
 const prisma = new PrismaClient();
 
 async function GetPost( request: NextRequest ) {
 
   const session = await getServerSession( options );
-  if ( !session ) return NextResponse.json({ message: 'unauthenticated' }, { status: 401 });
+  const access_token = request.headers.get('API_ACCESS_TOKEN');
+  if ( !session && process.env.API_ACCESS_TOKEN !== access_token ) {
+    return NextResponse.json({ message: 'unauthenticated' }, { status: 401 });
+  }
 
   const postJson = await request.json() as Prisma.PostWhereInput;
 
@@ -18,9 +22,19 @@ async function GetPost( request: NextRequest ) {
       title: true, body: true, status: true, description: true,
       permalink: true, user: { select: { nameid: true } },
       media: { select: { id: true, url: true } },
-      CategoryPost: { select: { category: { select: { id: true, name: true } } } }
+      CategoryPost: { select: { category: { select: { id: true, name: true, icon_mime: true } } } }
     }
   });
+
+  console.log( 'result: ', result );
+
+  if ( result ) {
+    const body = result.body as Prisma.JsonObject;
+    for ( let lang of Object.keys( body ) ) {
+      body[ lang ] = postBodyFormat( body[ lang ] as string );
+    }
+    result.body = body;
+  }
 
   return NextResponse.json({ ...result }, { status: 200 });
 }

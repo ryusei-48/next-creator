@@ -9,7 +9,7 @@ export function middleware( request: Request ) {
   const requestHeaders = new Headers(request.headers);
   const urlClass = new URL( request.url );
 
-  requestHeaders.set( 'x-url', process.env.APP_URL! + urlClass.pathname );
+  requestHeaders.set( 'x-url', process.env.APP_URL! + urlClass.pathname + urlClass.search );
   requestHeaders.set( 'base-url', process.env.APP_URL || '' );
 
   const { isRedirect, url, language } = getLocale( request );

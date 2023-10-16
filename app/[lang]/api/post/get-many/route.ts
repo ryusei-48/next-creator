@@ -3,6 +3,7 @@ import { options } from '@/lib/auth-options';
 import type { NextRequest } from 'next/server';
 import { NextResponse } from "next/server";
 import { PrismaClient, Prisma } from '@prisma/client';
+//import { postBodyFormat } from '@/lib/functions';
 
 const prisma = new PrismaClient();
 
@@ -22,7 +23,7 @@ async function GetPostMany( request: NextRequest ) {
   const result = await prisma.post.findMany({
     orderBy: postJson.orderBy,
     take: postJson.take + 1, skip: postJson.skip, select: {
-      id: true, title: true, body: true, status: true,
+      id: true, title: true, status: true,
       user: { select: { nameid: true } }, description: true,
       permalink: true, media: { select: { id: true, url: true } },
       CategoryPost: { select: { category: { select: { id: true, name: true } } } },

@@ -21,7 +21,9 @@ const nextConfig = {
       { source: '/auth/:path', destination: `/${ defaultLang }/auth/:path` },
       { source: '/auth/:path/:2nd', destination: `/${ defaultLang }/auth/:path/:2nd` },
       { source: '/admin', destination: `/${ defaultLang }/admin` },
-      { source: '/admin/:path', destination: `/${ defaultLang }/admin/:path` }
+      { source: '/admin/:path', destination: `/${ defaultLang }/admin/:path` },
+      { source: '/article', destination: `/${ defaultLang }/article` },
+      { source: '/article/:path', destination: `/${ defaultLang }/article/:path` }
     ]
   }
 }

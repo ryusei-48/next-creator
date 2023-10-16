@@ -1,5 +1,5 @@
 "use client";
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect, createElement } from 'react';
 import { useSession } from 'next-auth/react';
 import style from './content.module.scss';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -170,7 +170,21 @@ export default function Content({ useLang, defaultLang, locales, localeLabels }:
     const description: {[key: string]: string} = {}
     for ( let lang of locales ) {
       title[ lang ] = titleInputRef.current[ lang ].value;
-      body[ lang ] = editorRef.current[ lang ].getData();
+
+      const htmlBody = editorRef.current[ lang ].getData();
+      const htmlFormater = document.createElement('div');
+      htmlFormater.innerHTML = htmlBody;
+      for ( let img of [...htmlFormater.querySelectorAll('img')] ) {
+        const pattern = /^(\.\.?\/)+|^https?\:\/\/[^\/]+\//;
+        img.src = img.src.replace( pattern, '{{root-domain-url}}/' );
+        for ( let [ index, url ] of img.srcset.split(' ').entries() ) {
+          if ( index === 0 || index % 3 === 0 ) {
+            const pathname = url.replace( pattern, '{{root-domain-url}}/' );
+            img.srcset = img.srcset.replace( url, pathname );
+          }
+        }
+      }
+      body[ lang ] = htmlFormater.innerHTML;
       description[ lang ] = descInputRef.current[ lang ].value;
     }
   
@@ -215,7 +229,6 @@ export default function Content({ useLang, defaultLang, locales, localeLabels }:
     if ( permalinkInput.current!.value !== "" ) {
       permalink = permalinkInput.current!.value;
     }
-    console.log( permalink );
   
     const sendJson: any = {
       title, body, description, permalink,

@@ -1,0 +1,10 @@
+div.wrapper {
+  display: block;
+  width: 100%;
+  div.container_over {
+    display: flex;
+    flex-flow: wrap;
+    justify-content: center;
+    gap: 15px;
+  }
+}
