@@ -1,7 +1,8 @@
 .footer {
-  position: absolute;
-  left: 0; bottom: 0;
+  //position: absolute;
+  //left: 0; bottom: 0;
   display: block;
+  align-self: flex-end;
   width: 100%;
   margin-top: 15px;
   padding: 10px 20px;
@@ -13,10 +14,10 @@
     text-align: center;
   }
 }
-
+/*
 span.spacer {
   display: block;
   width: 100%;
   height: 60px;
   opacity: 0;
-}
+}*/

@@ -165,6 +165,7 @@ export function CreateCkEditor({ lang, editorRef, selectoMedia }: {
           updateSourceElementOnDestroy: true,
           mediaEmbed: { previewsInData: true }, language: 'ja',
         }).then((editor) => {
+
           editor.model.schema.extend('imageBlock', { allowAttributes: 'loading' });
           editor.conversion.for('downcast').attributeToAttribute({
             model: 'loading',

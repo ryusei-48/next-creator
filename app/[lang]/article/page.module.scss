@@ -15,6 +15,7 @@ div.post_title_wrap {
     padding-top: 15px;
     padding-left: 100px;
     padding-right: 100px;
+    gap: 15px 30px;
     div.categorys {
       flex-basis: auto;
       display: flex;
@@ -48,8 +49,26 @@ div.post_title_wrap {
           }
         }
         span.name {
-          flex-basis: calc( 100% - 60px );
+          flex-basis: auto;
           font-size: 13pt;
+          white-space: nowrap;
+        }
+      }
+    }
+    div.datetime {
+      min-width: 300px;
+      text-align: center;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: row;
+      gap: 15px;
+      > span.register_date,
+      > span.update_date {
+        flex-basis: auto;
+        font-size: 12pt;
+        > time, > span.view {
+          font-size: 11pt;
         }
       }
     }
@@ -59,6 +78,17 @@ div.post_title_wrap {
 main.post_content {
   flex-basis: calc(100% - 355px);
   padding: 10px;
+  > div.post_content_top {
+    width: 100%;
+    > figure.thumbnail {
+      display: block;
+      width: 100%;
+      > img {
+        width: 100%;
+        border-radius: 10px;
+      }
+    }
+  }
   > div.insert_html {
     width: 100%;
     padding: 10px;

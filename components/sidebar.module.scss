@@ -1,5 +1,6 @@
 div.sidebar {
-  flex-basis: calc( 340px - 15px );
+  flex-basis: calc( 355px - 15px );
+  align-self: stretch;
   padding: 10px;
   aside.profile {
     display: block;
@@ -39,5 +40,11 @@ div.sidebar {
         margin: 0 5px;
       }
     }
+  }
+  div.sticky_content {
+    position: sticky;
+    top: 50px;
+    width: 315px;
+    max-height: calc( 100vh - 50px );
   }
 }

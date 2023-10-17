@@ -18,7 +18,6 @@ export default async function header() {
   const requestUrl = headersList.get("x-url") || "";
   const pathname = new URL( requestUrl ).pathname;
   const isAdminPage = pathname.match(/^\/admin\//) ? true : false;
-  console.log( pathname );
 
   return (
     <>

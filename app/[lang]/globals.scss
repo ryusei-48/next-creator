@@ -245,11 +245,16 @@
 
 html,
 body {
-  position: relative;
+  //position: relative;
   //padding-bottom: 50px;
+  display: flex;
+  flex-flow: wrap;
+  justify-content: center;
+  //align-content: start;
+  align-items: start;
   max-width: 100vw;
   min-height: 100vh;
-  overflow-x: hidden;
+  //overflow-x: hidden;
 }
 
 body {
@@ -267,9 +272,9 @@ div.container {
 }
 
 h1 { font-size: 26pt; }
-h2 { font-size: 22pt; }
-h3 { font-size: 18pt; }
-h4 { font-size: 14pt; }
+h2 { font-size: 22pt; margin: 20px auto; }
+h3 { font-size: 18pt; margin: 20px auto; }
+h4 { font-size: 14pt; margin: 20px auto; }
 
 a {
   color: inherit;

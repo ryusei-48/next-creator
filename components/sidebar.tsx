@@ -1,6 +1,7 @@
 import profileImage from '@/public/profile.jpeg';
 import Image from 'next/image';
 import style from './sidebar.module.scss';
+import HeadingTable from './use-client/heading-table';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faGithub, faXTwitter } from '@fortawesome/free-brands-svg-icons';
 
@@ -38,6 +39,9 @@ export default function Sidebar({ useLang, defaultLang, locales, localeLabels }:
           </div>
         </div>
       </aside>
+      <div className={ style.sticky_content }>
+        <HeadingTable />
+      </div>
     </div>
   )
 }
