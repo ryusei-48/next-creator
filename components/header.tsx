@@ -70,7 +70,7 @@ export default async function header() {
         </header>
       }
       {
-        isAdminPage && <span className={ style.toolbar_enable }></span>
+        //isAdminPage && <span className={ style.toolbar_enable }></span>
       }
     </>
   )

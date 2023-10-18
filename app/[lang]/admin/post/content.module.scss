@@ -1,8 +1,10 @@
 div.wrapper {
+  align-self: flex-start;
   display: block;
   max-width: 1400px;
   width: 100%;
   margin: 0 auto;
+  margin-top: 70px;
   position: relative;
   h2 {
     span.status {

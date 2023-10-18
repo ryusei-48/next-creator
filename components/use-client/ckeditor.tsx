@@ -164,6 +164,28 @@ export function CreateCkEditor({ lang, editorRef, selectoMedia }: {
           simpleUpload: { uploadUrl: `${ process.env.NEXT_PUBLIC_APP_URL }/api/upload`, withCredentials: false },
           updateSourceElementOnDestroy: true,
           mediaEmbed: { previewsInData: true }, language: 'ja',
+          codeBlock: {
+            languages: [
+              { language: 'plaintext', label: 'Plain text', class: 'language-plaintext Plain Text' },
+              { language: 'commandline', label: 'Commandline', class: 'language-plaintext Commandline' },
+              { language: 'shell', label: 'Shell', class: 'language-shell Shell' },
+              { language: 'c', label: 'C', class: 'language-c C' },
+              { language: 'c++', label: 'C++', class: 'language-c++ C++' },
+              { language: 'c#', label: 'C#', class: 'language-c# C#' },
+              { language: 'css', label: 'CSS', class: 'language-css CSS' },
+              { language: 'scss', label: 'SCSS', class: 'language-scss SCSS' },
+              { language: 'html', label: 'HTML', class: 'language-html HTML' },
+              { language: 'java', label: 'Java', class: 'language-java Java' },
+              { language: 'javascript', label: 'JavaScript', class: 'language-javascript JavaScript' },
+              { language: 'typescript', label: 'TypeScript', class: 'language-typescript TypeScript' },
+              { language: 'php', label: 'PHP', class: 'language-php PHP' },
+              { language: 'python', label: 'Python', class: 'language-python Python' },
+              { language: 'ruby', label: 'Ruby', class: 'language-ruby Ruby' },
+              { language: 'sql', label: 'SQL', class: 'language-sql SQL' },
+              { language: 'swift', label: 'Swift', class: 'language-swift Swift' },
+              { language: 'xml', label: 'XML', class: 'language-xml XML' }
+            ]
+          }
         }).then((editor) => {
 
           editor.model.schema.extend('imageBlock', { allowAttributes: 'loading' });
@@ -184,6 +206,16 @@ export function CreateCkEditor({ lang, editorRef, selectoMedia }: {
         });
       }
     }
+
+    /*window.addEventListener('keydown', (e) => {
+      if ( e.shiftKey && e.ctrlKey && e.code === 'KeyQ' ) {
+        console.log('insert');
+        const codeToInsert = '<div><span class="language-name">Language name</span><pre><code></code></pre></div>';
+        const viewFragment = editorRef.current[ 'ja' ].data.processor.toView( codeToInsert );
+        const modelFragment = editorRef.current[ 'ja' ].data.toModel( viewFragment );
+        editorRef.current['ja'].model.insertContent( modelFragment, editorRef.current['ja'].model.document.selection );
+      }
+    });*/
 
     startFetching();
     return () => { ignore = true };

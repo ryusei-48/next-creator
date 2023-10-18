@@ -27,8 +27,6 @@ async function GetPost( request: NextRequest ) {
     }
   });
 
-  console.log( 'result: ', result );
-
   if ( result ) {
     const body = result.body as Prisma.JsonObject;
     for ( let lang of Object.keys( body ) ) {

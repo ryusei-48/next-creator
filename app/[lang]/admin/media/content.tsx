@@ -18,7 +18,7 @@ export default function Content() {
   });*/
 
   return (
-    <div>
+    <div style={{ flexBasis: '100%', alignSelf: "flex-start", marginTop: '70px' }}>
       <h2>メディア</h2>
       <MediaGallery mode="default" />
     </div>

@@ -33,6 +33,7 @@
     "@types/react": "latest",
     "@types/react-dom": "latest",
     "ckeditor5-custom-build": "file:lib/ckeditor5-custom",
+    "highlight.js": "11.8.0",
     "prisma": "latest",
     "react": "latest",
     "react-dom": "latest",
