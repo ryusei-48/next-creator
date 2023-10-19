@@ -17,11 +17,12 @@ async function GetPostMany( request: NextRequest ) {
 
   const postJson = await request.json() as {
     orderBy: Prisma.PostOrderByWithRelationInput[],
+    where?: Prisma.PostWhereInput,
     take: number, skip: number
   };
 
   const result = await prisma.post.findMany({
-    orderBy: postJson.orderBy,
+    orderBy: postJson.orderBy, where: postJson.where,
     take: postJson.take + 1, skip: postJson.skip, select: {
       id: true, title: true, status: true,
       user: { select: { nameid: true } }, description: true,

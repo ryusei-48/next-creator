@@ -15,7 +15,7 @@ export default async function Home({ params: { lang } }: {
 
   const postListRes = await fetch(`${ process.env.API_ACCESS_ADDRESS }/api/post/get-many`, {
     method: 'POST', body: JSON.stringify({
-      orderBy: [{ register_date: 'desc' }],
+      orderBy: [{ register_date: 'desc' }], where: { status: 'publish' },
       take: 20, skip: 0
     }), headers: {
       "API_ACCESS_TOKEN": process.env.API_ACCESS_TOKEN!
@@ -29,7 +29,7 @@ export default async function Home({ params: { lang } }: {
 
   return (
     <>
-      <Header />
+      <Header lang={ lang } />
       <Container>
         <main className={ style.post_entries }>
           <h2>最新記事</h2>

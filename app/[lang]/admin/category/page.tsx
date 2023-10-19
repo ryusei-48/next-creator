@@ -14,7 +14,7 @@ export default async function Category({ params: { lang }}: { params: { lang: st
 
   return (
     <>
-      <Header />
+      <Header lang={ lang } />
       <Content
         lang={ lang } defaultLang={ myConfig.locale.default }
         locales={ myConfig.locale['accept-lang'] }

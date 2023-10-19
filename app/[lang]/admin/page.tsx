@@ -6,7 +6,9 @@ import { getServerSession } from "next-auth";
 import Link from 'next/link';
 import { redirect } from 'next/navigation';
 
-export default async function PostManage() {
+export default async function PostManage({ params: { lang } }: {
+  params: { lang: string }
+}) {
 
   const session = await getServerSession(authOptions);
 
@@ -16,7 +18,7 @@ export default async function PostManage() {
 
   return (
     <>
-      <Header />
+      <Header lang={ lang } />
       <h1>投稿編集ページ</h1>
       <p>{ session?.user?.name }</p>
       <Footer />

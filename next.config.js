@@ -23,7 +23,7 @@ const nextConfig = {
       { source: '/admin', destination: `/${ defaultLang }/admin` },
       { source: '/admin/:path', destination: `/${ defaultLang }/admin/:path` },
       { source: '/article', destination: `/${ defaultLang }/article` },
-      { source: '/article/:path', destination: `/${ defaultLang }/article/:path` }
+      { source: '/article/:path', destination: `/${ defaultLang }/article/:path` },
     ]
   }
 }

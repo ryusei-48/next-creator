@@ -1,5 +1,6 @@
 main.post_entries {
   flex-basis: calc( 100% - 355px );
+  align-self: flex-start;
   padding: 5px;
   display: flex;
   flex-flow: wrap;

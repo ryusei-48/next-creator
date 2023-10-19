@@ -1,5 +1,6 @@
 import fs, { constants } from 'fs';
 import { mkdir } from 'fs/promises';
+import { headers } from 'next/headers';
 
 const APP_PATH = process.env.APP_ROOT_PATH;
 const MEDIA_ROOT_PATH = `${ APP_PATH }/public/media`;
@@ -87,4 +88,17 @@ export async function pathExist( path: string ) {
 export function postBodyFormat( html: string ) {
 
   return html.replaceAll( "{{root-domain-url}}", process.env.APP_URL! );
+}
+
+type PageType = "home" | 'post' | 'admin';
+export function pageJudg( page: PageType ) {
+
+  const requestUrl = headers().get('x-url');
+  if ( !requestUrl ) return null;
+
+  const pathname = new URL( requestUrl ).pathname;
+  if ( page === 'home' && pathname.match(/^\/\w{0,2}$/) ) return true;
+  else if ( page === 'post' && pathname.match(/^\/article((\?[\w=]+)|(\/[\w-]+))?$/ ) ) return true;
+  else if ( page === 'admin' && pathname.match(/^\/admin\//) ) return true;
+  else return false;
 }

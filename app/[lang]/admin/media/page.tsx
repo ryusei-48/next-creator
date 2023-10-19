@@ -8,7 +8,9 @@ import Link from 'next/link';
 import { redirect } from 'next/navigation';
 import Content from './content';
 
-export default async function PostManage() {
+export default async function Media({ params: { lang } }: {
+  params: { lang: string }
+}) {
 
   const session = await getServerSession(authOptions);
 
@@ -16,7 +18,7 @@ export default async function PostManage() {
 
   return (
     <>
-      <Header />
+      <Header lang={ lang } />
       <Content />
       <Footer />
     </>

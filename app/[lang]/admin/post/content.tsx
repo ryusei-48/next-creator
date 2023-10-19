@@ -251,13 +251,16 @@ export default function Content({ useLang, defaultLang, locales, localeLabels }:
           alert('新規投稿を公開しました。')
         }else if ( mode === 'edit' && postStatus === 'publish' && setStatus === 'draft' ) {
           alert(`公開投稿を下書きに変更しました。`);
-        }else if ( mode === 'edit' && setStatus === 'draft' ) {
-          alert(`下書きを保存しました。`);
-        }else if ( mode === 'edit' && setStatus === 'publish' ) {
-          alert('下書きを公開しました。');
+        }else if ( mode === 'edit' && postStatus === 'draft' && setStatus === 'publish' ) {
+          alert(`下書きを公開しました。`);
+        }else if ( mode === 'edit' && postStatus === 'draft' && setStatus === 'draft' ) {
+          alert(`下書きを更新しました。`);
+        }else if ( mode === 'edit' && postStatus === 'publish' && setStatus === 'publish' ) {
+          alert('投稿記事を更新しました。');
         }else if ( mode === 'edit' && setStatus === 'trash' ) {
           alert('記事をゴミ箱に移動しました。');
         }
+        location.reload();
       }
     });
   }

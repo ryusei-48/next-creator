@@ -55,9 +55,9 @@ export async function ArticleCommon({ postData, lang }: {
   return (
 
     <>
-      <Header />
+      <Header lang={ lang } />
       <Container>
-      <div className={ style.post_title_wrap }>
+        <div className={ style.post_title_wrap }>
           <h1>{ postData ? postData.title[ lang ] : '' }</h1>
           <div className={ style.post_meta }>
             <div className={ style.categorys }>

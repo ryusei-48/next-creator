@@ -16,7 +16,7 @@ export default async function PostPage({ params: { lang } }: {
 
   return (
     <>
-      <Header />
+      <Header lang={ lang } />
       <Content
         locales={ myConfig.locale['accept-lang'] } defaultLang={ myConfig.locale.default }
         useLang={ lang } localeLabels={ myConfig.locale.labels }

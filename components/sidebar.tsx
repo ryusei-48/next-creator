@@ -4,6 +4,7 @@ import style from './sidebar.module.scss';
 import HeadingTable from './use-client/heading-table';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faGithub, faXTwitter } from '@fortawesome/free-brands-svg-icons';
+import { pageJudg } from '@/lib/functions';
 
 export default function Sidebar({ useLang, defaultLang, locales, localeLabels }: {
   useLang: string, locales: string[], localeLabels: {[key: string]: {[key: string]: string}},
@@ -40,7 +41,7 @@ export default function Sidebar({ useLang, defaultLang, locales, localeLabels }:
         </div>
       </aside>
       <div className={ style.sticky_content }>
-        <HeadingTable />
+        { pageJudg('post') && <HeadingTable /> }
       </div>
     </div>
   )

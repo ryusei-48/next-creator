@@ -4,6 +4,7 @@
   // アイコンパス
   --clip-svg-icon: url( "http://ryuseiweb.localhost/static-icons/clip.svg" );
 
+  --main-content-width: calc( 100% - 355px );
   --max-width: 1100px;
   --border-radius: 12px;
   --font-mono: ui-monospace, Menlo, Monaco, 'Cascadia Mono', 'Segoe UI Mono',
@@ -278,6 +279,11 @@ div.container {
   max-width: var( --container-max-width );
 }
 
+main, article, section {
+  display: block;
+  width: var( --main-content-width );
+}
+
 h1 { font-size: 26pt; }
 h2 { font-size: 22pt; margin: 20px auto; }
 h3 { font-size: 18pt; margin: 20px auto; }
@@ -329,11 +335,30 @@ pre {
     top: 0; left: 0;
     padding: 4px;
     background-color: gray;
+    color: white;
   }
   > code {
     padding-top: 2.5em !important;
     font-size: 1em !important;
   }
+}
+
+dialog {
+  position: fixed;
+  top: 30%; left: 50%;
+  transform: translate( -50%, -50% );
+  border: 1px solid var( --border-color );
+  border-radius: 10px;
+  padding: 15px;
+  max-height: 85vh;
+  transition: all .3s ease-in-out;
+  &::backdrop {
+    background-color: transparent;
+    transition: all .3s ease-in-out;
+  }
+}
+dialog.show::backdrop {
+  backdrop-filter: blur( 3px );
 }
 
 input, select, textarea {

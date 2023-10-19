@@ -94,7 +94,11 @@ div.wrapper {
           overflow: hidden;
           transition: all .4s ease-in-out;
           > h3 {
+            width: 100%;
+            align-self: flex-start;
+            text-align: left;
             border-bottom: 1px dotted var( --border-color-secondary );
+            margin: 0;
             padding-bottom: 10px;
           }
           > button.close {

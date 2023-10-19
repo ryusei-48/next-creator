@@ -2,22 +2,20 @@ import style from './header.module.scss';
 import {
   LoginButton, LogoutButton, RegisterButton
 } from "@/components/auth-button";
+import Contactform from './use-client/contactform';
 import { options } from '@/lib/auth-options';
 import { getServerSession } from "next-auth";
-import { headers } from 'next/headers';
 import Link from 'next/link';
 import ThemeChangeButton from '../components/small-parts/switch-theme-button';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faGithub, faXTwitter } from '@fortawesome/free-brands-svg-icons';
+import { pageJudg } from '@/lib/functions';
 
-export default async function header() {
+export default async function header({ lang }: { lang: string }) {
 
-  const headersList = headers();
   const session = await getServerSession(options);
-
-  const requestUrl = headersList.get("x-url") || "";
-  const pathname = new URL( requestUrl ).pathname;
-  const isAdminPage = pathname.match(/^\/admin\//) ? true : false;
+  const isAdminPage = pageJudg('admin');
+  const isHome = pageJudg('home');
 
   return (
     <>
@@ -47,16 +45,21 @@ export default async function header() {
         <header className={ `${ style.header } ${ session && style.toolbar_enable }` }>
           <div className={ `container ${ style.header }` }>
             <div className={ style.siteTitle }>
-              <Link className={ style.text } href="/">{ process.env.NEXT_PUBLIC_SITE_TITLE }</Link>
+              <Link className={ style.text } href="/">
+                {
+                  isHome ? <h1>{ process.env.NEXT_PUBLIC_SITE_TITLE }</h1> : process.env.NEXT_PUBLIC_SITE_TITLE
+                }
+              </Link>
             </div>
             <nav className={ style.navigations }>
               <ul>
-                <li>お問い合わせ</li>
+                <li><button id="open-contactform">お問い合わせ</button></li>
                 <li>プロダクト</li>
                 <li>カテゴリー</li>
                 <li><Link href="/">ホーム</Link></li>
               </ul>
             </nav>
+            <Contactform lang={ lang } />
             <div className={ style.author_sns }>
               <ThemeChangeButton style={{ height: 'auto', marginRight: '5px' }} />
               <a href="https://x.com/ryusei__46" target="_blank" aria-label='X' title="X">
