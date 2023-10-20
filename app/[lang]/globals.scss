@@ -316,7 +316,7 @@ button {
   border: none;
   background-color: transparent;
   color: white;
-  &:active::before {
+  &:active::before, &:disabled::before {
     position: absolute;
     top: 0; left: 0;
     width: 100%;

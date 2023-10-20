@@ -204,18 +204,28 @@ export function CreateCkEditor({ lang, editorRef, selectoMedia }: {
 
           editorRef.current[ lang ] = editor;
         });
+
+        window.addEventListener('keydown', (e) => {
+          if ( e.shiftKey && e.ctrlKey && e.code === 'KeyQ' ) {
+            const codeToInsert = `
+              <section class="simple-box">
+                  <h1 class="simple-box-title">Box title</h1>
+                  <div class="simple-box-description">
+                      <p>The description goes here.</p>
+                      <ul>
+                          <li>It can contain lists,</li>
+                          <li>and other block elements like headings.</li>
+                      </ul>
+                  </div>
+              </section>
+            `;
+            const viewFragment = editorRef.current[ 'ja' ].data.processor.toView( codeToInsert );
+            const modelFragment = editorRef.current[ 'ja' ].data.toModel( viewFragment );
+            editorRef.current['ja'].model.insertContent( modelFragment, editorRef.current['ja'].model.document.selection );
+          }
+        });
       }
     }
-
-    /*window.addEventListener('keydown', (e) => {
-      if ( e.shiftKey && e.ctrlKey && e.code === 'KeyQ' ) {
-        console.log('insert');
-        const codeToInsert = '<div><span class="language-name">Language name</span><pre><code></code></pre></div>';
-        const viewFragment = editorRef.current[ 'ja' ].data.processor.toView( codeToInsert );
-        const modelFragment = editorRef.current[ 'ja' ].data.toModel( viewFragment );
-        editorRef.current['ja'].model.insertContent( modelFragment, editorRef.current['ja'].model.document.selection );
-      }
-    });*/
 
     startFetching();
     return () => { ignore = true };

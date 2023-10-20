@@ -29,4 +29,10 @@ export declare global {
   }
 }
 
-export { InsertMedia, InsertMediaConfig }
+class InsertTemplate extends Plugin {
+  init(): void;
+  _defineSchema(): void;
+  _defineConverters(): void;
+}
+
+export { InsertMedia, InsertMediaConfig, InsertTemplate }

@@ -1,7 +1,10 @@
 "use client";
 import style from './contactform.module.scss';
+import loadingSvg from '@/public/static-icons/ball-triangle.svg';
 import { useState, useRef, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
+import Image from 'next/image';
+import type { ContactResult } from '@/app/[lang]/api/contact/route';
 
 export default function Contactform({ lang }: {
   lang: string
@@ -9,7 +12,8 @@ export default function Contactform({ lang }: {
 
   const dialogRef = useRef<HTMLDialogElement | null>( null );
   const [ isShow, setIsShow ] = useState<boolean>( false );
-  const { register, handleSubmit, formState: { errors } } = useForm({ mode: 'onChange' });
+  const [ isSending, setIsSending ] = useState<boolean>( false );
+  const { register, reset, handleSubmit, formState: { errors } } = useForm({ mode: 'onChange' });
 
   useEffect(() => {
     const openContactformTogle = document.getElementById('open-contactform')!;
@@ -21,12 +25,35 @@ export default function Contactform({ lang }: {
     });
   }, []);
 
+  function dialogClose() {
+    setIsShow( false );
+    setTimeout(() => {
+      dialogRef.current?.close()
+    }, 300);
+  }
+
   return (
     <dialog className={ `${ style.contactform } ${ isShow ? 'show ' + style.show : '' }` } ref={ dialogRef }>
       <div className={ style.content }>
         <h2>お問い合わせ</h2>
         <form onSubmit={ handleSubmit((data) => {
-          console.log( data );
+          
+          setIsSending( true );
+          fetch('/api/contact', {
+            method: 'POST', body: JSON.stringify({
+              name: data.name, email: data.email,
+              subject: data.subject, body: data.body
+            })
+          }).then( async (response) => {
+            if ( response.ok ) {
+              const result = await response.json() as ContactResult;
+              if ( result.success ) {
+                alert('送信しました。');
+                dialogClose();
+              }else alert('送信に失敗しました。');
+              setIsSending( false ); reset();
+            }else console.log( response.statusText );
+          });
         }) }>
           <label htmlFor='name-input'>お名前*</label>
           <input id="name-input" type='text' {...register('name', {
@@ -59,13 +86,20 @@ export default function Contactform({ lang }: {
             errors.body && <span className={ style.error_msg }>{ errors.body.message as string }</span>
           }
           <div className={ style.data_control }>
-            <button type="submit" className={ style.submit }>送信</button>
-            <button className={ style.close } type="button" onClick={() => {
-              setIsShow( false );
-              setTimeout(() => {
-                dialogRef.current?.close()
-              }, 300);
-            }}>閉じる</button>
+            <button type="submit" disabled={ isSending } className={ style.submit }>
+              {
+                isSending &&
+                <Image src={ loadingSvg }
+                  style={{
+                    display: 'inline-block', width: '1em', marginRight: '10px',
+                    height: '1em', transform: 'translateY( -4px )'
+                  }}
+                  alt='ローディング画像'
+                />
+              }
+              送信
+            </button>
+            <button className={ style.close } type="button" onClick={ dialogClose }>閉じる</button>
           </div>
         </form>
       </div>

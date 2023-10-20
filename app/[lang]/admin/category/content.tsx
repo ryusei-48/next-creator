@@ -46,10 +46,11 @@ export default function Content({
 
     return new Promise<CategoryNode>((resolve) => {
 
-      fetch('/api/category/get', { method: 'POST' })
+      fetch('/api/category/get', { method: 'POST', cache: 'no-store' })
         .then( async (response) => {
           if ( response.ok ) {
             const categorys = await response.json() as CategoryData[];
+            console.log( categorys );
             
             const searchEdit = ( categorys: CategoryData[], parent: number = 0 ) => {
               const children: CategoryNode = []
