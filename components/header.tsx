@@ -2,6 +2,7 @@ import style from './header.module.scss';
 import {
   LoginButton, LogoutButton, RegisterButton
 } from "@/components/auth-button";
+import CategoriesDropdown from './use-client/categories-dropdown';
 import Contactform from './use-client/contactform';
 import { options } from '@/lib/auth-options';
 import { getServerSession } from "next-auth";
@@ -53,13 +54,18 @@ export default async function header({ lang }: { lang: string }) {
             </div>
             <nav className={ style.navigations }>
               <ul>
-                <li><button id="open-contactform">お問い合わせ</button></li>
+                <li>
+                  <button id="open-contactform">お問い合わせ</button>
+                  <Contactform lang={ lang } />
+                </li>
                 <li>プロダクト</li>
-                <li>カテゴリー</li>
+                <li style={{ position: 'relative' }}>
+                  <button id="open-category-dropdown">カテゴリー</button>
+                  <CategoriesDropdown lang={ lang } />
+                </li>
                 <li><Link href="/">ホーム</Link></li>
               </ul>
             </nav>
-            <Contactform lang={ lang } />
             <div className={ style.author_sns }>
               <ThemeChangeButton style={{ height: 'auto', marginRight: '5px' }} />
               <a href="https://x.com/ryusei__46" target="_blank" aria-label='X' title="X">

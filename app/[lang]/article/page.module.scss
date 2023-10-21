@@ -78,6 +78,31 @@ div.post_title_wrap {
 main.post_content {
   width: calc(100% - 355px);
   padding: 10px;
+  ul {
+    display: block;
+    padding-left: 15px;
+    > li {
+      display: block;
+      padding-left: 2.3em;
+      margin-bottom: 10px;
+      font-size: 18px;
+      position: relative;
+      &::before {
+        position: absolute;
+        top: 50%;
+        left: 0;
+        transform: translateY(-50%);
+        content: var( --circle-chevron-right-svg );
+        font-size: 1.1em;
+        width: 1.1em;
+        height: 1.1em;
+      }
+    }
+  }
+  h2, h3, h4 {
+    padding-bottom: 15px;
+    border-bottom: 2px dotted var( --primary-color );
+  }
   > div.post_content_top {
     width: 100%;
     > figure.thumbnail {

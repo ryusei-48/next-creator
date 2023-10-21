@@ -375,7 +375,7 @@ export default function Content({ useLang, defaultLang, locales, localeLabels }:
   )
 }
 
-async function getCategory() {
+export async function getCategory() {
 
   return new Promise<{
     searchEdit: CategoryNode, selectableList: { [key: number]: boolean }

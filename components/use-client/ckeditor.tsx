@@ -185,6 +185,27 @@ export function CreateCkEditor({ lang, editorRef, selectoMedia }: {
               { language: 'swift', label: 'Swift', class: 'language-swift Swift' },
               { language: 'xml', label: 'XML', class: 'language-xml XML' }
             ]
+          },
+          link: {
+            decorators: {
+              openInNewTab: {
+                  mode: 'manual',
+                  label: '新規タブで開く',
+                  defaultValue: true,
+                  attributes: {
+                      target: '_blank',
+                      rel: 'noopener noreferrer'
+                  }
+              },
+              addClass: {
+                mode: 'manual',
+                label: 'カード表示',
+                defaultValue: false,
+                attributes: {
+                  'data-type': 'card'
+                }
+              }
+            }
           }
         }).then((editor) => {
 

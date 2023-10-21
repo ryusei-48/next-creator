@@ -3,6 +3,7 @@
 :root, .base-color-theme {
   // アイコンパス
   --clip-svg-icon: url( "http://ryuseiweb.localhost/static-icons/clip.svg" );
+  --circle-chevron-right-svg: url("http://ryuseiweb.localhost/static-icons/circle-chevron-right-solid.svg");
 
   --main-content-width: calc( 100% - 355px );
   --max-width: 1100px;
@@ -13,11 +14,14 @@
 
   --foreground-color: 0, 0, 0;
   --foreground-color-secondary: gray;
+
+  //--background-image-main: linear-gradient(to right bottom, #7900ff, #6750ff, #6174ff, #6d91ff, #87abff, #87abff, #87abff, #87abff, #6d91ff, #6174ff, #6750ff, #7900ff);;
+  --background-image-main: white;
   --background-main-color: 244, 249, 240;
   --background-primary-color: #cdcdcd;
   --background-secondary-color: rgb(204, 225, 221);
 
-  --primary-color: blueviolet;
+  --primary-color: DarkOrchid;
   --secondary-color: darkgreen;
 
   // スクロールバー
@@ -47,13 +51,17 @@
 }
 
 @mixin base-dark-theme() {
+
   --foreground-color: 255, 255, 255;
   --foreground-color-secondary: rgb(181, 181, 181);
+
+  //--background-image-main: linear-gradient(to right bottom, #000000, #290a19, #460434, #5f0058, #6e0086, #6e0086, #6e0086, #6e0086, #5f0058, #460434, #290a19, #000000);
+  --background-image-main: black;
   --background-main-color: 0, 0, 0;
   --background-primary-color: #232323;
   --background-secondary-color: rgb(45 49 49);
 
-  --primary-color: darkviolet;
+  --primary-color: DarkOrchid;
   --secondary-color: darkgreen;
 
   // スクロールバー
@@ -268,6 +276,9 @@ body {
   font-family: var( --bs-font-sans-serif ) !important;
   color: rgb(var(--foreground-color));
   background-color: rgb( var( --background-main-color ) );
+  background-image: var( --background-image-main );
+  background-size: cover;
+  background-attachment: fixed;
   //opacity: 0;
   transition: all .4s;
 }
@@ -290,7 +301,7 @@ h3 { font-size: 18pt; margin: 20px auto; }
 h4 { font-size: 14pt; margin: 20px auto; }
 
 p {
-  font-size: 18px;
+  font-size: 20px;
   margin-bottom: 1.5em;
 }
 

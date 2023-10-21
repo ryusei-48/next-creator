@@ -2,6 +2,9 @@ div.sidebar {
   flex-basis: calc( 355px - 15px );
   align-self: stretch;
   padding: 10px;
+  p {
+    font-size: 16px;
+  }
   aside.profile {
     display: block;
     width: 100%;

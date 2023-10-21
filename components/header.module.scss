@@ -62,10 +62,10 @@ nav.navigations {
   flex-basis: auto;
   flex-grow: 1;
   padding: 0 15px;
-  ul {
+  > ul {
     display: block;
     width: 100%;
-    li {
+    > li {
       float: right;
       padding: 5px 15px;
     }

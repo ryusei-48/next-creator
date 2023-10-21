@@ -17,3 +17,29 @@ div.ck.ck-reset.ck-dropdown__panel.ck-dropdown__panel_se {
 .ck-content pre code {
   border: unset !important;
 }
+
+div.ck.ck-editor__main ul {
+  display: block;
+  padding-left: 15px;
+  > li {
+    display: block;
+    padding-left: 2.3em;
+    margin-bottom: 10px;
+    font-size: 18px;
+    position: relative;
+    &::before {
+      position: absolute;
+      top: 50%;
+      left: 0;
+      transform: translateY(-50%);
+      content: var( --circle-chevron-right-svg );
+      font-size: 1.1em;
+      width: 1.1em;
+      height: 1.1em;
+    }
+  }
+}
+h2, h3, h4 {
+  padding-bottom: 15px;
+  border-bottom: 2px dotted var( --primary-color );
+}
