@@ -2,8 +2,8 @@
 
 :root, .base-color-theme {
   // アイコンパス
-  --clip-svg-icon: url( "http://ryuseiweb.localhost/static-icons/clip.svg" );
-  --circle-chevron-right-svg: url("http://ryuseiweb.localhost/static-icons/circle-chevron-right-solid.svg");
+  --clip-svg-icon: url( "/static-icons/clip.svg" );
+  --circle-chevron-right-svg: url("/static-icons/circle-chevron-right-solid.svg");
 
   --main-content-width: calc( 100% - 355px );
   --max-width: 1100px;
@@ -21,8 +21,8 @@
   --background-primary-color: #cdcdcd;
   --background-secondary-color: rgb(204, 225, 221);
 
-  --primary-color: DarkOrchid;
-  --secondary-color: darkgreen;
+  --primary-color: darkOrchid;
+  --secondary-color: darkOrange;
 
   // スクロールバー
   --scrollbar-track-color: rgb(210, 210, 210);
@@ -58,11 +58,11 @@
   //--background-image-main: linear-gradient(to right bottom, #000000, #290a19, #460434, #5f0058, #6e0086, #6e0086, #6e0086, #6e0086, #5f0058, #460434, #290a19, #000000);
   --background-image-main: black;
   --background-main-color: 0, 0, 0;
-  --background-primary-color: #232323;
+  --background-primary-color: #1e1d1d;
   --background-secondary-color: rgb(45 49 49);
 
-  --primary-color: DarkOrchid;
-  --secondary-color: darkgreen;
+  --primary-color: darkOrchid;
+  --secondary-color: darkOrange;
 
   // スクロールバー
   --scrollbar-track-color: rgb(65, 65, 65);

@@ -9,7 +9,8 @@ dns.setDefaultResultOrder("ipv4first");
 const nextConfig = {
   reactStrictMode: true,
   experimental: {
-    serverComponentsExternalPackages: [ 'sharp', 'fs/promises', 'fs', 'bcrypt' ]
+    serverComponentsExternalPackages: [ 'sharp', 'fs/promises', 'fs', 'bcrypt' ],
+    serverActions: true
   },
   rewrites: async () => {
     return [
@@ -17,6 +18,7 @@ const nextConfig = {
       { source: '/api/:path', destination: `/${ defaultLang }/api/:path` },
       { source: '/api/:path/:sub', destination: `/${ defaultLang }/api/:path/:sub` },
       { source: '/api/:path/:sub/:2nd', destination: `/${ defaultLang }/api/:path/:sub/:2nd` },
+      { source: '/api/:path/:sub/:2nd/:3nd', destination: `/${ defaultLang }/api/:path/:sub/:2nd/:3nd` },
       { source: '/auth', destination: `/${ defaultLang }/auth` },
       { source: '/auth/:path', destination: `/${ defaultLang }/auth/:path` },
       { source: '/auth/:path/:2nd', destination: `/${ defaultLang }/auth/:path/:2nd` },
@@ -24,6 +26,8 @@ const nextConfig = {
       { source: '/admin/:path', destination: `/${ defaultLang }/admin/:path` },
       { source: '/article', destination: `/${ defaultLang }/article` },
       { source: '/article/:path', destination: `/${ defaultLang }/article/:path` },
+      { source: '/category', destination: `/${ defaultLang }/category` },
+      { source: '/category/:path', destination: `/${ defaultLang }/category/:path` },
     ]
   }
 }

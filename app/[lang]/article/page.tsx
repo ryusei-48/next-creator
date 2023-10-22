@@ -1,5 +1,6 @@
 import Header from '@/components/header';
 import Container from '@/components/container';
+import Discussion from './discussion';
 import Sidebar from '@/components/sidebar';
 import Footer from '@/components/footer';
 import style from './page.module.scss';
@@ -65,20 +66,22 @@ export async function ArticleCommon({ postData, lang }: {
                 postData.CategoryPost.map((cat) => {
                   return (
                     <span className={ style.category }>
-                      <span className={ style.icon }>
-                        {
-                          cat.category.icon_mime ?
-                          <span className={ style.image_wrap }>
-                            <img src={`../api/media-stream/icon?id=${ cat.category.id }`}
-                              loading="lazy" alt={`${ cat.category.name[ lang ] } - アイコン`}
-                            />
-                          </span> :
-                          <FontAwesomeIcon icon={ faHashtag }></FontAwesomeIcon>
-                        }
-                      </span>
-                      <span className={ style.name }>
-                        { cat.category.name[ lang ] }
-                      </span>
+                      <Link className={ style.link_wrap } href={`/category/${ cat.category.slug }`}>
+                        <span className={ style.icon }>
+                          {
+                            cat.category.icon_mime ?
+                            <span className={ style.image_wrap }>
+                              <img src={`../api/media-stream/icon?id=${ cat.category.id }`}
+                                loading="lazy" alt={`${ cat.category.name[ lang ] } - アイコン`}
+                              />
+                            </span> :
+                            <FontAwesomeIcon icon={ faHashtag }></FontAwesomeIcon>
+                          }
+                        </span>
+                        <span className={ style.name }>
+                          { cat.category.name[ lang ] }
+                        </span>
+                      </Link>
                     </span>
                   )
                 })
@@ -124,6 +127,12 @@ export async function ArticleCommon({ postData, lang }: {
             className={ style.insert_html }
             dangerouslySetInnerHTML={{ __html: postData ? postData?.body[ lang ] as string : '' }}
           ></div>
+          <div className={ style.discussion_wrap }>
+            <h2>Discussion</h2>
+            <div className={ style.content }>
+              <Discussion />
+            </div>
+          </div>
         </main>
         <Sidebar
           useLang={ lang } defaultLang={ myConfig.locale.default }

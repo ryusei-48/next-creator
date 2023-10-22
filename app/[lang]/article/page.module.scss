@@ -20,16 +20,17 @@ div.post_title_wrap {
       flex-basis: auto;
       display: flex;
       flex-flow: wrap;
-      justify-content: center;
       align-items: center;
-      gap: 15px;
+      gap: 20px;
       span.category {
         flex-basis: auto;
-        display: flex;
-        flex-direction: row;
-        justify-content: center;
-        align-items: center;
-        gap: 10px;
+        .link_wrap {
+          display: flex;
+          flex-direction: row;
+          justify-content: center;
+          align-items: center;
+          gap: 10px;
+        }
         span.icon {
           flex-basis: 50px;
           font-size: 18pt;
@@ -139,6 +140,22 @@ main.post_content {
       img {
         width: 100%;
       }
+    }
+  }
+  div.discussion_wrap {
+    width: 100%;
+    margin-top: 20px;
+    padding: 15px;
+    padding-top: 5px;
+    border-radius: 10px;
+    background-color: var( --background-primary-color );
+    > h2 {
+      margin-top: 5px;
+      border-bottom: none;
+      text-align: center;
+    }
+    > div.content {
+      width: 100%;
     }
   }
 }

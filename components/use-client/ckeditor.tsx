@@ -1,7 +1,7 @@
 "use client";
 import React, { useEffect, useRef, useState } from 'react';
 import ClassicEditor, { type EditorConfig, ClassicEditor as Editor } from 'ckeditor5-custom-build';
-import './ckeditor-override.css';
+import './ckeditor-override.scss';
 import style from './ckeditor.module.scss';
 
 export default function CkEditor({

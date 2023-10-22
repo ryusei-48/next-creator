@@ -42,7 +42,7 @@ export default function CategoriesDropdown({ lang }: {
           categories.map((cat) => {
             return (
               <li>
-                <Link className={ style.cat_link } href={`/`}>
+                <Link className={ style.cat_link } href={`/category/${ cat.slug }`}>
                   <div className={ style.cat_record }>
                     <span className={ style.icon } style={{ marginRight: cat.icon_mime ? '25px' : '10px' }}>
                       {

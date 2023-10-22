@@ -1,0 +1,38 @@
+div.client {
+  width: 100%;
+  > form.comment_form {
+    display: flex;
+    flex-flow: wrap;
+    gap: 15px;
+    input[type="text"],
+    input[type="email"],
+    textarea, label {
+      display: block;
+      width: 100%;
+      padding: 5px;
+      font-size: 12pt;
+    }
+    textarea {
+      resize: vertical;
+      min-height: 150px;
+      max-height: 500px;
+      font-size: 13pt;
+    }
+    > div.item {
+      flex-basis: calc( 50% - 7.5px );
+    }
+    > div.item.block {
+      flex-basis: 100%;
+    }
+    div.submit_wrap {
+      flex-basis: 100%;
+      text-align: center;
+      > button.submit {
+        display: inline-block;
+        padding: 4px 20px;
+        background-color: var( --primary-color );
+        font-size: 15pt;
+      }
+    }
+  }
+}

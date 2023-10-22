@@ -25,6 +25,33 @@ export declare global {
     rank: string, parent: string, icon: string
   } | null
 
+  export namespace Category {
+
+    type CategoryRelatedPost = {
+      id: number;
+      name: {[key: string]: string},
+      slug: string;
+      CategoryPost: {
+        post: {
+          id: number,
+          body: {[key: string]: string},
+          title: {[key: string]: string},
+          description: {[key: string]: string} | null,
+          status: string, permalink: string,
+          register_date: string,
+          update_date: string,
+          media: {
+              id: number,
+              url: { paths: {[key: string]: string} },
+          } | null,
+          user: {
+            nameid: string
+          }
+        };
+      }[];
+    } | null
+  }
+
   export namespace Post {
 
     type GetPost = {
@@ -43,6 +70,7 @@ export declare global {
           category: {
               id: number,
               name: {[key: string]: string},
+              slug: string,
               icon_mime: string | null
           },
       }[],
