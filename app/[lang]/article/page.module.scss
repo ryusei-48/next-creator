@@ -1,4 +1,16 @@
-div.post_title_wrap {
+.main {
+  display: block;
+  width: 100%;
+  article.post_container {
+    display: flex;
+    flex-flow: wrap;
+    justify-content: center;
+    gap: 15px;
+    width: 100%;
+  }
+}
+
+header.post_title_wrap {
   flex-basis: 100%;
   padding: 30px;
   text-align: center;
@@ -76,7 +88,7 @@ div.post_title_wrap {
   }
 }
 
-main.post_content {
+section.post_content {
   width: calc(100% - 355px);
   padding: 10px;
   ul {
@@ -142,7 +154,7 @@ main.post_content {
       }
     }
   }
-  div.discussion_wrap {
+  section.discussion_wrap {
     width: 100%;
     margin-top: 20px;
     padding: 15px;

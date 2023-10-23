@@ -1,5 +1,29 @@
 div.client {
   width: 100%;
+  article.item {
+    display: block;
+    width: 100%;
+    padding-top: 10px;
+    padding-bottom: 15px;
+    border-top: 2px dotted var( --border-color );
+    > header.meta {
+      display: block;
+      width: 100%;
+      padding: 15px 0;
+      > span.nicname {
+        font-size: 14pt;
+        margin-right: 15px;
+        display: inline-block;
+      }
+      > span.id {
+        font-size: 13pt;
+        color: gray;
+      }
+    }
+    > div.content {
+      width: 100%;
+    }
+  }
   > form.comment_form {
     display: flex;
     flex-flow: wrap;

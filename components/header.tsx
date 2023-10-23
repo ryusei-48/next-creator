@@ -26,12 +26,12 @@ export default async function header({ lang }: { lang: string }) {
           <div className={ style.tool_links }>
             <nav>
               <ul>
-                <li>{ process.env.NEXT_PUBLIC_SITE_TITLE }</li>
-                <li><Link href={ '/' }>サイトを表示</Link></li>
-                <li><Link href={ '/admin/post-list' }>投稿一覧</Link></li>
-                <li><a href={ '/admin/post' }>新規作成</a></li>
-                <li><Link href={ '/admin/media' }>メディア</Link></li>
-                <li><Link href={ '/admin/category' }>カテゴリー</Link></li>
+                <li key={1}>{ process.env.NEXT_PUBLIC_SITE_TITLE }</li>
+                <li key={2}><Link href={ '/' }>サイトを表示</Link></li>
+                <li key={3}><Link href={ '/admin/post-list' }>投稿一覧</Link></li>
+                <li key={4}><a href={ '/admin/post' }>新規作成</a></li>
+                <li key={5}><Link href={ '/admin/media' }>メディア</Link></li>
+                <li key={6}><Link href={ '/admin/category' }>カテゴリー</Link></li>
               </ul>
             </nav>
           </div>
@@ -54,16 +54,16 @@ export default async function header({ lang }: { lang: string }) {
             </div>
             <nav className={ style.navigations }>
               <ul>
-                <li>
+                <li key={1}>
                   <button id="open-contactform">お問い合わせ</button>
                   <Contactform lang={ lang } />
                 </li>
-                <li>プロダクト</li>
+                <li key={2}>プロダクト</li>
                 <li style={{ position: 'relative' }}>
                   <button id="open-category-dropdown">カテゴリー</button>
                   <CategoriesDropdown lang={ lang } />
                 </li>
-                <li><Link href="/">ホーム</Link></li>
+                <li key={3}><Link href="/">ホーム</Link></li>
               </ul>
             </nav>
             <div className={ style.author_sns }>

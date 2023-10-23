@@ -1,9 +1,9 @@
 import './globals.scss'
 import type { Metadata } from 'next';
-import { Inter } from 'next/font/google';
+import { Open_Sans } from 'next/font/google';
 import NextAuthProvider from '@/components/use-client/provider';
 
-const inter = Inter({ subsets: ['latin'] })
+const useFont = Open_Sans({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
   title: 'Ryusei.IO',
@@ -21,7 +21,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang={ lang }>
-      <body className={inter.className}>
+      <body className={useFont.className}>
         <NextAuthProvider>{ children }</NextAuthProvider>
       </body>
     </html>
