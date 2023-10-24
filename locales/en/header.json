@@ -1,0 +1,14 @@
+{
+  "home": "Home",
+  "category": "Category",
+  "product": "Product",
+  "contact": "Contact",
+  "adminbar": {
+    "view-site": "View Site",
+    "post-list": "Post List",
+    "create-post": "Create Post",
+    "media": "Media",
+    "category": "Category",
+    "logout": "Logout"
+  }
+}

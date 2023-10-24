@@ -6,7 +6,7 @@ import { redirect } from 'next/navigation';
 import myConfig from '@/public.config.json';
 import Content from './content';
 
-export default async function Category({ params: { lang }}: { params: { lang: string }}) {
+export default async function Category({ params: { lang }}: { params: { lang: AcceptLocales }}) {
 
   const session = await getServerSession(authOptions);
 

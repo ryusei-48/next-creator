@@ -8,7 +8,7 @@ import myConfig from '@/public.config.json';
 import Content from './content';
 
 export default async function PostManage({ params: { lang } }: {
-  params: { lang: string }
+  params: { lang: AcceptLocales }
 }) {
 
   const session = await getServerSession(authOptions);

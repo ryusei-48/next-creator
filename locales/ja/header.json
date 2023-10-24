@@ -1,0 +1,14 @@
+{
+  "home": "ホーム",
+  "category": "カテゴリー",
+  "product": "プロダクト",
+  "contact": "お問い合わせ",
+  "adminbar": {
+    "view-site": "サイトを表示",
+    "post-list": "記事一覧",
+    "create-post": "新規投稿",
+    "media": "メディア",
+    "category": "カテゴリー",
+    "logout": "ログアウト"
+  }
+}

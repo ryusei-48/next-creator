@@ -7,11 +7,15 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faClock } from '@fortawesome/free-solid-svg-icons';
 import { getStrDatetime } from '@/lib/functions';
 import myConfig from '@/public.config.json';
+import dictionaries from '@/locales/dictionaries';
 import Link from 'next/link';
 
 export default async function Home({ params: { lang } }: {
-  params: { lang: string }
+  params: { lang: AcceptLocales }
 }) {
+
+  const localeStack = await dictionaries[ lang ].home()
+  const localePathname = myConfig.locale.default === lang ? '' : lang;
 
   const postListRes = await fetch(`${ process.env.API_ACCESS_ADDRESS }/api/post/get-many`, {
     method: 'POST', body: JSON.stringify({
@@ -32,13 +36,13 @@ export default async function Home({ params: { lang } }: {
       <Header lang={ lang } />
       <Container>
         <main className={ style.post_entries }>
-          <h2>最新記事</h2>
+          <h2>{ localeStack['latest-post-heading2'] }</h2>
           {
             postList &&
             postList.result.map((post) => {
               return (
                 <article>
-                  <Link className={ style.link_wrap } href={ post.permalink ? `./article/${ post.permalink }` : `./article?id=${ post.id }` }>
+                  <Link className={ style.link_wrap } href={ post.permalink ? `${ localePathname }/article/${ post.permalink }` : `${ localePathname }/article?id=${ post.id }` }>
                     <div className={ style.thumbnail }>
                       <figure>
                         {

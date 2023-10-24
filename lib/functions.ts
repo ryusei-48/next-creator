@@ -98,7 +98,7 @@ export function pageJudg( page: PageType ) {
 
   const pathname = new URL( requestUrl ).pathname;
   if ( page === 'home' && pathname.match(/^\/\w{0,2}$/) ) return true;
-  else if ( page === 'post' && pathname.match(/^\/article((\?[\w=]+)|(\/[\w-]+))?$/ ) ) return true;
-  else if ( page === 'admin' && pathname.match(/^\/admin\//) ) return true;
+  else if ( page === 'post' && pathname.match(/^(\/\w{0,2})?\/article((\?[\w=]+)|(\/[\w-]+))?$/ ) ) return true;
+  else if ( page === 'admin' && pathname.match(/^(\/\w{0,2})?\/admin\//) ) return true;
   else return false;
 }

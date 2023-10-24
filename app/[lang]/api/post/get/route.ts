@@ -19,7 +19,7 @@ async function GetPost( request: NextRequest ) {
 
   const result = await prisma.post.findFirst({
     where: postJson, select: {
-      title: true, body: true, status: true, description: true,
+      id: true, title: true, body: true, status: true, description: true,
       permalink: true, user: { select: { nameid: true } },
       media: { select: { id: true, url: true } },
       CategoryPost: { select: { category: { select: { id: true, name: true, slug: true, icon_mime: true } } } },

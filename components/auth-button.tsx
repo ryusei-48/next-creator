@@ -12,10 +12,12 @@ export const LoginButton = () => {
 };
 
 // ログアウトボタン
-export const LogoutButton = () => {
+export const LogoutButton = ({ lang, localStack }: {
+    lang: AcceptLocales, localStack: { logout: string }
+}) => {
     return (
         <button className={ `${ style['button'] } ${ style['logout-button'] }` } onClick={() => signOut()}>
-            ログアウト
+            { localStack.logout }
         </button>
     );
 };

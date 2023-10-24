@@ -11,9 +11,11 @@ import ThemeChangeButton from '../components/small-parts/switch-theme-button';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faGithub, faXTwitter } from '@fortawesome/free-brands-svg-icons';
 import { pageJudg } from '@/lib/functions';
+import LocaleDic from '@/locales/dictionaries';
 
-export default async function header({ lang }: { lang: string }) {
+export default async function header({ lang }: { lang: AcceptLocales }) {
 
+  const localeStack = await LocaleDic[ lang ].header();
   const session = await getServerSession(options);
   const isAdminPage = pageJudg('admin');
   const isHome = pageJudg('home');
@@ -27,17 +29,17 @@ export default async function header({ lang }: { lang: string }) {
             <nav>
               <ul>
                 <li key={1}>{ process.env.NEXT_PUBLIC_SITE_TITLE }</li>
-                <li key={2}><Link href={ '/' }>サイトを表示</Link></li>
-                <li key={3}><Link href={ '/admin/post-list' }>投稿一覧</Link></li>
-                <li key={4}><a href={ '/admin/post' }>新規作成</a></li>
-                <li key={5}><Link href={ '/admin/media' }>メディア</Link></li>
-                <li key={6}><Link href={ '/admin/category' }>カテゴリー</Link></li>
+                <li key={2}><Link href={ '/' }>{ localeStack.adminbar['view-site'] }</Link></li>
+                <li key={3}><Link href={ '/admin/post-list' }>{ localeStack.adminbar['post-list'] }</Link></li>
+                <li key={4}><a href={ '/admin/post' }>{ localeStack.adminbar['create-post'] }</a></li>
+                <li key={5}><Link href={ '/admin/media' }>{ localeStack.adminbar.media }</Link></li>
+                <li key={6}><Link href={ '/admin/category' }>{ localeStack.adminbar.category }</Link></li>
               </ul>
             </nav>
           </div>
           <div className={ style.status_box }>
-            <ThemeChangeButton style={{ height: '100%', fontSize: '16px' }} />
-            <LogoutButton/>
+            { /*<ThemeChangeButton style={{ height: '100%', fontSize: '16px' }} />*/ }
+            <LogoutButton lang={ lang } localStack={{ logout: localeStack.adminbar.logout }} />
           </div>
         </div>
       }
@@ -55,15 +57,15 @@ export default async function header({ lang }: { lang: string }) {
             <nav className={ style.navigations }>
               <ul>
                 <li key={1}>
-                  <button id="open-contactform">お問い合わせ</button>
+                  <button id="open-contactform">{ localeStack.contact }</button>
                   <Contactform lang={ lang } />
                 </li>
-                <li key={2}>プロダクト</li>
+                <li key={2}>{ localeStack.product }</li>
                 <li style={{ position: 'relative' }}>
-                  <button id="open-category-dropdown">カテゴリー</button>
+                  <button id="open-category-dropdown">{ localeStack.category }</button>
                   <CategoriesDropdown lang={ lang } />
                 </li>
-                <li key={3}><Link href="/">ホーム</Link></li>
+                <li key={3}><Link href="/">{ localeStack.home }</Link></li>
               </ul>
             </nav>
             <div className={ style.author_sns }>

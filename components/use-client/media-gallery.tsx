@@ -5,7 +5,6 @@ import { faTrashCan } from '@fortawesome/free-regular-svg-icons';
 import { faXmark } from '@fortawesome/free-solid-svg-icons';
 import style from './media-gallery.module.scss';
 import { getStrDatetime } from '@/lib/functions.client';
-import i18n from "@/locales/ja.dict.json";
 
 type ImageTagAttr = {
   src: string, srcset?: string, width?: number, sizes?: string,

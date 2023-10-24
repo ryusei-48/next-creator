@@ -7,7 +7,7 @@ import Link from 'next/link';
 import { redirect } from 'next/navigation';
 
 export default async function PostManage({ params: { lang } }: {
-  params: { lang: string }
+  params: { lang: AcceptLocales }
 }) {
 
   const session = await getServerSession(authOptions);

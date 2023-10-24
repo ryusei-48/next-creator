@@ -5,16 +5,19 @@ import HeadingTable from './use-client/heading-table';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faGithub, faXTwitter } from '@fortawesome/free-brands-svg-icons';
 import { pageJudg } from '@/lib/functions';
+import LocaleDict from '@/locales/dictionaries';
 
-export default function Sidebar({ useLang, defaultLang, locales, localeLabels }: {
-  useLang: string, locales: string[], localeLabels: {[key: string]: {[key: string]: string}},
+export default async function Sidebar({ useLang, defaultLang, locales, localeLabels }: {
+  useLang: AcceptLocales, locales: string[], localeLabels: {[key: string]: {[key: string]: string}},
   defaultLang: string
 }) {
+
+  const localeStack = await LocaleDict[ useLang ].sidebar();
 
   return (
     <div className={ style.sidebar }>
       <aside className={ style.profile }>
-        <h3>プロフィール</h3>
+        <h3>{ localeStack.profile }</h3>
         <div className={ style.card }>
           <figure className={ style.icon }>
             <Image className={ style.image } src={ profileImage } alt="プロフィール画像" />

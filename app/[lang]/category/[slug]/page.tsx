@@ -11,7 +11,7 @@ import Link from 'next/link';
 import type { RequestJson } from '@/app/[lang]/api/category/get/related-post/route';
 
 export default async function Home({ params: { lang, slug } }: {
-  params: { lang: string, slug: string }
+  params: { lang: AcceptLocales, slug: string }
 }) {
 
   const requestJson: RequestJson = {  where: { slug }, take: 20, skip: 0 }

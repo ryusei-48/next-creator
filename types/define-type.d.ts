@@ -1,4 +1,6 @@
 export declare global {
+
+  export type AcceptLocales = 'ja' | 'en';
   
   export interface WindowEventMap {
     "media-selected": CustomEvent<{ src: string, srcset: string, width: string } | null>,

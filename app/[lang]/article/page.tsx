@@ -11,22 +11,30 @@ import { headers } from 'next/headers';
 import { redirect } from 'next/navigation';
 import { getStrDatetime } from '@/lib/functions';
 import Link from 'next/link';
+import type { Metadata, ResolvingMetadata } from 'next';
 
-export default async function Article({ params: { lang } }: {
-  params: { lang: string }
-}) {
+type Props = {
+  params: { lang: AcceptLocales }
+  searchParams: { id: string | undefined }
+}
 
-  const requestUrl = headers().get('x-url');
-  if ( !requestUrl ) redirect( '/' );
-  const postId = new URL( requestUrl! ).searchParams.get('id');
-  if ( !postId ) redirect( '/' );
-
-  const response = await fetch(`${ process.env.API_ACCESS_ADDRESS }/api/post/get`, {
+export async function getPost( postId: string ) {
+  return fetch(`${ process.env.API_ACCESS_ADDRESS }/api/post/get`, {
     method: 'POST', body: JSON.stringify({ id: Number( postId ) }),
     headers: {
       "API_ACCESS_TOKEN": process.env.API_ACCESS_TOKEN!
     }
   });
+}
+
+export async function generateMetadata(
+  { params: { lang }, searchParams }: Props, parent: ResolvingMetadata
+): Promise<Metadata> {
+
+  const postId = searchParams.id;
+  if ( !postId ) redirect( '/' );
+
+  const response = await getPost( postId );
 
   let postData: Post.GetPost | null = null;
   if ( response.ok ) {
@@ -36,20 +44,47 @@ export default async function Article({ params: { lang } }: {
     }
   }else return redirect('/');
 
+  const parentMeta = await parent;
+  const previousImages = parentMeta.openGraph?.images || [];
+
+  let ogpImage = '';
+  if ( postData.media ) {
+    delete postData.media.url.paths['default'];
+    const size = Object.keys( postData.media.url.paths )[0];
+    ogpImage = `${ process.env.APP_URL }/api/media-stream?id=${ postData.media.id }&w=${ size }`
+  }
+
+  return {
+    title: postData.title[ lang ],
+    description: postData.description ? postData.description[ lang ]  : '',
+    openGraph: {
+      images: [ ...previousImages, ogpImage ],
+      description: postData.description ? postData.description[ lang ]  : '',
+      siteName: parentMeta.openGraph?.siteName,
+      type: 'website'
+    }
+  }
+}
+
+export default async function Article({ params: { lang }, searchParams }: Props ) {
+
+  const response = await getPost( searchParams.id! );
+  let postData = await response.json() as Post.GetPost;
+
   return (
-    <ArticleCommon postData={ postData } lang={ lang } />
+    <ArticleCommon postData={ postData! } lang={ lang } />
   )
 }
 
 export async function ArticleCommon({ postData, lang }: {
-  postData: Post.GetPost, lang: string
+  postData: Post.GetPost, lang: AcceptLocales
 }) {
 
   const register_date = getStrDatetime( "y-m-d h:mi", postData.register_date );
   const update_date = getStrDatetime( "y-m-d h:mi", postData.update_date );
   const isUpdad = register_date === update_date ? false : true;
 
-  if ( postData && postData.media ) {
+  if ( postData && postData.media && postData.media.url.paths.default ) {
     delete postData.media.url.paths['default'];
   }
 
@@ -132,7 +167,7 @@ export async function ArticleCommon({ postData, lang }: {
               <section className={ style.discussion_wrap }>
                 <h2>Discussion</h2>
                 <div className={ style.content }>
-                  <Discussion />
+                  <Discussion lang={ lang } postId={ postData.id } />
                 </div>
               </section>
             </section>

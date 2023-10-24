@@ -9,7 +9,7 @@ import { redirect } from 'next/navigation';
 import Content from './content';
 
 export default async function Media({ params: { lang } }: {
-  params: { lang: string }
+  params: { lang: AcceptLocales }
 }) {
 
   const session = await getServerSession(authOptions);
