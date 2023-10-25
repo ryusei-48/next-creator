@@ -6,8 +6,8 @@ import { faHashtag } from '@fortawesome/free-solid-svg-icons';
 import Link from 'next/link';
 import { getCategory } from '@/app/[lang]/admin/post/content';
 
-export default function CategoriesDropdown({ lang }: {
-  lang: string
+export default function CategoriesDropdown({ lang, defaultLang }: {
+  lang: string, defaultLang: string
 }) {
 
   const [ categoriesJSX, setCategoriesJSX ] = useState<React.JSX.Element | null>( null );
@@ -42,7 +42,7 @@ export default function CategoriesDropdown({ lang }: {
           categories.map((cat) => {
             return (
               <li key={ cat.id }>
-                <Link className={ style.cat_link } href={`/category/${ cat.slug }`}>
+                <Link className={ style.cat_link } href={`${ lang === defaultLang ? '' : '/' + lang }/category/${ cat.slug }`}>
                   <div className={ style.cat_record }>
                     <span className={ style.icon } style={{ marginRight: cat.icon_mime ? '25px' : '10px' }}>
                       {

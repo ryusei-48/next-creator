@@ -39,7 +39,10 @@ div.ck.ck-editor__main ul {
     }
   }
 }
-h2, h3, h4 {
-  padding-bottom: 15px;
-  border-bottom: 2px dotted var( --primary-color );
+
+div.ck.ck-editor__main {
+  h2, h3, h4 {
+    padding-bottom: 15px;
+    border-bottom: 2px dotted var( --primary-color );
+  }
 }

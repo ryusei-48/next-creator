@@ -6,6 +6,8 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faGithub, faXTwitter } from '@fortawesome/free-brands-svg-icons';
 import { pageJudg } from '@/lib/functions';
 import LocaleDict from '@/locales/dictionaries';
+import HeaderJson from '@/locales/ja/sidebar.json';
+export type ArticleIndexLocales = typeof HeaderJson["headline-heading2"];
 
 export default async function Sidebar({ useLang, defaultLang, locales, localeLabels }: {
   useLang: AcceptLocales, locales: string[], localeLabels: {[key: string]: {[key: string]: string}},
@@ -44,7 +46,7 @@ export default async function Sidebar({ useLang, defaultLang, locales, localeLab
         </div>
       </aside>
       <div className={ style.sticky_content }>
-        { pageJudg('post') && <HeadingTable /> }
+        { pageJudg('post') && <HeadingTable lang={ useLang } localeStack={ localeStack['headline-heading2'] } /> }
       </div>
     </div>
   )

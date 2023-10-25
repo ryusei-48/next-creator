@@ -44,7 +44,7 @@ export default async function Home({ params: { lang, slug } }: {
                       <figure>
                         {
                           post.media ?
-                          <img src={ `./api/media-stream?w=800&id=${ post.media.id }` } alt="サムネイル画像" loading="lazy" /> :
+                          <img src={ `/api/media-stream?w=800&id=${ post.media.id }` } alt="サムネイル画像" loading="lazy" /> :
                           <span className={ style.no_image }>No Image</span>
                         }
                       </figure>

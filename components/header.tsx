@@ -10,8 +10,12 @@ import Link from 'next/link';
 import ThemeChangeButton from '../components/small-parts/switch-theme-button';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faGithub, faXTwitter } from '@fortawesome/free-brands-svg-icons';
+import { faGlobe } from '@fortawesome/free-solid-svg-icons';
 import { pageJudg } from '@/lib/functions';
+import myConfig from '@/public.config.json';
 import LocaleDic from '@/locales/dictionaries';
+import SideBarJson from '@/locales/ja/header.json';
+export type ContactFormLocales = typeof SideBarJson["contact-form"];
 
 export default async function header({ lang }: { lang: AcceptLocales }) {
 
@@ -48,7 +52,7 @@ export default async function header({ lang }: { lang: AcceptLocales }) {
         <header className={ `${ style.header } ${ session && style.toolbar_enable }` }>
           <div className={ `container ${ style.header }` }>
             <div className={ style.siteTitle }>
-              <Link className={ style.text } href="/">
+              <Link className={ style.text } href={`/${ lang === myConfig.locale.default ? '' : lang }`}>
                 {
                   isHome ? <h1>{ process.env.NEXT_PUBLIC_SITE_TITLE }</h1> : process.env.NEXT_PUBLIC_SITE_TITLE
                 }
@@ -56,14 +60,22 @@ export default async function header({ lang }: { lang: AcceptLocales }) {
             </div>
             <nav className={ style.navigations }>
               <ul>
+                <li key={ 0 }>
+                  <button aria-label={ localeStack['language-selector-alt'] }
+                    title={ localeStack['language-selector-alt'] }
+                  >
+                    <FontAwesomeIcon className={ style.default } icon={ faGlobe }></FontAwesomeIcon>
+                    &nbsp;{ localeStack['language-selector'] }
+                  </button>
+                </li>
                 <li key={1}>
                   <button id="open-contactform">{ localeStack.contact }</button>
-                  <Contactform lang={ lang } />
+                  <Contactform lang={ lang } localeStack={ localeStack['contact-form'] } />
                 </li>
                 <li key={2}>{ localeStack.product }</li>
                 <li style={{ position: 'relative' }}>
                   <button id="open-category-dropdown">{ localeStack.category }</button>
-                  <CategoriesDropdown lang={ lang } />
+                  <CategoriesDropdown lang={ lang } defaultLang={ myConfig.locale.default } />
                 </li>
                 <li key={3}><Link href="/">{ localeStack.home }</Link></li>
               </ul>

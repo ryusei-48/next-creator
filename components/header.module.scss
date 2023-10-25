@@ -68,6 +68,12 @@ nav.navigations {
     > li {
       float: right;
       padding: 5px 15px;
+      button {
+        overflow: hidden;
+        .default {
+          font-size: 1em;
+        }
+      }
     }
   }
 }

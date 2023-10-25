@@ -14,7 +14,7 @@ export default async function Home({ params: { lang } }: {
   params: { lang: AcceptLocales }
 }) {
 
-  const localeStack = await dictionaries[ lang ].home()
+  const localeStack = await dictionaries[ lang ].home();
   const localePathname = myConfig.locale.default === lang ? '' : lang;
 
   const postListRes = await fetch(`${ process.env.API_ACCESS_ADDRESS }/api/post/get-many`, {

@@ -5,9 +5,11 @@ import { useState, useRef, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import Image from 'next/image';
 import type { ContactResult } from '@/app/[lang]/api/contact/route';
+import type { ContactFormLocales } from '../header';
 
-export default function Contactform({ lang }: {
-  lang: string
+export default function Contactform({ lang, localeStack }: {
+  lang: AcceptLocales,
+  localeStack: ContactFormLocales
 }) {
 
   const dialogRef = useRef<HTMLDialogElement | null>( null );
@@ -35,7 +37,7 @@ export default function Contactform({ lang }: {
   return (
     <dialog className={ `${ style.contactform } ${ isShow ? 'show ' + style.show : '' }` } ref={ dialogRef }>
       <div className={ style.content }>
-        <h2>お問い合わせ</h2>
+        <h2>{ localeStack['contact-heading2'] }</h2>
         <form onSubmit={ handleSubmit((data) => {
           
           setIsSending( true );
@@ -48,39 +50,39 @@ export default function Contactform({ lang }: {
             if ( response.ok ) {
               const result = await response.json() as ContactResult;
               if ( result.success ) {
-                alert('送信しました。');
+                alert( localeStack['send-success-message'] );
                 dialogClose();
-              }else alert('送信に失敗しました。');
+              }else alert( localeStack['send-faild-message'] );
               setIsSending( false ); reset();
-            }else console.log( response.statusText );
+            }else alert( localeStack['send-server-error-message'] );
           });
         }) }>
-          <label htmlFor='name-input'>お名前*</label>
+          <label htmlFor='name-input'>{ localeStack['name-label'] }*</label>
           <input id="name-input" type='text' {...register('name', {
-            required: { value: true, message: '入力必須項目です。' },
-            maxLength: { value: 50, message: '入力できる文字数は５０文字までです。' }
+            required: { value: true, message: localeStack['name.error.message.required'] },
+            maxLength: { value: 50, message: localeStack['name.error.message.maxLength'] }
           })} />
           {
             errors.name && <span className={ style.error_msg }>{ errors.name.message as string }</span>
           }
-          <label htmlFor='email-input'>メールアドレス*</label>
+          <label htmlFor='email-input'>{ localeStack['email-label'] }*</label>
           <input id="email-input" type="email" {...register('email', {
-            required: { value: true, message: '入力必須項目です。' },
-            maxLength: { value: 100, message: 'メールアドレスが長すぎます。' },
-            pattern: { value: /^[a-zA-Z0-9-_\.]+@[a-zA-Z0-9-_\.]+$/, message: '形式が正しくありません。' }
+            required: { value: true, message: localeStack['email.error.message.required'] },
+            maxLength: { value: 100, message: localeStack['email.error.message.maxLength'] },
+            pattern: { value: /^[a-zA-Z0-9-_\.]+@[a-zA-Z0-9-_\.]+$/, message: localeStack['email.error.message.pattern'] }
           })} />
           {
             errors.email && <span className={ style.error_msg }>{ errors.email.message as string }</span>
           }
-          <label htmlFor='subject-input'>件名*</label>
+          <label htmlFor='subject-input'>{ localeStack["subject-label"] }*</label>
           <select id="subject-input" {...register('subject', { required: true })}>
-            <option value="job">仕事のご依頼</option>
-            <option value="feedback">ご意見・ご要望</option>
-            <option value="other">その他・連絡事項</option>
+            <option value="job">{ localeStack['subject-option-job'] }</option>
+            <option value="feedback">{ localeStack['subject-option-feedback'] }</option>
+            <option value="other">{ localeStack['subject-option-other'] }</option>
           </select>
-          <label htmlFor='body-input'>本文*</label>
+          <label htmlFor='body-input'>{ localeStack['body-label'] }*</label>
           <textarea id="body-input" {...register('body', {
-            required: { value: true, message: '入力必須項目です。' }
+            required: { value: true, message: localeStack['body.error.message.required'] }
           })}></textarea>
           {
             errors.body && <span className={ style.error_msg }>{ errors.body.message as string }</span>
@@ -94,12 +96,14 @@ export default function Contactform({ lang }: {
                     display: 'inline-block', width: '1em', marginRight: '10px',
                     height: '1em', transform: 'translateY( -4px )'
                   }}
-                  alt='ローディング画像'
+                  alt={ localeStack['sending-image-alt'] }
                 />
               }
-              送信
+              { localeStack['send-button'] }
             </button>
-            <button className={ style.close } type="button" onClick={ dialogClose }>閉じる</button>
+            <button className={ style.close } type="button" onClick={ dialogClose }>
+              { localeStack['cancel-button'] }
+            </button>
           </div>
         </form>
       </div>

@@ -6,8 +6,11 @@ import './tocbot-override.scss';
 import { useEffect } from 'react';
 import tocbot from 'tocbot';
 import codeHighlight from 'highlight.js';
+import type { ArticleIndexLocales } from '../sidebar';
 
-export default function HeadingTable() {
+export default function HeadingTable({ lang, localeStack }: {
+  lang: string, localeStack: ArticleIndexLocales
+}) {
 
   useEffect(() => {
 
@@ -76,7 +79,7 @@ export default function HeadingTable() {
 
   return (
     <aside className={ style.heading_table }>
-      <h3>記事の目次</h3>
+      <h3>{ localeStack }</h3>
       <div className={ style.table } id="tocbot-table"></div>
     </aside>
   )
