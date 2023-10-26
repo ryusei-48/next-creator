@@ -5,6 +5,10 @@
   "contact": "Contact",
   "language-selector": "Language",
   "language-selector-alt": "Select Language",
+  "language-dropdown": {
+    "default": "Default",
+    "flag-icon-alt": "Flag Icon"
+  },
   "adminbar": {
     "view-site": "View Site",
     "post-list": "Post List",

@@ -5,6 +5,10 @@
   "contact": "お問い合わせ",
   "language-selector": "言語",
   "language-selector-alt": "言語選択",
+  "language-dropdown": {
+    "default": "既定言語",
+    "flag-icon-alt": "国旗アイコン"
+  },
   "adminbar": {
     "view-site": "サイトを表示",
     "post-list": "記事一覧",

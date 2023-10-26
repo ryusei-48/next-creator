@@ -4,6 +4,7 @@ import {
 } from "@/components/auth-button";
 import CategoriesDropdown from './use-client/categories-dropdown';
 import Contactform from './use-client/contactform';
+import LanguageSelector from './small-parts/lang-change';
 import { options } from '@/lib/auth-options';
 import { getServerSession } from "next-auth";
 import Link from 'next/link';
@@ -13,9 +14,11 @@ import { faGithub, faXTwitter } from '@fortawesome/free-brands-svg-icons';
 import { faGlobe } from '@fortawesome/free-solid-svg-icons';
 import { pageJudg } from '@/lib/functions';
 import myConfig from '@/public.config.json';
+import FlagsSVG from '@/locales/country-flags';
 import LocaleDic from '@/locales/dictionaries';
-import SideBarJson from '@/locales/ja/header.json';
-export type ContactFormLocales = typeof SideBarJson["contact-form"];
+import HeaderJson from '@/locales/ja/header.json';
+export type ContactFormLocales = typeof HeaderJson["contact-form"];
+export type LanguageDropdownLocales = typeof HeaderJson["language-dropdown"];
 
 export default async function header({ lang }: { lang: AcceptLocales }) {
 
@@ -60,13 +63,16 @@ export default async function header({ lang }: { lang: AcceptLocales }) {
             </div>
             <nav className={ style.navigations }>
               <ul>
-                <li key={ 0 }>
-                  <button aria-label={ localeStack['language-selector-alt'] }
+                <li key={ 0 } style={{ position: 'relative' }}>
+                  <button
+                    id="language-change-toggle"
+                    aria-label={ localeStack['language-selector-alt'] }
                     title={ localeStack['language-selector-alt'] }
                   >
                     <FontAwesomeIcon className={ style.default } icon={ faGlobe }></FontAwesomeIcon>
                     &nbsp;{ localeStack['language-selector'] }
                   </button>
+                  <LanguageSelector lang={ lang } flagsSVG={ FlagsSVG } localeStack={ localeStack['language-dropdown'] } />
                 </li>
                 <li key={1}>
                   <button id="open-contactform">{ localeStack.contact }</button>

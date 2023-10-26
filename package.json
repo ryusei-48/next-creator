@@ -12,6 +12,7 @@
     "@next-auth/prisma-adapter": "latest",
     "@prisma/client": "latest",
     "bcrypt": "^5.1.1",
+    "cookies-next": "^4.0.0",
     "file-type": "latest",
     "negotiator": "latest",
     "next": "13.5.6",

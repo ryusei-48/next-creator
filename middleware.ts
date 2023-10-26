@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import Negotiator from 'negotiator';
 import { match } from '@formatjs/intl-localematcher';
+import { getCookie } from 'cookies-next';
 import myConfig from './public.config.json';
 
 export function middleware( request: Request ) {
@@ -26,25 +27,46 @@ export function middleware( request: Request ) {
   });
 }
 
+const langParamRexExp = new RegExp(`^\/(${ myConfig.locale['accept-lang'].join('|') })(\/|$)`);
+
 function getLocale( request: Request ): {
   isRedirect: boolean, language: string, url: string | undefined
 } {
 
-  const locals = myConfig.locale['accept-lang'];
-  const defaultLocal = myConfig.locale.default;
-  const requestedLanguage = new Negotiator({ headers: {
-    'accept-language': request.headers.get('accept-language') || undefined
-  } }).language() || defaultLocal;
-
-  const language = match( [requestedLanguage], locals, defaultLocal );
-
   const url = new URL( request.url );
   const rootUrl = url.protocol + '//' + url.host;
   const pathname = url.pathname;
+  let language: string = '';
+  let isRedirect: boolean = false;
+  const locals = myConfig.locale['accept-lang'];
+  const defaultLocal = myConfig.locale.default;
+  const matchLang = pathname.match( langParamRexExp );
+  const useLanguage = matchLang ? matchLang[0].replaceAll('/', '') : defaultLocal;
+  const useLanguageCookie = getCookie('use-language', { secure: true, sameSite: 'lax', req: request })
+  if ( useLanguageCookie ) {
+    isRedirect = useLanguage !== useLanguageCookie ? true : false;
+    language = useLanguageCookie;
+    if ( isRedirect ) {
+      const redirectUrl = process.env.APP_URL + ( defaultLocal !== language ? '/' + language : '' ) + pathname.replace( langParamRexExp, '' );
+      //console.log( 'exist cookie: ', isRedirect, language, redirectUrl );
+      return { isRedirect, language, url: redirectUrl };
+    }
+  }else {
+    const requestedLanguage = new Negotiator({ headers: {
+      'accept-language': request.headers.get('accept-language') || undefined
+    } }).language() || defaultLocal;
+
+    language = match( [requestedLanguage], locals, defaultLocal );
+
+    if ( language !== useLanguage ) {
+      const redirectUrl = process.env.APP_URL + ( defaultLocal !== language ? '/' + language : '' ) + pathname.replace( langParamRexExp, '/' );
+      isRedirect = true;
+      //console.log( 'none cookie: ', isRedirect, language, redirectUrl );
+      return { isRedirect, language, url: redirectUrl };
+    }
+  }
   
-  if ( language !== defaultLocal ) {
-    return { isRedirect: true, language, url: `${ rootUrl }/${ language + pathname }` };
-  } else return { isRedirect: false, language, url: undefined };
+  return { isRedirect, language, url: undefined };
 }
 
 export const config = {
