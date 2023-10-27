@@ -1,3 +1,5 @@
+@import "../app/[lang]/comon.function.scss";
+
 .admin_toolbar {
   width: 100vw;
   position: fixed;
@@ -36,6 +38,10 @@
   align-items: center;
   width: 100vw;
   padding: 10px;
+  @include sp_base() {
+    flex-direction: unset;
+    flex-flow: wrap;
+  }
 }
 
 .header.toolbar_enable {
@@ -46,6 +52,16 @@ span.toolbar_enable {
   display: block;
   width: 100%;
   height: 70px;
+}
+
+div.menubar_mobile {
+  display: none;
+  flex-basis: auto;
+  font-size: 18pt;
+  margin-right: 15px;
+  @include sp_base() {
+    display: block;
+  }
 }
 
 .siteTitle {
@@ -62,13 +78,37 @@ nav.navigations {
   flex-basis: auto;
   flex-grow: 1;
   padding: 0 15px;
+  @include sp_base() {
+    //display: none;
+    order: 3;
+    flex-basis: 100%;
+    padding: 0;
+    height: 0;
+    
+    transform-origin: top;
+    transform: scaleY( 0 );
+    transition: all .3s ease-in-out;
+  }
   > ul {
     display: block;
     width: 100%;
+    @include sp_base() {
+      display: flex;
+      flex-flow: wrap-reverse;
+      align-items: center;
+      width: 100%;
+    }
     > li {
       float: right;
       padding: 5px 15px;
+      @include sp_base() {
+        clear: both;
+        flex-basis: auto;
+        text-align: center;
+        flex-grow: 1;
+      }
       button {
+        color: var( --foreground-color );
         white-space: nowrap;
         .default {
           font-size: 1em;
@@ -82,8 +122,16 @@ nav.navigations {
 div.author_sns {
   flex-basis: auto;
   text-align: center;
+  @include sp_base() {
+    text-align: right;
+    align-self: center;
+    flex-grow: 1;
+  }
   a {
     font-size: 12pt;
     margin: 0 5px;
+    @include sp_base() {
+      font-size: 15pt;
+    }
   }
 }

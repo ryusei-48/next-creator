@@ -1,4 +1,53 @@
+@import "../../app/[lang]/comon.function.scss";
+
 aside.heading_table {
   display: block;
   width: 100%;
+  > div.content_wrap {
+    display: block;
+    width: 100%;
+    @include sp_base() {
+      opacity: 0;
+      position: fixed;
+      inset: 0;
+      z-index: -1;
+      backdrop-filter: blur( 3px );
+      transition: all .3s ease-in-out;
+    }
+    > div.content {
+      display: block;
+      width: 100%;
+      background-color: var( --background-image-main );
+      @include sp_base() {
+        //opacity: 0;
+        position: fixed;
+        bottom:10%; left: 50%;
+        transform: translateX(-50% );
+        width: calc( 100vw - 10px );
+        max-height: 80vh;
+        padding: 10px;
+        //z-index: -1;
+        transition: all .3s ease-in-out;
+      }
+    }
+  }
+  > div.content_wrap.show {
+    opacity: 1 !important;
+    z-index: 2 !important;
+  }
+}
+
+span.mobile_float_icon {
+  display: none;
+  position: fixed;
+  right: 20px;
+  bottom: 20px;
+  padding: 0px 10px;
+  font-size: 18pt;
+  background-color: var( --background-image-main );
+  border-radius: 10px;
+  border: 1px solid var( --border-color );
+  @include sp_base() {
+    display: block;
+  }
 }

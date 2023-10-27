@@ -1,3 +1,5 @@
+@import "../comon.function.scss";
+
 .main {
   display: block;
   width: 100%;
@@ -14,6 +16,9 @@ header.post_title_wrap {
   flex-basis: 100%;
   padding: 30px;
   text-align: center;
+  @include sp_base() {
+    padding: 10px;
+  }
   h1 {
     font-size: 20pt;
     font-weight: bold;
@@ -28,6 +33,10 @@ header.post_title_wrap {
     padding-left: 100px;
     padding-right: 100px;
     gap: 15px 30px;
+    @include sp_base() {
+      padding-left: 15px;
+      padding-right: 15px;
+    }
     div.categorys {
       flex-basis: auto;
       display: flex;
@@ -75,11 +84,18 @@ header.post_title_wrap {
       justify-content: center;
       align-items: center;
       flex-direction: row;
+      @include sp_base() {
+        flex-direction: column;
+      }
       gap: 15px;
       > span.register_date,
       > span.update_date {
         flex-basis: auto;
         font-size: 12pt;
+        @include sp_base() {
+          flex-basis: 100%;
+          text-align: center;
+        }
         > time, > span.view {
           font-size: 11pt;
         }
@@ -91,6 +107,9 @@ header.post_title_wrap {
 section.post_content {
   width: calc(100% - 355px);
   padding: 10px;
+  @include sp_base() {
+    width: 100%;
+  }
   ul {
     display: block;
     padding-left: 15px;

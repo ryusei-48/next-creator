@@ -114,9 +114,17 @@ div.wrapper {
             overflow-y: scroll;
           }
         }
-        dialog[open] > div.thumb_select_dialog {
-          opacity: 1;
-          transform: translate( -50%, -50% );
+        dialog[open] {
+          top: 50%; left: 50%;
+          transform: translate(-50%, -50%);
+          max-width: calc( 100vw - 5% );
+          max-height: calc( 100vh - 80px );
+          width: 100%;
+          height: 100%;
+          > div.thumb_select_dialog {
+            opacity: 1;
+            transform: translate( -50%, -50% );
+          }
         }
       }
       > div.permalink {

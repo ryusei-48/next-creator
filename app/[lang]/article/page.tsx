@@ -7,8 +7,8 @@ import style from './page.module.scss';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHashtag } from '@fortawesome/free-solid-svg-icons';
 import myConfig from '@/public.config.json';
-import { headers } from 'next/headers';
 import { redirect } from 'next/navigation';
+import { getComments } from './discussion.actions';
 import { getStrDatetime } from '@/lib/functions';
 import Link from 'next/link';
 import type { Metadata, ResolvingMetadata } from 'next';
@@ -167,6 +167,7 @@ export async function ArticleCommon({ postData, lang }: {
               <section className={ style.discussion_wrap }>
                 <h2>Discussion</h2>
                 <div className={ style.content }>
+                  <DiscussionComponent lang={ lang } postId={ postData.id } />
                   <Discussion lang={ lang } postId={ postData.id } />
                 </div>
               </section>
@@ -181,5 +182,31 @@ export async function ArticleCommon({ postData, lang }: {
       </Container>
       <Footer />
     </>
+  )
+}
+
+export async function DiscussionComponent({ postId, lang }: {
+  postId: number, lang: AcceptLocales
+}) {
+
+  const comments = await getComments( undefined, postId );
+
+  return (
+    comments && comments.length > 0 ?
+    <div style={{ display: 'none' }}>
+      {
+        comments.map((comment) => {
+          return (
+            <article className={ style.item } key={ comment.id }>
+              <header className={ style.meta }>
+                <span className={ style.nicname }>送信者：{ comment.nicname }</span>
+                <span className={ style.id }>ID:{ comment.id }</span>
+              </header>
+              <div className={ style.content } dangerouslySetInnerHTML={{ __html: comment.body }}></div>
+            </article>
+          )
+        })
+      }
+    </div> : <></>
   )
 }

@@ -1,0 +1,7 @@
+$container-width: 1100px;
+
+@mixin sp_base( $width:$container-width ) {
+  @media ( max-width: ( $width ) ) {
+    @content;
+  }
+}

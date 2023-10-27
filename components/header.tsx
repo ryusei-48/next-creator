@@ -1,7 +1,5 @@
 import style from './header.module.scss';
-import {
-  LoginButton, LogoutButton, RegisterButton
-} from "@/components/auth-button";
+import { LoginButton, LogoutButton, RegisterButton } from "@/components/auth-button";
 import CategoriesDropdown from './use-client/categories-dropdown';
 import Contactform from './use-client/contactform';
 import LanguageSelector from './small-parts/lang-change';
@@ -11,7 +9,7 @@ import Link from 'next/link';
 import ThemeChangeButton from '../components/small-parts/switch-theme-button';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faGithub, faXTwitter } from '@fortawesome/free-brands-svg-icons';
-import { faGlobe } from '@fortawesome/free-solid-svg-icons';
+import { faGlobe, faChevronDown, faBars } from '@fortawesome/free-solid-svg-icons';
 import { pageJudg } from '@/lib/functions';
 import myConfig from '@/public.config.json';
 import FlagsSVG from '@/locales/country-flags';
@@ -54,6 +52,11 @@ export default async function header({ lang }: { lang: AcceptLocales }) {
         !isAdminPage &&
         <header className={ `${ style.header } ${ session && style.toolbar_enable }` }>
           <div className={ `container ${ style.header }` }>
+            <div className={ style.menubar_mobile }>
+              <button id="menubar-mobile-togle">
+                <FontAwesomeIcon icon={ faBars }></FontAwesomeIcon>
+              </button>
+            </div>
             <div className={ style.siteTitle }>
               <Link className={ style.text } href={`/${ lang === myConfig.locale.default ? '' : lang }`}>
                 {
@@ -80,7 +83,10 @@ export default async function header({ lang }: { lang: AcceptLocales }) {
                 </li>
                 <li key={2}>{ localeStack.product }</li>
                 <li style={{ position: 'relative' }}>
-                  <button id="open-category-dropdown">{ localeStack.category }</button>
+                  <button id="open-category-dropdown">
+                    { localeStack.category }&nbsp;
+                    <FontAwesomeIcon fontSize={`.7em`} icon={ faChevronDown }></FontAwesomeIcon>
+                  </button>
                   <CategoriesDropdown lang={ lang } defaultLang={ myConfig.locale.default } />
                 </li>
                 <li key={3}><Link href="/">{ localeStack.home }</Link></li>

@@ -312,7 +312,7 @@ export default function Content({ useLang, defaultLang, locales, localeLabels }:
                 }}
               ><FontAwesomeIcon icon={ faTrashCan }></FontAwesomeIcon>&nbsp;削除</button>
             }
-            <dialog ref={ thumbSelectDialog }>
+            <dialog className={ style.thumbSelect } ref={ thumbSelectDialog }>
               <div className={ style.thumb_select_dialog }>
                 <h3>{ mediaInsertMode === 'thumb' ? 'サムネイルの選択' : 'メディアの挿入' }</h3>
                 <button className={ style.close } onClick={() => mediaSelectDialogClose()}>

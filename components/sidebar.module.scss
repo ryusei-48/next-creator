@@ -1,7 +1,12 @@
+@import "../app/[lang]/comon.function.scss";
+
 div.sidebar {
   flex-basis: calc( 355px - 15px );
   align-self: stretch;
   padding: 10px;
+  @include sp_base() {
+    flex-basis: 100%;
+  }
   p {
     font-size: 16px;
   }

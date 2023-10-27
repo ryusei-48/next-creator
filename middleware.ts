@@ -45,7 +45,7 @@ function getLocale( request: Request ): {
   const useLanguageCookie = getCookie('use-language', { secure: true, sameSite: 'lax', req: request })
   if ( useLanguageCookie ) {
     isRedirect = useLanguage !== useLanguageCookie ? true : false;
-    language = useLanguageCookie;
+    language = match( [useLanguageCookie], locals, defaultLocal );
     if ( isRedirect ) {
       const redirectUrl = process.env.APP_URL + ( defaultLocal !== language ? '/' + language : '' ) + pathname.replace( langParamRexExp, '' );
       //console.log( 'exist cookie: ', isRedirect, language, redirectUrl );

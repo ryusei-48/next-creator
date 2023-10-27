@@ -3,7 +3,9 @@ import style from './heading-table.module.scss';
 import 'highlight.js/styles/stackoverflow-dark.css';
 //import 'tocbot/src/scss/tocbot.scss';
 import './tocbot-override.scss';
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faTableList } from '@fortawesome/free-solid-svg-icons';
 import tocbot from 'tocbot';
 import codeHighlight from 'highlight.js';
 import type { ArticleIndexLocales } from '../sidebar';
@@ -11,6 +13,8 @@ import type { ArticleIndexLocales } from '../sidebar';
 export default function HeadingTable({ lang, localeStack }: {
   lang: string, localeStack: ArticleIndexLocales
 }) {
+
+  const tableOfContent = useRef<HTMLDivElement | null>( null );
 
   useEffect(() => {
 
@@ -79,8 +83,27 @@ export default function HeadingTable({ lang, localeStack }: {
 
   return (
     <aside className={ style.heading_table }>
-      <h3>{ localeStack }</h3>
-      <div className={ style.table } id="tocbot-table"></div>
+      <div ref={ tableOfContent } className={ style.content_wrap }
+        onClick={() => {
+          if ( window.matchMedia('(max-width: 1100px)').matches ) {
+            tableOfContent.current!.classList.remove( style.show );
+          }
+        }}
+      >
+        <div className={ style.content }>
+          <h3>{ localeStack }</h3>
+          <div className={ style.table } id="tocbot-table"></div>
+        </div>
+      </div>
+      <span className={ style.mobile_float_icon }>
+        <button aria-label='table of contents'
+          onClick={() => {
+            tableOfContent.current!.classList.add( style.show );
+          }}
+        >
+          <FontAwesomeIcon icon={ faTableList }></FontAwesomeIcon>
+        </button>
+      </span>
     </aside>
   )
 }
