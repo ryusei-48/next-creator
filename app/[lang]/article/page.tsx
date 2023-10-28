@@ -93,9 +93,9 @@ export async function ArticleCommon({ postData, lang }: {
     <>
       <Header lang={ lang } />
       <Container>
-        <main key={1} className={ style.main }>
+        <main className={ `${ style.main }` }>
           <article className={ style.post_container }>
-            <header className={ style.post_title_wrap }>
+            <header className={ `animate__animated animate__fadeInDown ` +  style.post_title_wrap }>
               <h1>{ postData ? postData.title[ lang ] : '' }</h1>
               <div className={ style.post_meta }>
                 <div className={ style.categorys }>
@@ -141,7 +141,7 @@ export async function ArticleCommon({ postData, lang }: {
                 </div>
               </div>
             </header>
-            <section className={ style.post_content }>
+            <section className={ `animate__animated animate__fadeIn ` + style.post_content }>
               <div className={ style.post_content_top }>
                 {
                   postData.media &&

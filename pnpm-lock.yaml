@@ -79,6 +79,9 @@ devDependencies:
   '@types/sanitize-html':
     specifier: ^2.9.3
     version: 2.9.3
+  animate.css:
+    specifier: ^4.1.1
+    version: 4.1.1
   ckeditor5-custom-build:
     specifier: file:lib/ckeditor5-custom
     version: file:lib/ckeditor5-custom
@@ -838,6 +841,10 @@ packages:
     transitivePeerDependencies:
       - supports-color
     dev: false
+
+  /animate.css@4.1.1:
+    resolution: {integrity: sha512-+mRmCTv6SbCmtYJCN4faJMNFVNN5EuCTTprDTAo7YzIGji2KADmakjVA3+8mVDkZ2Bf09vayB35lSQIex2+QaQ==}
+    dev: true
 
   /ansi-regex@5.0.1:
     resolution: {integrity: sha512-quJQXlTSUGL2LH9SUXo8VwsY4soanhgo6LNSm84E1LBcE8s3O0wpdiRzyR9z/ZZJMlMWv37qOOb9pdJlMUEKFQ==}

@@ -1,4 +1,5 @@
-import './globals.scss'
+import 'animate.css';
+import './globals.scss';
 import { type Metadata } from 'next';
 import { Open_Sans } from 'next/font/google';
 import NextAuthProvider from '@/components/use-client/provider';

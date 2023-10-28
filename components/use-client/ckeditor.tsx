@@ -151,7 +151,7 @@ export function CreateCkEditor({ lang, editorRef, selectoMedia }: {
               'redo', 'alignment', 'code', 'codeBlock',
               'htmlEmbed', 'horizontalLine', 'highlight',
               'removeFormat', 'selectAll', 'specialCharacters',
-              'strikethrough', 'subscript', 'superscript', 'todoList'
+              'strikethrough', 'subscript', 'superscript', 'todoList', 'captureBox'
             ], shouldNotGroupWhenFull: true
           },
           wordCount: {
@@ -229,16 +229,14 @@ export function CreateCkEditor({ lang, editorRef, selectoMedia }: {
         window.addEventListener('keydown', (e) => {
           if ( e.shiftKey && e.ctrlKey && e.code === 'KeyQ' ) {
             const codeToInsert = `
-              <section class="simple-box">
-                  <h1 class="simple-box-title">Box title</h1>
-                  <div class="simple-box-description">
-                      <p>The description goes here.</p>
-                      <ul>
-                          <li>It can contain lists,</li>
-                          <li>and other block elements like headings.</li>
-                      </ul>
+              <aside class="capture_box">
+                  <div class="capture_box_icon">
+                    <img src="/favicon.ico" loading="lazy" />
                   </div>
-              </section>
+                  <div class="capture_box_description">
+                      text
+                  </div>
+              </aside>
             `;
             const viewFragment = editorRef.current[ 'ja' ].data.processor.toView( codeToInsert );
             const modelFragment = editorRef.current[ 'ja' ].data.toModel( viewFragment );

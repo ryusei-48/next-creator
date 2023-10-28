@@ -41,7 +41,7 @@ export default async function Home({ params: { lang } }: {
             postList &&
             postList.result.map((post) => {
               return (
-                <article>
+                <article className="animate__animated animate__fadeIn">
                   <Link className={ style.link_wrap } href={ post.permalink ? `${ localePathname }/article/${ post.permalink }` : `${ localePathname }/article?id=${ post.id }` }>
                     <div className={ style.thumbnail }>
                       <figure>

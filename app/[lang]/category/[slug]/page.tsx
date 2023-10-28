@@ -38,7 +38,7 @@ export default async function Home({ params: { lang, slug } }: {
             postList &&
             postList.CategoryPost.map(({ post }, index) => {
               return (
-                <article key={ index }>
+                <article key={ index } className='animate__animated animate__fadeIn'>
                   <Link className={ style.link_wrap } href={ post.permalink ? `/article/${ post.permalink }` : `/article?id=${ post.id }` }>
                     <div className={ style.thumbnail }>
                       <figure>

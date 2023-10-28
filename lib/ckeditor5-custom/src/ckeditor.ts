@@ -176,7 +176,8 @@ class Editor extends ClassicEditor {
 				'strikethrough',
 				'subscript',
 				'superscript',
-				'todoList'
+				'todoList',
+				'captureBox'
 			]
 		},
 		language: 'ja',

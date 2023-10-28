@@ -3,6 +3,7 @@ import { LoginButton, LogoutButton, RegisterButton } from "@/components/auth-but
 import CategoriesDropdown from './use-client/categories-dropdown';
 import Contactform from './use-client/contactform';
 import LanguageSelector from './small-parts/lang-change';
+import CustomScript from './header.script';
 import { options } from '@/lib/auth-options';
 import { getServerSession } from "next-auth";
 import Link from 'next/link';
@@ -53,7 +54,7 @@ export default async function header({ lang }: { lang: AcceptLocales }) {
         <header className={ `${ style.header } ${ session && style.toolbar_enable }` }>
           <div className={ `container ${ style.header }` }>
             <div className={ style.menubar_mobile }>
-              <button id="menubar-mobile-togle">
+              <button data-open="false" id="menubar-mobile-togle">
                 <FontAwesomeIcon icon={ faBars }></FontAwesomeIcon>
               </button>
             </div>
@@ -64,7 +65,7 @@ export default async function header({ lang }: { lang: AcceptLocales }) {
                 }
               </Link>
             </div>
-            <nav className={ style.navigations }>
+            <nav id="top-nav-elem" className={ style.navigations }>
               <ul>
                 <li key={ 0 } style={{ position: 'relative' }}>
                   <button
@@ -102,6 +103,7 @@ export default async function header({ lang }: { lang: AcceptLocales }) {
               </a>
             </div>
           </div>
+          <CustomScript />
         </header>
       }
       {

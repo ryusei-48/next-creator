@@ -45,4 +45,32 @@ div.ck.ck-editor__main {
     padding-bottom: 15px;
     border-bottom: 2px dotted var( --primary-color );
   }
+
+  aside.capture_box {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 20px;
+    border: 1px solid var( --border-color-secondary );
+    border-radius: 10px;
+    margin: 1.5em 0;
+    width: 100%;
+    > div.capture_box_icon {
+      flex-basis: 80px;
+      p {
+        margin: 0;
+      }
+    }
+    > div.capture_box_description {
+      flex-basis: auto;
+      flex-grow: 1;
+      p {
+        margin: 5px 0;
+      }
+    }
+  }
+}
+
+.ck.ck-editor__editable_inline {
+  padding: 0 1em !important;
 }
