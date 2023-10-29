@@ -131,9 +131,9 @@ export function CreateCkEditor({ lang, editorRef, selectoMedia }: {
           },
           fontSize: {
             options: [
-              "10pt", "11pt", "12pt", "13pt", "14pt", "15pt", "16pt", 'default',
-              "17pt", "18pt", "19pt", "20pt", "21pt", "22pt", "24pt",
-              "26pt", "28pt", "30pt", "34pt", "38pt"
+              "10px", "11px", "12px", "13px", "14px", "15px", "16px",
+              "17px", "18px", 'default', "19px", "20px", "21px", "22px", "24px",
+              "26px", "28px", "30px", "34px", "38px"
             ], supportAllValues: true
           },
           toolbar: {

@@ -5,8 +5,10 @@ import Model from '@ckeditor/ckeditor5-ui/src/model';
 import ButtonView from '@ckeditor/ckeditor5-ui/src/button/buttonview';
 import { createDropdown, addListToDropdown } from '@ckeditor/ckeditor5-ui/src/dropdown/utils';
 import Collection from '@ckeditor/ckeditor5-utils/src/collection';
+import { add } from '@ckeditor/ckeditor5-utils/src/translation-service';
 
-//import imageIcon from '../../../../public/static-icons/circle-chevron-right-solid.svg';
+import InfoIcon from './icons/circle-info-solid.svg';
+import LabelIcon from './icons/tag-solid.svg';
 
 export default class InsertTemplate extends Plugin {
 
@@ -20,61 +22,16 @@ export default class InsertTemplate extends Plugin {
 
   init() {
 
-    console.log( 'InsertTemplate() got called' );
+    //console.log( 'InsertTemplate() got called' );
 
     this._defineSchema();    
     this._defineConverters();
+    this._defineButtonView();
 
-    const editor = this.editor;
-    const t = editor.t;
-    const defaultTitle = t('Add image');
-    const dropdownTooltip = t('Image');
-
-    // Register UI component
-    editor.ui.componentFactory.add('captureBox', locale => {
-
-      const dropdownView = createDropdown( locale );
-
-      dropdownView.buttonView.set({
-        withText: true,
-        label: "テンプレート",
-        //icon: imageIcon,
-        tooltip: true
-      });
-
-      // The collection of the list items.
-      const items = new Collection();
-
-      items.add( {
-          type: 'button',
-          model: new Model( {
-            id: '1',
-            label: 'アイコン付き捕捉',
-            withText: true
-            //icon: imageIcon
-          })
-      });
-
-      items.add( {
-          type: 'button',
-          model: new Model( {
-            id: '1',
-            label: 'ラベル付き捕捉',
-            withText: true
-            //icon: imageIcon
-          })
-      });
-
-      // Create a dropdown with a list inside the panel.
-      addListToDropdown( dropdownView, items as any );
-
-      dropdownView.on('execute', (eventInfo) => {
-        const { id, label } = eventInfo.source as any;
-    
-        console.log(id, label);
-      });
-
-      return dropdownView;
+    add('ja', {
+      templateButton: 'テンプレート',
+      templateAddIcon: 'アイコン付き捕捉',
+      templateAddLabel: 'ラベル付き捕捉'
     });
   }
 
@@ -182,5 +139,69 @@ export default class InsertTemplate extends Plugin {
             return toWidgetEditable( div, viewWriter );
         }
     } );
+  }
+
+  _defineButtonView() {
+
+    // Register UI component
+    this.editor.ui.componentFactory.add('captureBox', locale => {
+
+      const dropdownView = createDropdown( locale );
+
+      dropdownView.buttonView.set({
+        withText: true,
+        label: this.editor.t('templateButton', 'Template'),
+        //icon: imageIcon,
+        tooltip: true
+      });
+
+      // The collection of the list items.
+      const items = new Collection();
+
+      items.add( {
+        type: 'button',
+        model: new Model( {
+          id: 1,
+          label: this.editor.t('templateAddIcon', 'Iconized Box'),
+          withText: true,
+          icon: InfoIcon
+        })
+      });
+
+      items.add( {
+        type: 'button',
+        model: new Model( {
+          id: 2,
+          label: this.editor.t('templateAddLabel', 'Labeled Box'),
+          withText: true,
+          icon: LabelIcon
+        })
+      });
+
+      // Create a dropdown with a list inside the panel.
+      addListToDropdown( dropdownView, items as any );
+
+      dropdownView.on('execute', (eventInfo) => {
+        const { id, label } = eventInfo.source as any;
+    
+        if ( id === 1 ) {
+          const codeToInsert = `
+            <aside class="capture_box">
+                <div class="capture_box_icon">
+                  <img src="/static-icons/circle-info-solid.svg" loading="lazy" />
+                </div>
+                <div class="capture_box_description">
+                    <p>ここにテキストを入力</p>
+                </div>
+            </aside>
+          `;
+          const viewFragment = this.editor.data.processor.toView( codeToInsert );
+          const modelFragment = this.editor.data.toModel( viewFragment );
+          this.editor.model.insertContent( modelFragment, this.editor.model.document.selection );
+        }
+      });
+
+      return dropdownView;
+    });
   }
 }

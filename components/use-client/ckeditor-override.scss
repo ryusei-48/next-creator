@@ -57,12 +57,20 @@ div.ck.ck-editor__main {
     width: 100%;
     > div.capture_box_icon {
       flex-basis: 80px;
+      padding: 10px 0;
       p {
         margin: 0;
+        text-align: center;
+      }
+      img {
+        width: 50px;
+      }
+      .inco-icon {
+        fill: white;
       }
     }
     > div.capture_box_description {
-      flex-basis: auto;
+      flex-basis: calc( 100% - 100px );
       flex-grow: 1;
       p {
         margin: 5px 0;
