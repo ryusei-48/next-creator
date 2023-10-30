@@ -39,6 +39,7 @@ export default class InsertTemplate extends Plugin {
 
     const schema = this.editor.model.schema;
 
+    // Capture Box
     schema.register( 'capture_box', {
       // Behaves like a self-contained block object (e.g. a block image)
       // allowed in places where other blocks are allowed (e.g. directly in the root).
@@ -57,6 +58,29 @@ export default class InsertTemplate extends Plugin {
       // Cannot be split or left by the caret.
       isLimit: true,
       allowIn: 'capture_box',
+      // Allow content which is allowed in the root (e.g. paragraphs).
+      allowContentOf: '$root'
+    });
+
+    // Labeled Box
+    schema.register( 'labeled_box', {
+      // Behaves like a self-contained block object (e.g. a block image)
+      // allowed in places where other blocks are allowed (e.g. directly in the root).
+      inheritAllFrom: '$blockObject'
+    } );
+
+    schema.register( 'labeled_box_label', {
+      // Cannot be split or left by the caret.
+      isLimit: true,
+      allowIn: 'labeled_box',
+      // Allow content which is allowed in blocks (i.e. text with attributes).
+      allowContentOf: '$block'
+    } );
+
+    schema.register( 'labeled_box_description', {
+      // Cannot be split or left by the caret.
+      isLimit: true,
+      allowIn: 'labeled_box',
       // Allow content which is allowed in the root (e.g. paragraphs).
       allowContentOf: '$root'
     });
@@ -139,6 +163,81 @@ export default class InsertTemplate extends Plugin {
             return toWidgetEditable( div, viewWriter );
         }
     } );
+
+    // <labeled_box> converters
+    conversion.for( 'upcast' ).elementToElement( {
+      model: 'labeled_box',
+      view: {
+          name: 'aside',
+          classes: 'labeled_box'
+      }
+    } );
+    conversion.for( 'dataDowncast' ).elementToElement( {
+        model: 'labeled_box',
+        view: {
+            name: 'aside',
+            classes: 'labeled_box'
+        }
+    } );
+    conversion.for( 'editingDowncast' ).elementToElement( {
+        model: 'labeled_box',
+        view: ( modelElement, { writer: viewWriter } ) => {
+            // Note: You use a more specialized createEditableElement() method here.
+            const icon = viewWriter.createEditableElement( 'aside', { class: 'labeled_box' } );
+
+            return toWidget( icon, viewWriter );
+        }
+    } );
+
+    // <labeled_box_label> converters
+    conversion.for( 'upcast' ).elementToElement( {
+      model: 'labeled_box_label',
+      view: {
+          name: 'h4',
+          classes: 'labeled_box_label'
+      }
+    } );
+    conversion.for( 'dataDowncast' ).elementToElement( {
+        model: 'labeled_box_label',
+        view: {
+            name: 'h4',
+            classes: 'labeled_box_label'
+        }
+    } );
+    conversion.for( 'editingDowncast' ).elementToElement( {
+        model: 'labeled_box_label',
+        view: ( modelElement, { writer: viewWriter } ) => {
+            // Note: You use a more specialized createEditableElement() method here.
+            const icon = viewWriter.createEditableElement( 'h4', { class: 'labeled_box_label' } );
+
+            return toWidgetEditable( icon, viewWriter );
+        }
+    } );
+
+    // <labeled_box_description> converters
+    conversion.for( 'upcast' ).elementToElement( {
+      model: 'labeled_box_description',
+      view: {
+          name: 'div',
+          classes: 'labeled_box_description'
+      }
+    } );
+    conversion.for( 'dataDowncast' ).elementToElement( {
+        model: 'labeled_box_description',
+        view: {
+            name: 'div',
+            classes: 'labeled_box_description'
+        }
+    } );
+    conversion.for( 'editingDowncast' ).elementToElement( {
+        model: 'labeled_box_description',
+        view: ( modelElement, { writer: viewWriter } ) => {
+            // Note: You use a more specialized createEditableElement() method here.
+            const icon = viewWriter.createEditableElement( 'div', { class: 'labeled_box_description' } );
+
+            return toWidgetEditable( icon, viewWriter );
+        }
+    } );
   }
 
   _defineButtonView() {
@@ -184,8 +283,9 @@ export default class InsertTemplate extends Plugin {
       dropdownView.on('execute', (eventInfo) => {
         const { id, label } = eventInfo.source as any;
     
+        let codeToInsert: string = '';
         if ( id === 1 ) {
-          const codeToInsert = `
+          codeToInsert = `
             <aside class="capture_box">
                 <div class="capture_box_icon">
                   <img src="/static-icons/circle-info-solid.svg" loading="lazy" />
@@ -195,10 +295,20 @@ export default class InsertTemplate extends Plugin {
                 </div>
             </aside>
           `;
-          const viewFragment = this.editor.data.processor.toView( codeToInsert );
-          const modelFragment = this.editor.data.toModel( viewFragment );
-          this.editor.model.insertContent( modelFragment, this.editor.model.document.selection );
+        }else if ( id === 2 ) {
+          codeToInsert = `
+            <aside class="labeled_box">
+                <h4 class="labeled_box_label">ここにラベル</h4>
+                <div class="labeled_box_description">
+                    <p>ここにテキストを入力</p>
+                </div>
+            </aside>
+          `;
         }
+
+        const viewFragment = this.editor.data.processor.toView( codeToInsert );
+        const modelFragment = this.editor.data.toModel( viewFragment );
+        this.editor.model.insertContent( modelFragment, this.editor.model.document.selection );
       });
 
       return dropdownView;

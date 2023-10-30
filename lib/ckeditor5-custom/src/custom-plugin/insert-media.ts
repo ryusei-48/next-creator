@@ -1,16 +1,21 @@
 import { Plugin } from '@ckeditor/ckeditor5-core';
 import ButtonView from '@ckeditor/ckeditor5-ui/src/button/buttonview';
+import { add } from '@ckeditor/ckeditor5-utils/src/translation-service';
 
 export default class InsertMedia extends Plugin {
 
   init() {
 
     const config = this.editor.config.get('insertMedia');
+
+    add('ja', {
+      insertMediaButtonLabel: 'メディア選択'
+    });
     
     this.editor.ui.componentFactory.add('insertMedia', (local) => {
       const view = new ButtonView( local );
 
-      view.set('label', 'メディア選択');
+      view.set('label', this.editor.t('insertMediaButtonLabel', 'Select Media'));
       view.set('tooltip', true);
       view.set('isEnabled', true);
       view.set('isVisible', true);

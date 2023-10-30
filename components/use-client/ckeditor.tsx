@@ -138,11 +138,11 @@ export function CreateCkEditor({ lang, editorRef, selectoMedia }: {
           },
           toolbar: {
             items: [
-              'sourceEditing', 'heading',
+              'heading',
               '|',
-              'fontFamily', 'fontColor', 'fontBackgroundColor',
+              'fontColor', 'fontBackgroundColor',
               'findAndReplace', 'fontSize', 'bold', 'italic',
-              'link', 'bulletedList', 'numberedList',
+              'link', 'insertBlogCard', 'bulletedList', 'numberedList',
               '|',
               'outdent', 'indent',
               '|',
@@ -151,7 +151,8 @@ export function CreateCkEditor({ lang, editorRef, selectoMedia }: {
               'redo', 'alignment', 'code', 'codeBlock',
               'htmlEmbed', 'horizontalLine', 'highlight',
               'removeFormat', 'selectAll', 'specialCharacters',
-              'strikethrough', 'subscript', 'superscript', 'todoList', 'captureBox'
+              'strikethrough', 'subscript', 'superscript', 'todoList',
+              'captureBox', 'sourceEditing', 
             ], shouldNotGroupWhenFull: true
           },
           wordCount: {
