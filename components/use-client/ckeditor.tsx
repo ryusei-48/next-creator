@@ -229,19 +229,7 @@ export function CreateCkEditor({ lang, editorRef, selectoMedia }: {
 
         window.addEventListener('keydown', (e) => {
           if ( e.shiftKey && e.ctrlKey && e.code === 'KeyQ' ) {
-            const codeToInsert = `
-              <aside class="capture_box">
-                  <div class="capture_box_icon">
-                    <img src="/favicon.ico" loading="lazy" />
-                  </div>
-                  <div class="capture_box_description">
-                      text
-                  </div>
-              </aside>
-            `;
-            const viewFragment = editorRef.current[ 'ja' ].data.processor.toView( codeToInsert );
-            const modelFragment = editorRef.current[ 'ja' ].data.toModel( viewFragment );
-            editorRef.current['ja'].model.insertContent( modelFragment, editorRef.current['ja'].model.document.selection );
+            console.log( editorRef.current[ lang ].getData() );
           }
         });
       }

@@ -40,11 +40,12 @@ div.ck.ck-editor__main ul {
   }
 }
 
-div.ck.ck-toolbar > .ck-toolbar__items {
+div.ck.ck-toolbar > .ck-toolbar__items,
+div.ck.ck-content {
   div.insert-blog-card {
     display: block;
-    max-width: 600px;
-    width: 600px;
+    max-width: 800px;
+    width: 800px;
     height: auto;
     //background-color: var( --ck-color-base-background );
     //border: 1px solid var( --border-color );
@@ -71,7 +72,88 @@ div.ck.ck-toolbar > .ck-toolbar__items {
         padding: 3px 6px;
       }
     }
+    > a.preview-link {
+      display: none;
+      width: 100%;
+      margin-top: 10px;
+      cursor: pointer !important;
+      > div.preview {
+        display: flex;
+        flex-direction: column;
+        padding: 5px;
+        border: 1px solid var( --border-color );
+        border-radius: 10px;
+        > div.content {
+          flex-basis: 100%;
+          padding: 5px;
+          display: flex;
+          //flex-direction: row;
+          align-items: center;
+          flex-flow: wrap;
+          gap: 15px;
+          > div.thumbnail {
+            flex-basis: 30%;
+            > div.img-wrap {
+              width: 100%;
+              aspect-ratio: 16 / 9;
+              position: relative;
+              overflow: hidden;
+              > img {
+                width: 100%;
+                position: absolute;
+                top: 50%; left: 50%;
+                transform: translate(-50%, -50%);
+              }
+            }
+            > div.domain {
+              width: 100%;
+              text-align: center;
+              margin-top: 10px;
+              > span, img {
+                display: inline-block;
+              }
+              > img {
+                width: 1em;
+              }
+            }
+          }
+          > div.details {
+            flex-basis: calc( 70% - 15px );
+            align-self: stretch;
+            //flex-grow: 1;
+            > span {
+              white-space: initial;
+              word-wrap: initial;
+            }
+            > span.title {
+              display: block;
+              width: 100%;
+              padding: 0 5px;
+              margin-bottom: 10px;
+              font-weight: bold;
+              font-size: 14pt;
+            }
+            > span.description {
+              display: block;
+              width: 100%;
+              padding: 0 5px;
+              font-size: 10pt;
+            }
+          }
+        }
+      }
+    }
+    > a.preview-link.show {
+      display: block;
+    }
   }
+}
+
+div.ck.ck-content div.insert-blog-card {
+  max-width: unset;
+  width: 100%;
+  margin-top: 1.5em;
+  margin-bottom: 1.5em;
 }
 
 div.ck.ck-editor__main {
