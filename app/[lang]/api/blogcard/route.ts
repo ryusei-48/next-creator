@@ -1,4 +1,5 @@
 import { JSDOM } from 'jsdom';
+//import { detect } from 'jschardet';
 import { NextResponse, type NextRequest } from 'next/server';
 
 async function BlogCard( request: NextRequest ) {
@@ -16,16 +17,16 @@ async function BlogCard( request: NextRequest ) {
     });
 
     if ( result.ok ) {
-      const jsdom = new JSDOM( await result.text() );
+      const jsdom = new JSDOM( await result.arrayBuffer() );
       const title = jsdom.window.document.title;
       let description = jsdom.window.document.head.querySelector('meta[name="description"]');
       description = jsdom.window.document.head.querySelector(`meta[property="og:description"]`);
-      const thumbnail = jsdom.window.document.head.querySelector(`meta[property="og:image"]`);
+      let thumbnail = jsdom.window.document.head.querySelector(`meta[property="og:image"]`);
       const url = new URL( targetUrl );
       const rootDmain = url.host;
       return NextResponse.json({
         title, description: description?.getAttribute('content'),
-        thumbnail: thumbnail?.getAttribute('content'),
+        thumbnail: thumbnail?.getAttribute('content') || process.env.APP_URL! + '/static-img/no-image.svg',
         icon: `http://www.google.com/s2/favicons?domain=${ targetUrl }`,
         rootDmain, url: targetUrl
       }, { status: 200 });

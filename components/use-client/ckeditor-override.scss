@@ -76,7 +76,7 @@ div.ck.ck-content {
       display: none;
       width: 100%;
       margin-top: 10px;
-      cursor: pointer !important;
+      //cursor: pointer !important;
       > div.preview {
         display: flex;
         flex-direction: column;
@@ -149,11 +149,11 @@ div.ck.ck-content {
   }
 }
 
-div.ck.ck-content div.insert-blog-card {
-  max-width: unset;
-  width: 100%;
-  margin-top: 1.5em;
-  margin-bottom: 1.5em;
+.hideWidgetController { // extent
+  outline: none !important;
+  .ck.ck-reset_all.ck-widget__type-around {
+    display: none !important;
+  }
 }
 
 div.ck.ck-editor__main {
@@ -220,6 +220,86 @@ div.ck.ck-editor__main {
       padding-top: 15px;
       p {
         margin: 10px 0;
+      }
+    }
+  }
+
+  div.insert-blog-card {
+    max-width: unset;
+    width: 100%;
+    margin-top: 1.5em;
+    margin-bottom: 1.5em;
+    > div.preview-link {
+      display: block;
+      width: 100%;
+      @extend .hideWidgetController;
+      //margin-top: 10px;
+      //cursor: pointer !important;
+      > div.preview {
+        display: flex;
+        flex-direction: row;
+        padding: 5px;
+        border: 1px solid var( --border-color );
+        border-radius: 10px;
+        @extend .hideWidgetController;
+        > div.thumbnail {
+          flex-basis: 30%;
+          @extend .hideWidgetController;
+          > div.img-wrap {
+            width: 100%;
+            aspect-ratio: 16 / 9;
+            position: relative;
+            overflow: hidden;
+            @extend .hideWidgetController;
+            > img {
+              width: 100%;
+              position: absolute;
+              top: 50%; left: 50%;
+              transform: translate(-50%, -50%);
+              outline: none !important;
+            }
+          }
+          > div.domain {
+            width: 100%;
+            text-align: center;
+            margin-top: 10px;
+            @extend .hideWidgetController;
+            > span, img {
+              @extend .hideWidgetController;
+              display: inline-block;
+            }
+            > img {
+              width: 1.1em;
+              margin-right: 5px;
+              @extend .hideWidgetController;
+            }
+          }
+        }
+        > div.details {
+          flex-basis: calc( 70% - 15px );
+          align-self: stretch;
+          padding-left: 10px;
+          @extend .hideWidgetController;
+          //flex-grow: 1;
+          > span {
+            white-space: initial;
+            word-wrap: initial;
+          }
+          > span.title {
+            display: block;
+            width: 100%;
+            padding: 0 5px;
+            margin-bottom: 10px;
+            font-weight: bold;
+            font-size: 15pt;
+          }
+          > span.description {
+            display: block;
+            width: 100%;
+            padding: 0 5px;
+            font-size: 11pt;
+          }
+        }
       }
     }
   }

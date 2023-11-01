@@ -23,6 +23,9 @@ dependencies:
   file-type:
     specifier: latest
     version: 18.5.0
+  jschardet:
+    specifier: ^3.0.0
+    version: 3.0.0
   jsdom:
     specifier: ^22.1.0
     version: 22.1.0
@@ -1538,6 +1541,11 @@ packages:
 
   /js-tokens@4.0.0:
     resolution: {integrity: sha512-RdJUflcE3cUzKiMqQgsCu06FPu9UdIJO0beYbPhHN4k6apgJtifcoCtT9bcxOpYBtpD2kCM6Sbzg4CausW/PKQ==}
+
+  /jschardet@3.0.0:
+    resolution: {integrity: sha512-lJH6tJ77V8Nzd5QWRkFYCLc13a3vADkh3r/Fi8HupZGWk2OVVDfnZP8V/VgQgZ+lzW0kG2UGb5hFgt3V3ndotQ==}
+    engines: {node: '>=0.1.90'}
+    dev: false
 
   /jsdom@22.1.0:
     resolution: {integrity: sha512-/9AVW7xNbsBv6GfWho4TTNjEo9fe6Zhf9O7s0Fhhr3u+awPwAJMKwAMXnkk5vBxflqLW9hTHX/0cs+P3gW+cQw==}

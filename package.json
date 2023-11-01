@@ -15,6 +15,7 @@
     "ckeditor5-custom-build": "file:lib/ckeditor5-custom",
     "cookies-next": "^4.0.0",
     "file-type": "latest",
+    "jschardet": "^3.0.0",
     "jsdom": "^22.1.0",
     "negotiator": "latest",
     "next": "13.5.6",
