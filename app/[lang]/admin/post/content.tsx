@@ -174,15 +174,18 @@ export default function Content({ useLang, defaultLang, locales, localeLabels }:
       const htmlBody = editorRef.current[ lang ].getData();
       const htmlFormater = document.createElement('div');
       htmlFormater.innerHTML = htmlBody;
+      const MatchPattern = new RegExp(`^${ process.env.NEXT_PUBLIC_APP_URL }/`);
+      const replacePattern = /^(\.\.?\/)+|^https?\:\/\/[^\/]+\//;
       for ( let img of [...htmlFormater.querySelectorAll('img')] ) {
-        const pattern = /^(\.\.?\/)+|^https?\:\/\/[^\/]+\//;
-        img.src = img.src.replace( pattern, '{{root-domain-url}}/' );
-        for ( let [ index, url ] of img.srcset.split(' ').entries() ) {
-          if ( index === 0 || index % 3 === 0 ) {
-            const pathname = url.replace( pattern, '{{root-domain-url}}/' );
-            img.srcset = img.srcset.replace( url, pathname );
+        if ( MatchPattern.test( img.src ) ) {
+          img.src = img.src.replace( replacePattern, '{{root-domain-url}}/' );
+          for ( let [ index, url ] of img.srcset.split(' ').entries() ) {
+            if ( index === 0 || index % 3 === 0 ) {
+              const pathname = url.replace( replacePattern, '{{root-domain-url}}/' );
+              img.srcset = img.srcset.replace( url, pathname );
+            }
           }
-        }
+        }else console.log( img.src );
       }
       body[ lang ] = htmlFormater.innerHTML;
       description[ lang ] = descInputRef.current[ lang ].value;

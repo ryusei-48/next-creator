@@ -56,6 +56,15 @@ export declare global {
 
   export namespace Post {
 
+    type Category = {
+      category: {
+        id: number,
+        name: {[key: string]: string},
+        slug: string,
+        icon_mime: string | null
+      },
+    }[];
+
     type GetPost = {
       id: number,
       body: {[key: string]: string},
@@ -65,17 +74,10 @@ export declare global {
       register_date: string,
       update_date: string,
       media: {
-          id: number,
-          url: { paths: {[key: string]: string} },
+        id: number,
+        url: { paths: {[key: string]: string} },
       } | null,
-      CategoryPost: {
-          category: {
-              id: number,
-              name: {[key: string]: string},
-              slug: string,
-              icon_mime: string | null
-          },
-      }[],
+      CategoryPost: Category,
       user: {
         nameid: string
       }

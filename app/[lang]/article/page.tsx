@@ -1,5 +1,6 @@
 import Header from '@/components/header';
 import Container from '@/components/container';
+import RelatedPost from './related';
 import Discussion from './discussion';
 import Sidebar from '@/components/sidebar';
 import Footer from '@/components/footer';
@@ -95,7 +96,7 @@ export async function ArticleCommon({ postData, lang }: {
       <Container>
         <main className={ `${ style.main }` }>
           <article className={ style.post_container }>
-            <header className={ `animate__animated animate__fadeInDown ` +  style.post_title_wrap }>
+            <header className={ `animate__animated animate__fadeInDown animate__fast ` +  style.post_title_wrap }>
               <h1>{ postData ? postData.title[ lang ] : '' }</h1>
               <div className={ style.post_meta }>
                 <div className={ style.categorys }>
@@ -164,6 +165,7 @@ export async function ArticleCommon({ postData, lang }: {
                 className={ style.insert_html }
                 dangerouslySetInnerHTML={{ __html: postData ? postData?.body[ lang ] as string : '' }}
               ></div>
+              <RelatedPost lang={ lang } postId={ postData.id } postDate={ postData.register_date } categories={ postData.CategoryPost } />
               <section className={ style.discussion_wrap }>
                 <h2>Discussion</h2>
                 <div className={ style.content }>

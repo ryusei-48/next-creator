@@ -1,0 +1,55 @@
+@import '../comon.function.scss';
+
+aside.related_articles {
+  display: block;
+  width: 100%;
+  margin-bottom: 50px;
+  h2 {
+    border-bottom: none !important;
+    text-align: center;
+  }
+  div.articles {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-gap: 10px;
+    @include sp_base() {
+      grid-template-columns: repeat(2, 1fr);
+    }
+    > .permalink {
+      display: block;
+      width: 100%;
+      transition: all .3s ease-in-out;
+      &:hover {
+        transform: translateY(-7px);
+      }
+      > article.entry {
+        width: 100%;
+        padding: 2px;
+        > div.thumbnail {
+          width: 100%;
+          aspect-ratio: 16 / 9;
+          overflow: hidden;
+          position: relative;
+          > img {
+            position: absolute;
+            top: 50%; left: 50%;
+            transform: translate(-50%, -50%);
+            width: 100%;
+          }
+        }
+        > div.title {
+          width: 100%;
+          padding-top: 10px;
+          h3 {
+            border: none;
+            font-size: 13pt;
+            margin: 0;
+            padding: 0;
+            font-weight: normal;
+            line-height: 1.5em;
+          }
+        }
+      }
+    }
+  }
+}

@@ -12,7 +12,7 @@ async function PostUpdate( request: NextRequest ) {
   if ( !session ) return NextResponse.json({ message: 'unauthenticated' }, { status: 401 });
 
   const postJson = await request.json() as { id: number, update: Prisma.PostUpdateInput };
-  console.log( "\n\n", postJson.id, "\n\n" );
+  //console.log( "\n\n", postJson.id, "\n\n" );
 
   const result = await prisma.post.update({
     where: { id: postJson.id }, data: postJson.update,

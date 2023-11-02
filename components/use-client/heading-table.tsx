@@ -1,6 +1,6 @@
 "use client";
 import style from './heading-table.module.scss';
-import 'highlight.js/styles/stackoverflow-dark.css';
+import 'highlight.js/styles/github-dark.css';
 //import 'tocbot/src/scss/tocbot.scss';
 import './tocbot-override.scss';
 import { useEffect, useRef } from 'react';
@@ -9,6 +9,8 @@ import { faTableList } from '@fortawesome/free-solid-svg-icons';
 import tocbot from 'tocbot';
 import codeHighlight from 'highlight.js';
 import type { ArticleIndexLocales } from '../sidebar';
+
+const containerWidth = '1100px';
 
 export default function HeadingTable({ lang, localeStack }: {
   lang: string, localeStack: ArticleIndexLocales
@@ -54,6 +56,12 @@ export default function HeadingTable({ lang, localeStack }: {
       orderedList: false
     });
 
+    window.addEventListener('resize', () => {
+      if ( tableOfContent.current && window.matchMedia(`(max-width: ${ containerWidth })`).matches ) {
+        tableOfContent.current.inert = true;
+      }
+    });
+
     setTimeout(() => {
       const headingTable = document.body.querySelectorAll<HTMLLinkElement>('div#tocbot-table a');
 
@@ -85,8 +93,9 @@ export default function HeadingTable({ lang, localeStack }: {
     <aside className={ style.heading_table }>
       <div ref={ tableOfContent } className={ style.content_wrap }
         onClick={() => {
-          if ( window.matchMedia('(max-width: 1100px)').matches ) {
+          if ( window.matchMedia(`(max-width: ${ containerWidth })`).matches ) {
             tableOfContent.current!.classList.remove( style.show );
+            tableOfContent.current!.inert = true;
           }
         }}
       >
@@ -99,6 +108,7 @@ export default function HeadingTable({ lang, localeStack }: {
         <button aria-label='table of contents'
           onClick={() => {
             tableOfContent.current!.classList.add( style.show );
+            tableOfContent.current!.inert = false;
           }}
         >
           <FontAwesomeIcon icon={ faTableList }></FontAwesomeIcon>

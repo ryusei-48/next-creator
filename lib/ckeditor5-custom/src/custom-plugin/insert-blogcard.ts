@@ -63,7 +63,7 @@ export default class InsertBlogCard extends Plugin {
 
     schema.register( 'image', {
       isLimit: true,
-      allowIn: ['imgWrap', "domainText"], allowAttributes: ["class", "src", "loading", "alt"]
+      allowIn: ['imgWrap', "domainText"], allowAttributes: ["class", "src", "srcset", "loading", "alt"]
       //allowContentOf: 'imageBlock'
     });
 
@@ -121,9 +121,18 @@ export default class InsertBlogCard extends Plugin {
     });
 
     conversion.for( 'upcast' ).elementToElement( {
-      model: 'previewLink',
-      view: { name: 'div', classes: ["preview-link"],
-      attributes: { 'data-href': true }}
+      model: ( viewElement, { writer } ) => {
+        return writer.createElement('previewLink', {
+          'data-href': viewElement.getAttribute('href')
+        });
+      },
+      view: ( element ) => {
+        //{ name: 'div', classes: ["preview-link"], attributes: { 'data-href': true }}
+        const matched = element.name === 'div' || element.name === 'a';
+        return {
+          name: matched, classes: ["preview-link"]
+        }
+      }
     });
 
     conversion.for( 'dataDowncast' ).elementToElement( {
@@ -201,11 +210,23 @@ export default class InsertBlogCard extends Plugin {
     });
 
     conversion.for( 'upcast' ).elementToElement( {
-      model: 'image', view: { name: 'img' }
+      model: ( viewElement, { writer } ) => {
+        const src = viewElement.getAttribute('src');
+        const alt = viewElement.getAttribute('alt');
+        return writer.createElement('image', {
+          src, alt, loading: 'lazy'
+        });
+      }, view: { name: 'img' }
     });
 
     conversion.for( 'dataDowncast' ).elementToElement( {
-      model: 'image', view: { name: 'img' }
+      model: 'image',
+      view: ( modelElement, { writer: viewWriter } ) => {
+        return viewWriter.createContainerElement('img', {
+          src: modelElement.getAttribute('src'),
+          alt: modelElement.getAttribute('alt'), loading: 'lazy'
+        });
+      }
     });
 
     conversion.for( 'editingDowncast' ).elementToElement( {
@@ -221,7 +242,27 @@ export default class InsertBlogCard extends Plugin {
     });
 
     conversion.for( 'upcast' ).elementToElement( {
-      model: 'domain',
+      model: ( viewElement, { writer } ) => {
+        console.log( viewElement.getChild(0), viewElement.getChild(1) );
+        const imgView = viewElement.getChild(0);
+        const imgElement = writer.createElement('image', {
+          src: imgView?.is('element') ? imgView.getAttribute('src') : '',
+          alt: imgView?.is('element') ? imgView.getAttribute('alt') : '',
+          loading: 'lazy'
+        });
+        let viewTextNode = viewElement.getChild(1);
+        if ( viewTextNode?.is('element') ) viewTextNode = viewTextNode.getChild(0);
+        const domainTextElement = writer.createElement('domainText', { class: 'domain-text' });
+        let domainText = "---";
+        if ( viewTextNode && viewTextNode.is( '$text' ) ) {
+          domainText = viewTextNode.data;
+        }
+        const domainElement = writer.createElement('domain', { class: 'domain' });
+        writer.append( imgElement, domainElement );
+        writer.append( domainTextElement, domainElement );
+        writer.insertText( domainText, domainTextElement );
+        return domainElement;
+      },
       view: { name: 'div', classes: ["domain"] }
     });
 
@@ -238,10 +279,34 @@ export default class InsertBlogCard extends Plugin {
       }
     });
 
-    conversion.for( 'upcast' ).elementToElement( {
-      model: 'domainText',
+    /*conversion.for( 'upcast' ).elementToElement( {
+      model: ( viewElement, { writer } ) => {
+        const domainElement = writer.createElement('domain', { class: 'domain' });
+        const imgView = viewElement.parent?.getChild(0);
+        const imgElement = writer.createElement('image', {
+          src: imgView?.is('element') ? imgView.getAttribute('src') : '',
+          alt: imgView?.is('element') ? imgView.getAttribute('alt') : '',
+          loading: 'lazy'
+        });
+        const viewTextNode = viewElement.getChild(0);
+        const domainTextElement = writer.createElement('domainText', { class: 'domain-text' });
+        let domainText = "text.com";
+        if ( viewTextNode && viewTextNode.is( '$text' ) ) {
+          domainText = viewTextNode.data;
+        }
+        writer.append( imgElement, domainElement );
+        writer.append( domainTextElement, domainElement );
+        writer.insertText( domainText, domainTextElement );
+        if ( viewTextNode?.parent?.parent?.parent?.getChild(1)?.is('element') ) {
+          for ( let classname of viewTextNode?.parent?.parent?.parent?.getClassNames() ) {
+            console.log( classname );
+          }
+        }
+        viewTextNode?.parent?.parent?.parent?._removeChildren(1);
+        return domainElement;
+      },
       view: { name: 'span', classes: ["domain-text"] }
-    });
+    });*/
 
     conversion.for( 'dataDowncast' ).elementToElement( {
       model: 'domainText',

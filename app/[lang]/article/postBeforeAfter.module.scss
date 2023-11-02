@@ -1,0 +1,31 @@
+@import '../comon.function.scss';
+
+div.before_after_link {
+  width: 100%;
+  margin-top: 25px;
+  > .link_bar {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    width: 100%;
+    margin: 10px auto;
+    transition: all .3s ease-in-out;
+    > span.icon_angle {
+      flex-basis: 70px;
+      font-size: 16pt;
+      font-weight: bold;
+      text-align: center;
+    }
+    > span.post_title {
+      flex-basis: auto;
+      flex-grow: 1;
+      font-size: 12pt;
+    }
+  }
+  > .link_bar.left:hover {
+    transform: translateX(-10px);
+  }
+  > .link_bar.right:hover {
+    transform: translateX(10px);
+  }
+}

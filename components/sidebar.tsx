@@ -17,8 +17,8 @@ export default async function Sidebar({ useLang, defaultLang, locales, localeLab
   const localeStack = await LocaleDict[ useLang ].sidebar();
 
   return (
-    <div className={ `animate__animated animate__fadeIn ${ style.sidebar }` }>
-      <aside className={ style.profile }>
+    <div className={ `${ style.sidebar }` }>
+      <aside className={ 'animate__animated animate__fadeIn ' + style.profile }>
         <h3>{ localeStack.profile }</h3>
         <div className={ style.card }>
           <figure className={ style.icon }>
