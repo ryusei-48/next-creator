@@ -1,0 +1,168 @@
+@import './comon.function.scss';
+
+// アイコン付き捕捉
+aside.capture_box {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 20px;
+  border: 1px solid var( --border-color-secondary );
+  border-radius: 10px;
+  margin: 1.5em 0;
+  width: 100%;
+  > div.capture_box_icon {
+    //flex-basis: 80px;
+    width: 80px;
+    padding: 10px 0;
+    p {
+      margin: 0;
+      text-align: center;
+    }
+    img {
+      width: 50px;
+    }
+    .inco-icon {
+      fill: white;
+    }
+  }
+  > div.capture_box_description {
+    //flex-basis: calc( 100% - 100px );
+    width: calc( 100% - 100px );
+    flex-grow: 1;
+    p {
+      margin: 10px 0;
+    }
+  }
+}
+
+// ラベル付き捕捉
+aside.labeled_box {
+  display: block;
+  width: 100%;
+  margin-top: 3em;
+  margin-bottom: 1.5em;
+  border: 1px solid var( --border-color-secondary );
+  border-radius: 10px;
+  position: relative;
+  > h4.labeled_box_label {
+    border: none;
+    margin: 0;
+    padding: 4px 15px;
+    font-size: 15pt;
+    border-radius: 6px;
+    background-color: var( --primary-color );
+    color: white;
+    position: absolute;
+    bottom: 100%;
+    left: 20px;
+    transform: translateY(50%);
+  }
+  > div.labeled_box_description {
+    width: 100%;
+    padding: 15px;
+    padding-top: 15px;
+    p {
+      margin: 10px 0;
+    }
+  }
+}
+
+// ブログカード
+div.insert-blog-card {
+  max-width: unset;
+  width: 100%;
+  margin-top: 1.5em;
+  margin-bottom: 1.5em;
+  position: relative;
+  > a.preview-link {
+    display: block;
+    width: 100%;
+    //margin-top: 10px;
+    //cursor: pointer !important;
+    transition: all .3s ease-in-out;
+    &:hover {
+      transform: translateY(-7px);
+    }
+    > div.preview {
+      display: flex;
+      flex-direction: row;
+      padding: 5px;
+      border: 1px solid var( --border-color );
+      border-radius: 10px;
+      @include sp_base() {
+        flex-direction: column;
+      }
+      > div.thumbnail {
+        flex-basis: 30%;
+        @include sp_base() {
+          flex-basis: 100%;
+        }
+        > div.img-wrap {
+          width: 100%;
+          aspect-ratio: 16 / 9;
+          position: relative;
+          overflow: hidden;
+          > img {
+            width: 100%;
+            position: absolute;
+            top: 50%; left: 50%;
+            transform: translate(-50%, -50%);
+            outline: none !important;
+          }
+        }
+        > div.domain {
+          width: 100%;
+          text-align: center;
+          margin-top: 10px;
+          > span, img {
+            display: inline-block;
+          }
+          > img {
+            width: 1.1em;
+            margin-right: 5px;
+          }
+        }
+      }
+      > div.details {
+        flex-basis: calc( 70% - 15px );
+        align-self: stretch;
+        padding-left: 10px;
+        //flex-grow: 1;
+        @include sp_base() {
+          flex-basis: 100%;
+        }
+        > span {
+          white-space: initial;
+          word-wrap: initial;
+        }
+        > span.title {
+          display: block;
+          width: 100%;
+          padding: 0 5px;
+          margin-bottom: 10px;
+          font-weight: bold;
+          font-size: 15pt;
+        }
+        > span.description {
+          display: block;
+          width: 100%;
+          padding: 0 5px;
+          font-size: 11pt;
+        }
+      }
+    }
+  }
+}
+
+// コードブロック controller
+pre > span.controller {
+  position: absolute;
+  top: 0; right: 0;
+  > button.copy {
+    padding: 2px 5px;
+    background-color: var( --primary-color );
+    > img.copy-icon {
+      width: 1em;
+    }
+  }
+}

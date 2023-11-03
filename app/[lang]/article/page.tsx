@@ -4,6 +4,7 @@ import RelatedPost from './related';
 import Discussion from './discussion';
 import Sidebar from '@/components/sidebar';
 import Footer from '@/components/footer';
+import Script from 'next/script';
 import style from './page.module.scss';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHashtag } from '@fortawesome/free-solid-svg-icons';
@@ -182,6 +183,7 @@ export async function ArticleCommon({ postData, lang }: {
           </article>
         </main>
       </Container>
+      <Script src={`${ process.env.APP_URL }/scripts/article.js`} strategy='lazyOnload' />
       <Footer />
     </>
   )

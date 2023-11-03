@@ -69,8 +69,9 @@ export default class InsertBlogCard extends Plugin {
 
     schema.register( 'domain', {
       isLimit: true,
-      allowIn: 'thumbnail'
+      allowIn: 'thumbnail',
       //allowContentOf: 'imageBlock'
+      allowChildren: ['domainText', 'image']
     });
 
     schema.register( 'domainText', {
@@ -83,18 +84,19 @@ export default class InsertBlogCard extends Plugin {
       isLimit: true,
       allowIn: 'preview',
       //allowContentOf: '$root'
+      allowChildren: ['title', 'description']
     });
 
     schema.register( 'title', {
       isLimit: true,
       allowIn: 'details',
-      allowContentOf: '$block'
+      allowContentOf: '$block', allowChildren: '$text'
     });
 
     schema.register( 'description', {
       isLimit: true,
       allowIn: 'details',
-      allowContentOf: '$block'
+      allowContentOf: '$block', allowChildren: '$text'
     });
   }
 
@@ -103,7 +105,58 @@ export default class InsertBlogCard extends Plugin {
     const conversion = this.editor.conversion;
     
     conversion.for( 'upcast' ).elementToElement( {
-      model: 'blogCard',
+      model: ( viewElement, { writer } ) => {
+        const hrefElement = viewElement.getChild(0)!.is('element') ? viewElement.getChild(0) : undefined;
+        const href = hrefElement?.is('element') ? hrefElement?.getAttribute('href') : '';
+        const previewElement = hrefElement?.is('element') ? hrefElement?.getChild(0) : undefined;
+        const thumbnailElement = previewElement?.is('element') ? previewElement.getChild(0) : undefined;
+        const imageWrapElement = thumbnailElement?.is('element') ? thumbnailElement.getChild(0) : undefined;
+        const imageElement = imageWrapElement?.is('element') ? imageWrapElement.getChild(0) : undefined;
+        const domainElement = thumbnailElement?.is('element') ? thumbnailElement.getChild(1) : undefined;
+        const faviconElement = domainElement?.is('element') ? domainElement.getChild(0) : undefined;
+        const domainTextElement = domainElement?.is('element') ? domainElement.getChild(1) : undefined;
+        const domainTextNode = domainTextElement?.is('element') ? domainTextElement.getChild(0) : undefined;
+        const detailElement = previewElement?.is('element') ? previewElement.getChild(1) : undefined;
+        const titleElement = detailElement?.is('element') ? detailElement.getChild(0) : undefined;
+        const titleTextNode = titleElement?.is('element') ? titleElement.getChild(0) : undefined;
+        const descElement = detailElement?.is('element') ? detailElement.getChild(1) : undefined;
+        const descTextNode = descElement?.is('element') ? descElement.getChild(0) : undefined;
+
+        const blogCard = writer.createElement('blogCard', { class: 'insert-blog-card' });
+        const previewLink = writer.createElement('previewLink', {
+          class: 'preview-link', 'data-href': href
+        });
+        const preview = writer.createElement('preview', { class: 'preview' });
+        const thumbnail = writer.createElement('thumbnail', { class: 'thumbnail' });
+        const imgWrap = writer.createElement('imgWrap', { class: 'img-wrap' });
+        const image = writer.createElement('image', {
+          src: imageElement?.is('element') ? imageElement.getAttribute('src') : '', alt: 'thumbnail'
+        });
+        const domain = writer.createElement('domain', { class: 'domain' });
+        const domainText = writer.createElement('domainText', { class: 'domain-text' });
+        const favicon = writer.createElement('image', {
+          src: faviconElement?.is('element') ? faviconElement.getAttribute('src') : '', alt: 'icon'
+        });
+        const details = writer.createElement('details', { class: 'details' });
+        const title = writer.createElement('title', { class: 'title' });
+        const description = writer.createElement('description', { class: 'description' });
+        writer.append( previewLink, blogCard );
+        writer.append( preview, previewLink );
+        writer.append( thumbnail, preview );
+        writer.append( imgWrap, thumbnail );
+        writer.append( details, preview );
+        writer.append( domain, thumbnail );
+        writer.append( favicon, domain );
+        writer.append( domainText, domain );
+        writer.append( title, details );
+        writer.append( description, details );
+        writer.insert( image, imgWrap );
+        writer.insertText( domainTextNode?.is('$text') ? domainTextNode.data : '', domainText );
+        writer.insertText( titleTextNode?.is('$text') ? titleTextNode.data : '', title );
+        writer.insertText( descTextNode?.is('$text') ? descTextNode.data : '', description );
+
+        return blogCard;
+      },
       view: { name: 'div', classes: ["insert-blog-card"] }
     });
 
@@ -120,7 +173,7 @@ export default class InsertBlogCard extends Plugin {
       }
     });
 
-    conversion.for( 'upcast' ).elementToElement( {
+    /*conversion.for( 'upcast' ).elementToElement( {
       model: ( viewElement, { writer } ) => {
         return writer.createElement('previewLink', {
           'data-href': viewElement.getAttribute('href')
@@ -128,12 +181,17 @@ export default class InsertBlogCard extends Plugin {
       },
       view: ( element ) => {
         //{ name: 'div', classes: ["preview-link"], attributes: { 'data-href': true }}
-        const matched = element.name === 'div' || element.name === 'a';
+        let matched = false;
+        for ( let className of element.getClassNames() ) {
+          if ( className === 'preview-link' && element.name === 'a' ) {
+            matched = true;
+          }
+        }
         return {
           name: matched, classes: ["preview-link"]
         }
       }
-    });
+    });*/
 
     conversion.for( 'dataDowncast' ).elementToElement( {
       model: { name: 'previewLink', attributes: ['data-href'] },
@@ -155,10 +213,10 @@ export default class InsertBlogCard extends Plugin {
       }
     });
 
-    conversion.for( 'upcast' ).elementToElement( {
+    /*conversion.for( 'upcast' ).elementToElement( {
       model: 'preview',
       view: { name: 'div', classes: ["preview"] }
-    });
+    });*/
 
     conversion.for( 'dataDowncast' ).elementToElement( {
       model: 'preview',
@@ -173,10 +231,10 @@ export default class InsertBlogCard extends Plugin {
       }
     });
 
-    conversion.for( 'upcast' ).elementToElement( {
+    /*conversion.for( 'upcast' ).elementToElement( {
       model: 'thumbnail',
       view: { name: 'div', classes: ["thumbnail"] }
-    });
+    });*/
 
     conversion.for( 'dataDowncast' ).elementToElement( {
       model: 'thumbnail',
@@ -191,10 +249,10 @@ export default class InsertBlogCard extends Plugin {
       }
     });
 
-    conversion.for( 'upcast' ).elementToElement( {
+    /*conversion.for( 'upcast' ).elementToElement( {
       model: 'imgWrap',
       view: { name: 'div', classes: ["img-wrap"] }
-    });
+    });*/
 
     conversion.for( 'dataDowncast' ).elementToElement( {
       model: 'imgWrap',
@@ -209,7 +267,7 @@ export default class InsertBlogCard extends Plugin {
       }
     });
 
-    conversion.for( 'upcast' ).elementToElement( {
+    /*conversion.for( 'upcast' ).elementToElement( {
       model: ( viewElement, { writer } ) => {
         const src = viewElement.getAttribute('src');
         const alt = viewElement.getAttribute('alt');
@@ -217,7 +275,7 @@ export default class InsertBlogCard extends Plugin {
           src, alt, loading: 'lazy'
         });
       }, view: { name: 'img' }
-    });
+    });*/
 
     conversion.for( 'dataDowncast' ).elementToElement( {
       model: 'image',
@@ -241,9 +299,9 @@ export default class InsertBlogCard extends Plugin {
       }
     });
 
-    conversion.for( 'upcast' ).elementToElement( {
+    /*conversion.for( 'upcast' ).elementToElement( {
       model: ( viewElement, { writer } ) => {
-        console.log( viewElement.getChild(0), viewElement.getChild(1) );
+        //console.log( viewElement.getChild(0), viewElement.getChild(1) );
         const imgView = viewElement.getChild(0);
         const imgElement = writer.createElement('image', {
           src: imgView?.is('element') ? imgView.getAttribute('src') : '',
@@ -264,7 +322,7 @@ export default class InsertBlogCard extends Plugin {
         return domainElement;
       },
       view: { name: 'div', classes: ["domain"] }
-    });
+    });*/
 
     conversion.for( 'dataDowncast' ).elementToElement( {
       model: 'domain',
@@ -321,10 +379,10 @@ export default class InsertBlogCard extends Plugin {
       }
     });
 
-    conversion.for( 'upcast' ).elementToElement( {
+    /*conversion.for( 'upcast' ).elementToElement( {
       model: 'details',
       view: { name: 'div', classes: ["details"] }
-    });
+    });*/
 
     conversion.for( 'dataDowncast' ).elementToElement( {
       model: 'details',
@@ -339,10 +397,10 @@ export default class InsertBlogCard extends Plugin {
       }
     });
 
-    conversion.for( 'upcast' ).elementToElement( {
+    /*conversion.for( 'upcast' ).elementToElement( {
       model: 'title',
       view: { name: 'span', classes: ["title"] }
-    });
+    });*/
 
     conversion.for( 'dataDowncast' ).elementToElement( {
       model: 'title',
@@ -357,10 +415,10 @@ export default class InsertBlogCard extends Plugin {
       }
     });
 
-    conversion.for( 'upcast' ).elementToElement( {
+    /*conversion.for( 'upcast' ).elementToElement( {
       model: 'description',
       view: { name: 'span', classes: ["description"] }
-    });
+    });*/
 
     conversion.for( 'dataDowncast' ).elementToElement( {
       model: 'description',

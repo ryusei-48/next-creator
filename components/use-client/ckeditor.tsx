@@ -224,6 +224,10 @@ export function CreateCkEditor({ lang, editorRef, selectoMedia }: {
             });
           });
 
+          /*editor.model.schema.extend('link', {
+            allowIn: 'paragraph'
+          });*/
+
           editorRef.current[ lang ] = editor;
         });
 

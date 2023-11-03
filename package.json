@@ -48,6 +48,6 @@
     "react-select": "latest",
     "sass": "latest",
     "tocbot": "^4.21.2",
-    "typescript": "latest"
+    "typescript": "^5.2.2"
   }
 }
