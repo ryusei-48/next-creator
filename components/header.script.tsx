@@ -11,17 +11,24 @@ export default function HeaderScrpt() {
 
         const menubarMobileTogle = document.getElementById('menubar-mobile-togle');
         const topNavElem = document.getElementById('top-nav-elem');
-        const menuHight = (topNavElem?.childNodes[0] as HTMLUListElement).clientHeight;
+        const topNavElemUl = topNavElem?.childNodes[0] as HTMLUListElement;
+        topNavElem!.inert = true;
 
         menubarMobileTogle?.addEventListener('click', () => {
-          if ( menubarMobileTogle.dataset.open === "false" ) {
-            topNavElem!.style.height = `${ menuHight }px`;
-            topNavElem!.style.transform = `scaleY( 1 )`;
-            menubarMobileTogle.dataset.open = "true";
-          }else {
-            topNavElem!.style.removeProperty('height');
-            topNavElem!.style.removeProperty('transform');
-            menubarMobileTogle.dataset.open = "false";
+          topNavElem!.style.opacity = '1';
+          topNavElem!.style.zIndex = '5';
+          topNavElemUl.style.transform = 'translateX(0)';
+          topNavElem!.inert = false;
+        });
+
+        topNavElem?.addEventListener('click', (e) => {
+          e.stopImmediatePropagation();
+          //console.log( e.target );
+          if ( ( e.target as HTMLElement ).id === 'top-nav-elem' ) {
+            topNavElemUl.style.removeProperty('transform');
+            topNavElem!.style.removeProperty('opacity');
+            topNavElem!.style.removeProperty('zIndex');
+            topNavElem!.inert = true;
           }
         });
       }

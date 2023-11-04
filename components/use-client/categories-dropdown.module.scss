@@ -1,4 +1,6 @@
-ul.cate_tree {
+@import '../../app/[lang]/comon.function.scss';
+
+div.cate_tree_wrap {
   position: absolute;
   top: 100%; right: 0;
   max-width: 80vw;
@@ -10,49 +12,67 @@ ul.cate_tree {
   z-index: -1;
   opacity: 0;
   transition: all .3s ease-in-out;
-  ul.sub_tree {
-    flex-basis: auto;
-    padding: 10px;
+  @include sp_base() {
+    position: fixed;
+    right: 100vw;
+    width: 100vw;
+    height: 100vh;
+    transform-origin: left;
   }
-  li {
-    display: block;
-    .cat_link {
-      display: block;
-      padding: 3px 6px;
-      padding-left: 15px;
-      &:hover {
-        background-color: var( --primary-color );
-      }
+  > ul.cate_tree {
+    transition: all .3s ease-in-out;
+    @include sp_base() {
+      position: fixed;
+      top: 0; right: 100vw;
+      transform-origin: left;
     }
-    div.cat_record {
+    ul.sub_tree {
+      flex-basis: auto;
+      padding: 10px;
+    }
+    li {
       display: block;
-      white-space: nowrap;
-      span.icon {
-        flex-basis: auto;
-        position: relative;
-        margin-right: 10px;
-        > img {
-          position: absolute;
-          top: 50%; left: 50%;
-          transform: translate(-50%, -50%);
-          width: 1.2em;
-          border-radius: 50%;
-        }
-        .fontawesome {
-          font-size: 1em;
-          transform: translateX(-50%);
+      .cat_link {
+        display: block;
+        padding: 3px 6px;
+        padding-left: 15px;
+        &:hover {
+          background-color: var( --primary-color );
         }
       }
-      span.name {
-        flex-basis: auto;
-        flex-grow: 1;
+      div.cat_record {
+        display: block;
         white-space: nowrap;
+        span.icon {
+          flex-basis: auto;
+          position: relative;
+          margin-right: 10px;
+          > img {
+            position: absolute;
+            top: 50%; left: 50%;
+            transform: translate(-50%, -50%);
+            width: 1.2em;
+            border-radius: 50%;
+          }
+          .fontawesome {
+            font-size: 1em;
+            transform: translateX(-50%);
+          }
+        }
+        span.name {
+          flex-basis: auto;
+          flex-grow: 1;
+          white-space: nowrap;
+        }
       }
     }
   }
 }
 
-ul.cate_tree.show {
+div.cate_tree_wrap.show {
   z-index: 1;
   opacity: 1;
+  @include sp_base() {
+    transform: translateX(100%);
+  }
 }

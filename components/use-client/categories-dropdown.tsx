@@ -24,6 +24,9 @@ export default function CategoriesDropdown({ lang, defaultLang }: {
         triggerButton.parentElement!.addEventListener('mouseover', () => {
           setIsShow( true );
         });
+        triggerButton.parentElement!.addEventListener('click', () => {
+          setIsShow( true );
+        });
         triggerButton.parentElement!.addEventListener('mouseout', () => {
           setIsShow( false );
         });
@@ -72,6 +75,8 @@ export default function CategoriesDropdown({ lang, defaultLang }: {
   }
 
   return (
-    <ul className={ `${ style.cate_tree } ${ isShow ? style.show : '' }` }>{ categoriesJSX }</ul>
+    <div className={`${ style.cate_tree_wrap } ${ isShow ? style.show : '' }`}>
+      <ul className={ `${ style.cate_tree } ${ isShow ? style.show : '' }` }>{ categoriesJSX }</ul>
+    </div>
   )
 }
