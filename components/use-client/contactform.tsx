@@ -28,6 +28,7 @@ export default function Contactform({ lang, localeStack }: {
   }, []);
 
   function dialogClose() {
+    console.log('close');
     setIsShow( false );
     setTimeout(() => {
       dialogRef.current?.close()

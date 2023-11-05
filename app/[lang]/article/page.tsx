@@ -25,7 +25,8 @@ export async function getPost( postId: string ) {
     method: 'POST', body: JSON.stringify({ id: Number( postId ) }),
     headers: {
       "API_ACCESS_TOKEN": process.env.API_ACCESS_TOKEN!
-    }
+    },
+    next: { revalidate: 30 }
   });
 }
 

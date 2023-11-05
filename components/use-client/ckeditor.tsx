@@ -12,6 +12,7 @@ export default function CkEditor({
   localeLabels: {[key: string]: {[key: string]: string}},
   titleInputRef: React.MutableRefObject<{[key: string]: HTMLInputElement}>,
   editorRef: React.MutableRefObject<{[key: string]: Editor}>,
+  //loadInputCounts: React.Dispatch<React.SetStateAction<{ title: number; editor: number; }>>,
   descInputRef: React.MutableRefObject<{[key: string]: HTMLTextAreaElement}>,
   mediaSelectDialog: React.MutableRefObject<HTMLDialogElement | null> ,
   setMediaInsertMode: React.Dispatch<React.SetStateAction<"ck" | "thumb">>
@@ -68,11 +69,15 @@ export default function CkEditor({
                   className={ style.title }
                   ref={(element) => {
                     titleInputRef.current[ lang ] = element!;
+                    /*loadInputCounts((counts) => {
+                      return { ...counts, title: counts.title + 1 }
+                    })*/
                   }}
                 />
                 <CreateCkEditor
                   lang={ lang } editorRef={ editorRef }
                   selectoMedia={ selectoMedia }
+                  //loadInputCounts={ loadInputCounts }
                 />
                 <div className={ style.description }>
                   <label htmlFor={ `desc-text-${ index }` }>記事の説明・抜粋</label>
@@ -102,8 +107,9 @@ export default function CkEditor({
   )
 }
 
-export function CreateCkEditor({ lang, editorRef, selectoMedia }: {
+export function CreateCkEditor({ lang, editorRef, selectoMedia, /*loadInputCounts*/ }: {
   lang: string, editorRef: React.MutableRefObject<{[key: string]: Editor}>,
+  //loadInputCounts: React.Dispatch<React.SetStateAction<{ title: number; editor: number; }>>,
   selectoMedia: () => void
 }) {
 
@@ -229,6 +235,9 @@ export function CreateCkEditor({ lang, editorRef, selectoMedia }: {
           });*/
 
           editorRef.current[ lang ] = editor;
+          /*loadInputCounts((counts) => {
+            return { ...counts, editor: counts.editor + 1 }
+          })*/
         });
 
         window.addEventListener('keydown', (e) => {

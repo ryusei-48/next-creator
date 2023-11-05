@@ -23,7 +23,8 @@ export default async function Home({ params: { lang } }: {
       take: 20, skip: 0
     }), headers: {
       "API_ACCESS_TOKEN": process.env.API_ACCESS_TOKEN!
-    }
+    },
+    next: { revalidate: 30 }
   });
 
   let postList: { isNext: boolean, result: Post.GetPost[] } | null = null;

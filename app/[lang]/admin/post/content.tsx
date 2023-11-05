@@ -25,6 +25,7 @@ export default function Content({ useLang, defaultLang, locales, localeLabels }:
   const [ checkedCategorys, setCheckedCategorys ] = useState<{[key: number]: boolean } | null>( null );
   const [ mediaInsertMode, setMediaInsertMode ] = useState<'ck' | 'thumb'>('thumb');
   const [ thumbnail, setThumbnail ] = useState<React.JSX.Element | null>( null );
+  //const [ inputLoadCounts, setInputLoadCounts ] = useState({ title: 0, editor: 0 });
   const thumbSelectDialog = useRef<HTMLDialogElement | null>( null );
   const titleInputRef = useRef<{[key: string]: HTMLInputElement}>({});
   const editorRef = useRef<{[key: string]: Editor}>({});
@@ -51,52 +52,50 @@ export default function Content({ useLang, defaultLang, locales, localeLabels }:
           )
           setThumbnailId( Number( e.detail.id ) );
         });
+
+        setTimeout( async () => {
+          if (
+            mode === 'edit' && postId > 0 &&
+            locales.length === Object.keys( titleInputRef.current ).length &&
+            locales.length === Object.keys( editorRef.current ).length
+          ) {
+            
+            postData.current = await getPostData( postId );
+      
+            setPostStatus( postData.current!.status );
+      
+            for ( let lang of locales ) {
+              titleInputRef.current[ lang ].value = postData.current!.title[ lang ]!;
+              editorRef.current[ lang ].setData( postData.current!.body[ lang ]! );
+              if ( postData.current!.description ) {
+                descInputRef.current[ lang ].value = postData.current!.description[ lang ];
+              }
+            }
+      
+            if ( postData.current?.permalink ) {
+              permalinkInput.current!.value = postData.current.permalink;
+            }
+      
+            setThumbnail(
+              <img src={ `../../api/media-stream?id=${ postData.current!.media?.id }&w=800` }
+                width={ 800 } sizes='100vw' loading="lazy"
+              />
+            )
+      
+            setThumbnailId( postData.current!.media?.id || null )
+      
+            setCheckedCategorys((checked) => {
+              if ( checked && postData.current!.CategoryPost ) {
+                for ( let cat of postData.current!.CategoryPost ) {
+                  checked[ cat.category.id ] = true;
+                }
+              }
+              return checked;
+            })
+          }
+        }, 400);
       }
     }
-
-    const breakInterval = setInterval( async () => {
-      if (
-        mode === 'edit' && postId > 0 &&
-        locales.length === Object.keys( titleInputRef.current ).length &&
-        locales.length === Object.keys( editorRef.current ).length
-      ) {
-        
-        postData.current = await getPostData( postId );
-
-        setPostStatus( postData.current!.status );
-
-        for ( let lang of locales ) {
-          titleInputRef.current[ lang ].value = postData.current!.title[ lang ]!;
-          editorRef.current[ lang ].setData( postData.current!.body[ lang ]! );
-          if ( postData.current!.description ) {
-            descInputRef.current[ lang ].value = postData.current!.description[ lang ];
-          }
-        }
-
-        if ( postData.current?.permalink ) {
-          permalinkInput.current!.value = postData.current.permalink;
-        }
-
-        setThumbnail(
-          <img src={ `../../api/media-stream?id=${ postData.current!.media?.id }&w=800` }
-            width={ 800 } sizes='100vw' loading="lazy"
-          />
-        )
-
-        setThumbnailId( postData.current!.media?.id || null )
-
-        setCheckedCategorys((checked) => {
-          if ( checked && postData.current!.CategoryPost ) {
-            for ( let cat of postData.current!.CategoryPost ) {
-              checked[ cat.category.id ] = true;
-            }
-          }
-          return checked;
-        })
-
-        clearInterval( breakInterval );
-      }
-    }, 100);
 
     startFetching();
     return () => { ignore = true };
@@ -291,6 +290,7 @@ export default function Content({ useLang, defaultLang, locales, localeLabels }:
             localeLabels={ localeLabels }
             titleInputRef={ titleInputRef }
             editorRef={ editorRef } descInputRef={ descInputRef }
+            //loadInputCounts={ setInputLoadCounts }
             mediaSelectDialog={ thumbSelectDialog }
             setMediaInsertMode={ setMediaInsertMode }
           />

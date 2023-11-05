@@ -1,0 +1,1 @@
+"use strict";exports.id=3104,exports.ids=[3104],exports.modules={63104:e=>{e.exports=JSON.parse('{"profile":"プロフィール","headline-heading2":"記事の目次"}')}};

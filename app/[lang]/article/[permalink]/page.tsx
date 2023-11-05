@@ -22,7 +22,8 @@ async function getPost( permalink: string ) {
     method: 'POST', body: JSON.stringify({ permalink }),
     headers: {
       "API_ACCESS_TOKEN": process.env.API_ACCESS_TOKEN!
-    }
+    },
+    next: { revalidate: 30 }
   });
 }
 

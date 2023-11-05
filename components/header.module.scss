@@ -79,42 +79,23 @@ nav.navigations {
   flex-grow: 1;
   padding: 0 15px;
   @include sp_base() {
-    position: fixed;
-    inset: 0;
-    opacity: 0;
-    z-index: -1;
-    padding: 0;
-    backdrop-filter: blur(3px);
-    transform-origin: top;
-    transition: all .3s ease-in-out;
+    display: none;
   }
   > ul {
     display: block;
     width: 100%;
     background-color: var( --background-primary-color );
-    @include sp_base() {
-      //position: absolute;
-      //top: 0; left: 0;
-      display: flex;
-      flex-flow: wrap-reverse;
-      align-items: center;
-      width: 80vw;
-      transform: translateX(-100px);
-      transition: all .3s ease-in-out;
-      /*> li:nth-child(5) { order: 1 }
-      > li:nth-child(4) { order: 2 }
-      > li:nth-child(3) { order: 3 }
-      > li:nth-child(2) { order: 4 }
-      > li:nth-child(1) { order: 5 }*/
-    }
     > li {
       float: right;
       padding: 5px 15px;
       @include sp_base() {
         clear: both;
         flex-basis: 100%;
-        text-align: center;
+        text-align: left;
         flex-grow: 1;
+        padding-top: 10px;
+        padding-bottom: 10px;
+        font-size: 13t;
       }
       button {
         color: var( --foreground-color );
@@ -126,11 +107,6 @@ nav.navigations {
       }
     }
   }
-}
-
-nav.navigations.mobile_show {
-  opacity: 1;
-  z-index: 5;
 }
 
 div.author_sns {
