@@ -70,7 +70,7 @@ export declare global {
       body: {[key: string]: string},
       title: {[key: string]: string},
       description: {[key: string]: string} | null,
-      status: string, permalink: string,
+      status: string, permalink: string | null,
       register_date: string,
       update_date: string,
       media: {

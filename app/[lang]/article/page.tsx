@@ -60,6 +60,9 @@ export async function generateMetadata(
   return {
     title: postData.title[ lang ],
     description: postData.description ? postData.description[ lang ]  : '',
+    alternates: {
+      canonical: '/article' + ( postData.permalink ? `/${ postData.permalink }` : `?id=${ postData.id }` )
+    },
     openGraph: {
       images: [ ...previousImages, ogpImage ],
       description: postData.description ? postData.description[ lang ]  : '',

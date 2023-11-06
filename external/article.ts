@@ -8,6 +8,7 @@ for ( let pre of preList ) {
   const copyIcon = document.createElement('img');
   copyIcon.classList.add('copy-icon');
   copyIcon.src = '/static-icons/copy-solid.svg';
+  copyIcon.alt = 'copy icon'
   copyButton.append( copyIcon, ' Copy' );
   controller.append( copyButton );
   pre.append( controller );

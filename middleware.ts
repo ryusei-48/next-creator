@@ -13,6 +13,31 @@ export function middleware( request: Request ) {
   requestHeaders.set( 'x-url', process.env.APP_URL! + urlClass.pathname + urlClass.search );
   requestHeaders.set( 'base-url', process.env.APP_URL || '' );
 
+  //const nonce = Buffer.from(crypto.randomUUID()).toString('base64');
+  //script-src 'self' 'nonce-${nonce}' 'strict-dynamic';
+  //style-src 'self' 'nonce-${nonce}';
+  const cspHeader = `
+    default-src 'self';
+    script-src 'self' 'unsafe-inline' 'unsafe-eval';
+    style-src 'self' 'unsafe-inline';
+    style-src-elem 'self' https://fonts.googleapis.com 'unsafe-inline';
+    img-src 'self' https://* blob: data:;
+    font-src 'self' https://fonts.gstatic.com;
+    object-src 'none';
+    base-uri 'self';
+    form-action 'self';
+    frame-ancestors 'none';
+    block-all-mixed-content;
+    upgrade-insecure-requests;
+  `;
+
+  //requestHeaders.set( 'x-nonce', nonce );
+  requestHeaders.set(
+    'Content-Security-Policy',
+    // Replace newline characters and spaces
+    cspHeader.replace(/\s{2,}/g, ' ').trim()
+  );
+
   const { isRedirect, url, language } = getLocale( request );
   //console.log( isRedirect, url, language );
   if ( isRedirect && url ) {
@@ -20,6 +45,7 @@ export function middleware( request: Request ) {
   }
 
   return NextResponse.next({
+    headers: requestHeaders,
     request: {
       // Apply new request headers
       headers: requestHeaders,
@@ -58,7 +84,7 @@ function getLocale( request: Request ): {
 
     language = match( [requestedLanguage], locals, defaultLocal );
 
-    if ( language !== useLanguage ) {
+    if ( !matchLang && useLanguage !== defaultLocal ) {
       const redirectUrl = process.env.APP_URL + ( defaultLocal !== language ? '/' + language : '' ) + pathname.replace( langParamRexExp, '/' );
       isRedirect = true;
       //console.log( 'none cookie: ', isRedirect, language, redirectUrl );

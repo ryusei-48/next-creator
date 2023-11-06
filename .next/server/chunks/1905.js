@@ -1,1 +1,0 @@
-"use strict";exports.id=1905,exports.ids=[1905],exports.modules={61525:s=>{s.exports=JSON.parse('{"latest-post-heading2":"Latest Articles"}')}};

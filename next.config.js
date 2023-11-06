@@ -8,6 +8,7 @@ dns.setDefaultResultOrder("ipv4first");
 
 const nextConfig = {
   reactStrictMode: true,
+  productionBrowserSourceMaps: true,
   experimental: {
     serverComponentsExternalPackages: [ 'sharp', 'fs/promises', 'fs', 'bcrypt' ],
     serverActions: true

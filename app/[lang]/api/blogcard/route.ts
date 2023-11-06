@@ -27,7 +27,7 @@ async function BlogCard( request: NextRequest ) {
       return NextResponse.json({
         title, description: description?.getAttribute('content'),
         thumbnail: thumbnail?.getAttribute('content') || process.env.APP_URL! + '/static-img/no-image.svg',
-        icon: `http://www.google.com/s2/favicons?domain=${ targetUrl }`,
+        icon: `https://www.google.com/s2/favicons?domain=${ targetUrl }`,
         rootDmain, url: targetUrl
       }, { status: 200 });
     }else {

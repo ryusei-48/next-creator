@@ -8,6 +8,8 @@ import { options } from '@/lib/auth-options';
 import { getServerSession } from "next-auth";
 import Link from 'next/link';
 import ThemeChangeButton from '../components/small-parts/switch-theme-button';
+import { config as FortawesomeConfig } from '@fortawesome/fontawesome-svg-core'
+import '@fortawesome/fontawesome-svg-core/styles.css'
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faGithub, faXTwitter } from '@fortawesome/free-brands-svg-icons';
 import { faGlobe, faChevronDown, faBars } from '@fortawesome/free-solid-svg-icons';
@@ -18,6 +20,8 @@ import LocaleDic from '@/locales/dictionaries';
 import HeaderJson from '@/locales/ja/header.json';
 export type ContactFormLocales = typeof HeaderJson["contact-form"];
 export type LanguageDropdownLocales = typeof HeaderJson["language-dropdown"];
+
+FortawesomeConfig.autoAddCss = false;
 
 export default async function header({ lang }: { lang: AcceptLocales }) {
 
@@ -54,7 +58,7 @@ export default async function header({ lang }: { lang: AcceptLocales }) {
         <header className={ `${ style.header } ${ session && style.toolbar_enable }` }>
           <div className={ `container ${ style.header }` }>
             <div className={ style.menubar_mobile }>
-              <button data-open="false" id="menubar-mobile-togle">
+              <button aria-label='menu open' data-open="false" id="menubar-mobile-togle">
                 <FontAwesomeIcon icon={ faBars }></FontAwesomeIcon>
               </button>
             </div>
