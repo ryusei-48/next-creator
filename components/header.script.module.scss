@@ -1,0 +1,87 @@
+@import '../app/[lang]/comon.function.scss';
+
+div.mobile_menu_wrap {
+  position: fixed;
+  inset: 0;
+  background-color: transparent;
+  backdrop-filter: blur( 3px );
+  opacity: 0;
+  z-index: 5;
+  transition: opacity .3s ease-in-out;
+  > nav.mobile_menu {
+    position: absolute;
+    top: 0; left: 0;
+    display: block;
+    width: 80vw;
+    height: 100vh;
+    background-color: var( --background-primary-dark-color );
+    padding: 15px;
+    transform: translateX(-50%);
+    z-index: 6;
+    transition: transform .3s ease-in-out;
+    > header {
+      display: flex;
+      width: 100%;
+      padding-bottom: 15px;
+      flex-direction: row;
+      align-items: center;
+      > span.brand_name {
+        flex-basis: auto;
+        text-align: left;
+        font-size: 16pt;
+      }
+      > button.close {
+        flex-basis: auto;
+        margin-left: auto;
+        font-size: 17pt;
+      }
+    }
+    > ul {
+      display: block;
+      width: 100%;
+      > li {
+        display: block;
+        width: 100%;
+        > div.expand_togle {
+          display: flex;
+          width: 100%;
+          flex-wrap: wrap;
+          align-items: center;
+          font-size: 13pt;
+          text-align: left;
+          padding: 7px 0;
+          border-bottom: 2px dotted var( --border-color );
+          > span.name {
+            flex-basis: calc( 100% - 1.5em );
+            > a, > button {
+              display: block;
+              width: 100%;
+              font-size: 1em;
+              text-align: left;
+            }
+          }
+          > span.expand_icon {
+            flex-basis: 1.5em;
+            font-size: 1em;
+            text-align: right;
+          }
+        }
+        > div.content_expand {
+          width: 100%;
+          padding-left: 1.1em;
+          height: 0;
+          transform-origin: top;
+          transform: scaleY(0);
+          transition: all .3s ease-in-out;
+        }
+      }
+    }
+  }
+  > nav.mobile_menu.show {
+    transform: translateX(0);
+  }
+}
+
+div.mobile_menu_wrap.show {
+  opacity: 1;
+}

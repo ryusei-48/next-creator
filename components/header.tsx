@@ -20,6 +20,7 @@ import LocaleDic from '@/locales/dictionaries';
 import HeaderJson from '@/locales/ja/header.json';
 export type ContactFormLocales = typeof HeaderJson["contact-form"];
 export type LanguageDropdownLocales = typeof HeaderJson["language-dropdown"];
+export type MobileMenuLocales = typeof HeaderJson["mobile-menu"];
 
 FortawesomeConfig.autoAddCss = false;
 
@@ -84,7 +85,6 @@ export default async function header({ lang }: { lang: AcceptLocales }) {
                 </li>
                 <li key={1}>
                   <button id="open-contactform">{ localeStack.contact }</button>
-                  <Contactform lang={ lang } localeStack={ localeStack['contact-form'] } />
                 </li>
                 <li key={2}>{ localeStack.product }</li>
                 <li style={{ position: 'relative' }}>
@@ -107,7 +107,11 @@ export default async function header({ lang }: { lang: AcceptLocales }) {
               </a>
             </div>
           </div>
-          <CustomScript />
+          <Contactform lang={ lang } localeStack={ localeStack['contact-form'] } />
+          <CustomScript
+            localeStack={ localeStack['mobile-menu'] } lang={ lang }
+            flagsSVG={ FlagsSVG } langChangeLocaleStack={ localeStack['language-dropdown'] }
+          />
         </header>
       }
       {

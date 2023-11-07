@@ -22,6 +22,7 @@
   --background-image-main: white;
   --background-main-color: 244, 249, 240;
   --background-primary-color: #cdcdcd;
+  --background-primary-dark-color: #a5a5a5;
   --background-secondary-color: rgb(204, 225, 221);
 
   --primary-color: darkOrchid;
@@ -62,6 +63,7 @@
   --background-image-main: black;
   --background-main-color: 0, 0, 0;
   --background-primary-color: #1e1d1d;
+  --background-primary-dark-color: black;
   --background-secondary-color: rgb(45 49 49);
 
   --primary-color: darkOrchid;
@@ -403,6 +405,11 @@ fieldset {
     padding-inline-start: unset;
     padding-inline-end: unset;
   }
+}
+
+input[type="text"], input[type="search"],
+input[type="email"], textarea, select {
+  background-color: var( --background-secondary-color );
 }
 
 // animate.css

@@ -29,7 +29,6 @@ export default function ThemeChangeSwitch({ style }: { style: CSSProperties | un
   const handleThemeChange = ( useTheme?: UseCookie ) => {
 
     const switchTheme = useTheme || theme;
-    console.log( switchTheme );
     switch ( switchTheme ) {
       case 'system':
         setTheme('light'); setThemeText('Light');
@@ -64,9 +63,9 @@ export default function ThemeChangeSwitch({ style }: { style: CSSProperties | un
       aria-label={ `テーマ：` + ( themeText === "Theme" ? 'Default' : themeText ) }
       style={{ ...style, color: 'var( --foreground-color )', margin: '0 5px' }}
     >
-      { theme === 'system' && <FontAwesomeIcon width={`20px`} icon={ faCircleHalfStroke }></FontAwesomeIcon> }
-      { theme === 'dark' && <FontAwesomeIcon width={`20px`} icon={ faMoon }></FontAwesomeIcon> }
-      { theme === 'light' && <FontAwesomeIcon color="black" width={`20px`} icon={ faSun }></FontAwesomeIcon> }
+      { theme === 'system' && <FontAwesomeIcon fontSize={`20px`} icon={ faCircleHalfStroke }></FontAwesomeIcon> }
+      { theme === 'dark' && <FontAwesomeIcon fontSize={`20px`} icon={ faMoon }></FontAwesomeIcon> }
+      { theme === 'light' && <FontAwesomeIcon  color="black" fontSize={`20px`} icon={ faSun }></FontAwesomeIcon> }
     </button>
   )
 }

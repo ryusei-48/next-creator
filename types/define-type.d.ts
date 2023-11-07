@@ -4,7 +4,8 @@ export declare global {
   
   export interface WindowEventMap {
     "media-selected": CustomEvent<{ src: string, srcset: string, width: string } | null>,
-    "thumb-selected": CustomEvent<{ src: string, id: string }>
+    "thumb-selected": CustomEvent<{ src: string, id: string }>,
+    "open-contactform": CustomEvent<never>,
   }
   
   export interface DocumentEventMap {

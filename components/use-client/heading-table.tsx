@@ -56,11 +56,14 @@ export default function HeadingTable({ lang, localeStack }: {
       orderedList: false
     });
 
-    window.addEventListener('resize', () => {
+    window.addEventListener('resize', tableOfContentMobileHandle );
+    tableOfContentMobileHandle();
+
+    function tableOfContentMobileHandle() {
       if ( tableOfContent.current && window.matchMedia(`(max-width: ${ containerWidth })`).matches ) {
         tableOfContent.current.inert = true;
       }
-    });
+    }
 
     setTimeout(() => {
       const headingTable = document.body.querySelectorAll<HTMLLinkElement>('div#tocbot-table a');

@@ -25,18 +25,18 @@ export function middleware( request: Request ) {
     font-src 'self' https://fonts.gstatic.com;
     object-src 'none';
     base-uri 'self';
-    form-action 'self';
+    form-action 'self' *;
     frame-ancestors 'none';
     block-all-mixed-content;
     upgrade-insecure-requests;
   `;
 
   //requestHeaders.set( 'x-nonce', nonce );
-  requestHeaders.set(
+  /*requestHeaders.set(
     'Content-Security-Policy',
     // Replace newline characters and spaces
     cspHeader.replace(/\s{2,}/g, ' ').trim()
-  );
+  );*/
 
   const { isRedirect, url, language } = getLocale( request );
   //console.log( isRedirect, url, language );

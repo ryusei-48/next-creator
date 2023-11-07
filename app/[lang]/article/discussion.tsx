@@ -16,6 +16,10 @@ export default function Discussion({ lang, postId }: { lang: string, postId: num
   });
 
   useEffect(() => {
+    setTimeout( async () => {
+      console.log( await getComments( undefined, postId ) );
+      getCommentFormAction( postId );
+    }, 400);
     if ( createCommentState ) {
       setCommentView((jsx) => {
         return [ ...jsx, (

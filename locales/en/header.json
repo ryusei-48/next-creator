@@ -38,5 +38,17 @@
     "send-server-error-message": "Connection to server failed.",
     "sending-image-alt": "Loading image",
     "cancel-button": "Close"
+  },
+  "mobile-menu": {
+    "home": "Home",
+    "category": "Category",
+    "product": "Product",
+    "contact": "Contact",
+    "language-selector": "Language",
+    "language-selector-alt": "Select Language",
+    "language-dropdown": {
+      "default": "Default",
+      "flag-icon-alt": "Flag Icon"
+    }
   }
 }

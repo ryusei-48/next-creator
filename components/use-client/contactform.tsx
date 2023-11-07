@@ -19,13 +19,16 @@ export default function Contactform({ lang, localeStack }: {
 
   useEffect(() => {
     const openContactformTogle = document.getElementById('open-contactform')!;
-    openContactformTogle.addEventListener('click', () => {
-      dialogRef.current?.showModal();
-      setTimeout(() => {
-        setIsShow( true );
-      }, 50);
-    });
+    openContactformTogle.addEventListener( 'click', dialogOpen );
+    window.addEventListener( 'open-contactform', dialogOpen );
   }, []);
+
+  function dialogOpen() {
+    dialogRef.current?.showModal();
+    setTimeout(() => {
+      setIsShow( true );
+    }, 50);
+  }
 
   function dialogClose() {
     console.log('close');

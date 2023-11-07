@@ -10,8 +10,9 @@ import myConfig from '@/public.config.json';
 import type { FlagsSVG } from '@/locales/country-flags';
 import type { LanguageDropdownLocales } from '../header';
 
-export default function LangChange({ lang, flagsSVG, localeStack }: {
-  lang: AcceptLocales, flagsSVG: FlagsSVG, localeStack: LanguageDropdownLocales
+export default function LangChange({ lang, flagsSVG, localeStack, isMobile }: {
+  lang: AcceptLocales, flagsSVG: FlagsSVG, localeStack: LanguageDropdownLocales,
+  isMobile?: true
 }) {
 
   const languageChangeToggle = useRef<HTMLButtonElement | null>( null );
@@ -36,11 +37,8 @@ export default function LangChange({ lang, flagsSVG, localeStack }: {
     const useLanguageCookie = getCookie('use-language') as AcceptLocales | undefined;
     setUseLanguage( useLanguageCookie );
     setSelectedLang( useLanguageCookie ?? lang );
-    //console.log( useLanguageCookie );
-
-    //setCookie('test', 'cookie set.', { secure: true, sameSite: "lax" });
-    //deleteCookie('test', { secure: true });
-    //console.log( getCookie('use-language') );
+    
+    if ( isMobile ) setIsVisible( true );
   }, []);
 
   function selectorUnVisible() {
@@ -49,7 +47,7 @@ export default function LangChange({ lang, flagsSVG, localeStack }: {
   }
 
   return (
-    <div className={ `${ style.lang_selector } ${ isVisible ? style.visible : '' }` }>
+    <div className={ `${ !isMobile ? style.lang_selector : style.lang_selector_mobile } ${ !isMobile && isVisible ? style.visible : '' }` }>
       <button className={ !useLanguage ? style.selected : undefined }
         onClick={() => {
           deleteCookie('use-language', { secure: true, sameSite: 'lax' });
