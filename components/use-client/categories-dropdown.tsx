@@ -6,8 +6,8 @@ import { faHashtag } from '@fortawesome/free-solid-svg-icons';
 import Link from 'next/link';
 import { getCategory } from '@/app/[lang]/admin/post/content';
 
-export default function CategoriesDropdown({ lang, defaultLang }: {
-  lang: string, defaultLang: string
+export default function CategoriesDropdown({ lang, defaultLang, isMobile }: {
+  lang: AcceptLocales, defaultLang: AcceptLocales, isMobile?: true
 }) {
 
   const [ categoriesJSX, setCategoriesJSX ] = useState<React.JSX.Element | null>( null );
@@ -52,7 +52,7 @@ export default function CategoriesDropdown({ lang, defaultLang }: {
                         cat.icon_mime ?
                         <img
                           src={ `${ process.env.NEXT_PUBLIC_APP_URL }/api/media-stream/icon?id=${ cat.id }` }
-                          alt='カテゴリーアイコン' loading="lazy"
+                          alt='category icon' loading="lazy"
                         /> :
                         <FontAwesomeIcon className={ style.fontawesome } icon={ faHashtag }></FontAwesomeIcon>
                       }
@@ -75,8 +75,8 @@ export default function CategoriesDropdown({ lang, defaultLang }: {
   }
 
   return (
-    <div className={`${ style.cate_tree_wrap } ${ isShow ? style.show : '' }`}>
-      <ul className={ `${ style.cate_tree } ${ isShow ? style.show : '' }` }>{ categoriesJSX }</ul>
+    <div className={`${ !isMobile ? style.cate_tree_wrap : style.cate_tree_wrap_mobile } ${ !isMobile && isShow ? style.show : '' }`}>
+      <ul className={ `${ style.cate_tree }` }>{ categoriesJSX }</ul>
     </div>
   )
 }

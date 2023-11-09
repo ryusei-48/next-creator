@@ -16,6 +16,7 @@ div.mobile_menu_wrap {
     height: 100vh;
     background-color: var( --background-primary-dark-color );
     padding: 15px;
+    overflow-y: auto;
     transform: translateX(-50%);
     z-index: 6;
     transition: transform .3s ease-in-out;

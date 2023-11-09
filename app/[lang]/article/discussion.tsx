@@ -1,13 +1,10 @@
 'use client';
 import style from './discussion.module.scss';
 import React, { useState, useEffect } from 'react';
-import { experimental_useFormState as useFormState } from 'react-dom';
-import { createNewComment, getComments } from './discussion.actions';
+//import { createNewComment, getComments } from './discussion.actions';
 
 export default function Discussion({ lang, postId }: { lang: string, postId: number }) {
 
-  const [ createCommentState, createCommentFormAction ] = useFormState( createNewComment, null );
-  const [ getCommentState, getCommentFormAction ] = useFormState( getComments, null );
   const [ commentView, setCommentView ] = useState<React.JSX.Element[]>([]);
   const [ formValues, setFormValue ] = useState<{
     nicname: string, email: string, body: string
@@ -16,53 +13,84 @@ export default function Discussion({ lang, postId }: { lang: string, postId: num
   });
 
   useEffect(() => {
-    setTimeout( async () => {
-      console.log( await getComments( undefined, postId ) );
-      getCommentFormAction( postId );
-    }, 400);
-    if ( createCommentState ) {
-      setCommentView((jsx) => {
-        return [ ...jsx, (
-          <article className={ style.item } key={ createCommentState.id }>
-            <header className={ style.meta }>
-              <span className={ style.nicname }>送信者：{ createCommentState.nicname }</span>
-              <span className={ style.id }>ID:{ createCommentState.id }</span>
-            </header>
-            <div className={ style.content } dangerouslySetInnerHTML={{ __html: createCommentState.body }}></div>
-          </article>
-        )]
-      });
 
-      setFormValue((values) => {
-        values.nicname = '';
-        values.email = '';
-        values.body = '';
-        return values;
-      });
-    }
+    ( async () => {
+      const loadComments = await getCommentsFetch( postId );
+      if ( loadComments ) {
+        setCommentView( loadComments.map(comment => {
+          return (
+            <article className={ style.item } key={ comment.id }>
+              <header className={ style.meta }>
+                <span className={ style.nicname }>送信者：{ comment.nicname }</span>
+                <span className={ style.id }>ID:{ comment.id }</span>
+              </header>
+              <div className={ style.content } dangerouslySetInnerHTML={{ __html: comment.body }}></div>
+            </article>
+          )
+        }));
+      }
+    })();
+  }, []);
 
-    if ( !getCommentState ) {
-      getCommentFormAction( postId );
-    }else if ( getCommentState && !createCommentState ) {
-      setCommentView( getCommentState.map(comment => {
-        return (
-          <article className={ style.item } key={ comment.id }>
-            <header className={ style.meta }>
-              <span className={ style.nicname }>送信者：{ comment.nicname }</span>
-              <span className={ style.id }>ID:{ comment.id }</span>
-            </header>
-            <div className={ style.content } dangerouslySetInnerHTML={{ __html: comment.body }}></div>
-          </article>
-        )
-      }))
-    }
-  }, [ createCommentState, getCommentState ]);
+  async function getCommentsFetch( post_id: number ) {
+
+    return new Promise<Post.Comments | null>( async (resolve) => {
+      fetch(`/api/discussion/get`, {
+        method: 'POST', body: JSON.stringify({ post_id }),
+        next: { revalidate: 30 }
+      }).then( async (response) => {
+        if ( response.ok ) {
+          resolve( await response.json() );
+        }else resolve( null );
+      });
+    });
+  }
+
+  async function postCommentFetch( data: FormData ) {
+
+    return new Promise<Post.Comment | null>( async (resolve) => {
+      fetch(`/api/discussion/create`, {
+        method: 'POST', body: data
+      }).then( async (response) => {
+        if ( response.ok ) {
+          resolve( await response.json() );
+        }else resolve( null );
+      });
+    });
+  }
 
   return (
     <div className={ style.client }>
       { commentView }
       <hr />
-      <form action={ createCommentFormAction } className={ style.comment_form }>
+      <form /*action={ createCommentFormAction }*/
+        className={ style.comment_form }
+        onSubmit={ async (e) => {
+          e.preventDefault();
+          const formData = new FormData( e.currentTarget );
+          const result = await postCommentFetch( formData );
+          if ( result ) {
+            setCommentView((jsx) => {
+              return [ ...jsx, (
+                <article className={ style.item } key={ result.id }>
+                  <header className={ style.meta }>
+                    <span className={ style.nicname }>送信者：{ result.nicname }</span>
+                    <span className={ style.id }>ID:{ result.id }</span>
+                  </header>
+                  <div className={ style.content } dangerouslySetInnerHTML={{ __html: result.body }}></div>
+                </article>
+              )]
+            });
+      
+            setFormValue((values) => {
+              values.nicname = '';
+              values.email = '';
+              values.body = '';
+              return values;
+            });
+          }
+        }}
+      >
         <div className={ style.item }>
           <label htmlFor='comment-nicname-input'>ニックネーム*</label>
           <input type="text" name="nicname" id="comment-nicname-input"

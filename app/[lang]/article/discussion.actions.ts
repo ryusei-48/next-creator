@@ -12,7 +12,7 @@ export async function createNewComment( prestate?: any, formData?: FormData ) {
   const post_id = formData!.get('post_id');
   if ( !nicname || !email || !body || !post_id ) return null;
   
-  const result = prisma.discussion.create({
+  const result = await prisma.discussion.create({
     data: {
       nicname: nicname.toString(), body: sanitize( body.toString(), {
         allowedTags: []

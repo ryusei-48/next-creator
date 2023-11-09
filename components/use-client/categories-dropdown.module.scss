@@ -1,31 +1,8 @@
 @import '../../app/[lang]/comon.function.scss';
 
-div.cate_tree_wrap {
-  position: absolute;
-  top: 100%; right: 0;
-  max-width: 80vw;
-  max-height: 80vh;
-  overflow: auto;
-  padding: 10px;
-  background-color: var( --background-primary-color );
-  backdrop-filter: blur( 10px );
-  z-index: -1;
-  opacity: 0;
-  transition: all .3s ease-in-out;
-  @include sp_base() {
-    position: fixed;
-    right: 100vw;
-    width: 100vw;
-    height: 100vh;
-    transform-origin: left;
-  }
+.cat_tree_common {  // extend class
   > ul.cate_tree {
     transition: all .3s ease-in-out;
-    @include sp_base() {
-      position: fixed;
-      top: 0; right: 100vw;
-      transform-origin: left;
-    }
     ul.sub_tree {
       flex-basis: auto;
       padding: 10px;
@@ -69,10 +46,38 @@ div.cate_tree_wrap {
   }
 }
 
+div.cate_tree_wrap {
+  position: absolute;
+  top: 100%; right: 0;
+  max-width: 80vw;
+  max-height: 80vh;
+  overflow: auto;
+  padding: 10px;
+  background-color: var( --background-primary-color );
+  backdrop-filter: blur( 10px );
+  z-index: -1;
+  opacity: 0;
+  transition: all .3s ease-in-out;
+  @include sp_base() {
+    position: fixed;
+    right: 100vw;
+    width: 100vw;
+    height: 100vh;
+    transform-origin: left;
+  }
+  @extend .cat_tree_common;
+}
+
 div.cate_tree_wrap.show {
   z-index: 1;
   opacity: 1;
   @include sp_base() {
     transform: translateX(100%);
   }
+}
+
+div.cate_tree_wrap_mobile {
+  width: 100%;
+  overflow: auto;
+  @extend .cat_tree_common;
 }

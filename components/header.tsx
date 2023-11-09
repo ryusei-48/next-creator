@@ -27,6 +27,7 @@ FortawesomeConfig.autoAddCss = false;
 export default async function header({ lang }: { lang: AcceptLocales }) {
 
   const localeStack = await LocaleDic[ lang ].header();
+  const defaultLang = myConfig.locale.default as AcceptLocales;
   const session = await getServerSession(options);
   const isAdminPage = pageJudg('admin');
   const isHome = pageJudg('home');
@@ -92,7 +93,7 @@ export default async function header({ lang }: { lang: AcceptLocales }) {
                     { localeStack.category }&nbsp;
                     <FontAwesomeIcon fontSize={`.7em`} icon={ faChevronDown }></FontAwesomeIcon>
                   </button>
-                  <CategoriesDropdown lang={ lang } defaultLang={ myConfig.locale.default } />
+                  <CategoriesDropdown lang={ lang } defaultLang={ defaultLang } />
                 </li>
                 <li key={3}><Link href="/">{ localeStack.home }</Link></li>
               </ul>
@@ -109,7 +110,7 @@ export default async function header({ lang }: { lang: AcceptLocales }) {
           </div>
           <Contactform lang={ lang } localeStack={ localeStack['contact-form'] } />
           <CustomScript
-            localeStack={ localeStack['mobile-menu'] } lang={ lang }
+            localeStack={ localeStack['mobile-menu'] } lang={ lang } defaultLang={ defaultLang }
             flagsSVG={ FlagsSVG } langChangeLocaleStack={ localeStack['language-dropdown'] }
           />
         </header>

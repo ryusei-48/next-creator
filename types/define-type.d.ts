@@ -83,6 +83,19 @@ export declare global {
         nameid: string
       }
     }
+
+    type Comment = {
+      id: number,
+      post_id: number,
+      nicname: string,
+      body: string,
+      sender_info: Prisma.JsonValue,
+      parent_id: number,
+      register_date: Date,
+      update_date: Date
+    }
+
+    type Comments = Comment[]
   }
 }
 

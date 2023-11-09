@@ -1,5 +1,6 @@
 'use client';
 import style from './header.script.module.scss';
+import CategoryDropDown from './use-client/categories-dropdown';
 import LanguageSelector from './small-parts/lang-change';
 import { useEffect, useState, useRef } from 'react';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -12,14 +13,15 @@ import type { FlagsSVG } from '../locales/country-flags';
 const containerWidth = '1100px';
 
 export default function HeaderScrpt({
-  lang, localeStack, flagsSVG, langChangeLocaleStack
+  lang, localeStack, defaultLang, flagsSVG, langChangeLocaleStack
 }: {
-  lang: AcceptLocales, localeStack: MobileMenuLocales,
+  lang: AcceptLocales, localeStack: MobileMenuLocales, defaultLang: AcceptLocales,
   flagsSVG: FlagsSVG, langChangeLocaleStack: LanguageDropdownLocales
 }) {
 
   const [ isMenuVisible, setIsMenuVisible ] = useState( false );
   const [ isAddShowClass, setIsAddShowClass ] = useState( false );
+  const categoriesRef = useRef<HTMLLIElement | null>( null );
   const langChangeRef = useRef<HTMLLIElement | null>( null );
   let ignore = false;
 
@@ -43,6 +45,7 @@ export default function HeaderScrpt({
 
         setTimeout(() => {
           setExpandContent( langChangeRef );
+          setExpandContent( categoriesRef );
         }, 300);
       }
     }
@@ -103,7 +106,7 @@ export default function HeaderScrpt({
               </span>
             </div>
           </li>
-          <li>
+          <li ref={ categoriesRef }>
             <div className={ style.expand_togle }>
               <span className={ style.name }>
                 <button>
@@ -114,6 +117,11 @@ export default function HeaderScrpt({
               <span className={ style.expand_icon }>
                 <FontAwesomeIcon icon={ faChevronRight }></FontAwesomeIcon>
               </span>
+            </div>
+            <div className={ style.content_expand }>
+              <CategoryDropDown
+                lang={ lang } defaultLang={ defaultLang } isMobile
+              />
             </div>
           </li>
           <li>

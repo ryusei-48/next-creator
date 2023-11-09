@@ -18,7 +18,7 @@ export function middleware( request: Request ) {
   //style-src 'self' 'nonce-${nonce}';
   const cspHeader = `
     default-src 'self';
-    script-src 'self' 'unsafe-inline' 'unsafe-eval';
+    script-src 'self' https://www.googletagmanager.com/* 'unsafe-inline' 'unsafe-eval';
     style-src 'self' 'unsafe-inline';
     style-src-elem 'self' https://fonts.googleapis.com 'unsafe-inline';
     img-src 'self' https://* blob: data:;
