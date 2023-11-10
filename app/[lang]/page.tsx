@@ -9,6 +9,18 @@ import { getStrDatetime } from '@/lib/functions';
 import myConfig from '@/public.config.json';
 import dictionaries from '@/locales/dictionaries';
 import Link from 'next/link';
+import type { Metadata, ResolvingMetadata } from 'next';
+
+export async function generateMetadata(
+  { params: { lang } }: { params: { lang: AcceptLocales } }, parent: ResolvingMetadata
+): Promise<Metadata> {
+
+  const localeStack = await dictionaries[ lang ].home();
+
+  return {
+    title: `${ localeStack['title-tag-text'] } | ${ process.env.NEXT_PUBLIC_SITE_TITLE }`
+  }
+}
 
 export default async function Home({ params: { lang } }: {
   params: { lang: AcceptLocales }

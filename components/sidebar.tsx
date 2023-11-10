@@ -1,4 +1,4 @@
-import profileImage from '@/public/profile.jpeg';
+import profileImage from '@/app/[lang]/icon.png';
 import Image from 'next/image';
 import style from './sidebar.module.scss';
 import HeadingTable from './use-client/heading-table';

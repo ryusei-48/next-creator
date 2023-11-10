@@ -18,7 +18,7 @@ export function middleware( request: Request ) {
   //style-src 'self' 'nonce-${nonce}';
   const cspHeader = `
     default-src 'self';
-    script-src 'self' https://www.googletagmanager.com/* 'unsafe-inline' 'unsafe-eval';
+    script-src 'self' https://www.googletagmanager.com  https://www.google-analytics.com 'unsafe-inline' 'unsafe-eval';
     style-src 'self' 'unsafe-inline';
     style-src-elem 'self' https://fonts.googleapis.com 'unsafe-inline';
     img-src 'self' https://* blob: data:;
@@ -78,17 +78,24 @@ function getLocale( request: Request ): {
       return { isRedirect, language, url: redirectUrl };
     }
   }else {
-    const requestedLanguage = new Negotiator({ headers: {
-      'accept-language': request.headers.get('accept-language') || undefined
-    } }).language() || defaultLocal;
-
-    language = match( [requestedLanguage], locals, defaultLocal );
-
-    if ( !matchLang && useLanguage !== defaultLocal ) {
-      const redirectUrl = process.env.APP_URL + ( defaultLocal !== language ? '/' + language : '' ) + pathname.replace( langParamRexExp, '/' );
-      isRedirect = true;
-      //console.log( 'none cookie: ', isRedirect, language, redirectUrl );
-      return { isRedirect, language, url: redirectUrl };
+    try {
+      const requestedLanguage = new Negotiator({ headers: {
+        'accept-language': request.headers.get('accept-language') || undefined
+      } }).language() || defaultLocal;
+      //console.log( request.headers.get('accept-language') );
+      //console.log( requestedLanguage );
+  
+      language = match( [requestedLanguage], locals, defaultLocal );
+  
+      if ( !matchLang && useLanguage !== defaultLocal ) {
+        const redirectUrl = process.env.APP_URL + ( defaultLocal !== language ? '/' + language : '' ) + pathname.replace( langParamRexExp, '/' );
+        isRedirect = true;
+        //console.log( 'none cookie: ', isRedirect, language, redirectUrl );
+        return { isRedirect, language, url: redirectUrl };
+      }
+    }catch (e) {
+      console.log( e );
+      return { isRedirect, language, url: undefined };
     }
   }
   
@@ -104,7 +111,7 @@ export const config = {
      * - _next/image (image optimization files)
      * - favicon.ico (favicon file)
      */
-    '/((?!api|_next/static|_next/image|favicon.ico).*)',
+    '/((?!api|_next/static|_next/image|assets|favicon.ico|sw.js|sitemap.xml|robots.txt).*)'
     //"/"
   ],
 }
