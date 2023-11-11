@@ -20,7 +20,7 @@ export default async function Media({ params: { lang } }: {
     <>
       <Header lang={ lang } />
       <Content />
-      <Footer />
+      <Footer lang={ lang } />
     </>
   )
 }

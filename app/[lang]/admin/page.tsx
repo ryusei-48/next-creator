@@ -21,7 +21,7 @@ export default async function PostManage({ params: { lang } }: {
       <Header lang={ lang } />
       <h1>投稿編集ページ</h1>
       <p>{ session?.user?.name }</p>
-      <Footer />
+      <Footer lang={ lang } />
     </>
   )
 }

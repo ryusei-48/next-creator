@@ -70,7 +70,7 @@ export default async function Home({ params: { lang, slug } }: {
           localeLabels={ myConfig.locale.labels }
         />
       </Container>
-      <Footer />
+      <Footer lang={ lang } />
     </>
   )
 }

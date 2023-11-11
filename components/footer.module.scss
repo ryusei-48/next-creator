@@ -7,11 +7,30 @@
   margin-top: 15px;
   padding: 10px 20px;
   background-color: var( --background-secondary-color );
+  > div.flex {
+    display: flex;
+    flex-flow: wrap;
+    justify-content: center;
+    align-items: center;
+  }
+  nav {
+    flex-basis: 50%;
+    > ul {
+      display: flex;
+      flex-flow: wrap;
+      justify-content: left;
+      align-items: center;
+      width: 100%;
+      > li {
+        flex-basis: auto;
+        padding: 3px 15px;
+      }
+    }
+  }
   small {
-    display: block;
-    width: 100%;
+    flex-basis: 50%;
     font-size: 12pt;
-    text-align: center;
+    text-align: right;
   }
 }
 /*

@@ -21,7 +21,7 @@ export default async function PostPage({ params: { lang } }: {
         locales={ myConfig.locale['accept-lang'] } defaultLang={ myConfig.locale.default }
         useLang={ lang } localeLabels={ myConfig.locale.labels }
       />
-      <Footer />
+      <Footer lang={ lang } />
     </>
   )
 }

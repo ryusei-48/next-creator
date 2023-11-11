@@ -20,7 +20,7 @@ export default async function Category({ params: { lang }}: { params: { lang: Ac
         locales={ myConfig.locale['accept-lang'] }
         localeLabels={ myConfig.locale.labels }
       />
-      <Footer />
+      <Footer lang={ lang } />
     </>
   )
 }

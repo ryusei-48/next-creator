@@ -11,7 +11,7 @@ const nextConfig = {
   productionBrowserSourceMaps: true,
   experimental: {
     serverComponentsExternalPackages: [ 'sharp', 'fs/promises', 'fs', 'bcrypt' ],
-    serverActions: true
+    //serverActions: true
   },
   rewrites: async () => {
     return [
@@ -29,6 +29,7 @@ const nextConfig = {
       { source: '/article/:path', destination: `/${ defaultLang }/article/:path` },
       { source: '/category', destination: `/${ defaultLang }/category` },
       { source: '/category/:path', destination: `/${ defaultLang }/category/:path` },
+      { source: '/privacy-policy', destination: `/${ defaultLang }/privacy-policy` },
     ]
   }
 }

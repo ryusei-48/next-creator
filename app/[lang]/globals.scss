@@ -321,6 +321,11 @@ a {
   text-decoration: none;
 }
 
+a.inline-decoration {
+  color: var( --primary-color );
+  text-decoration: underline;
+}
+
 ul {
   display: block;
   list-style-type: none;

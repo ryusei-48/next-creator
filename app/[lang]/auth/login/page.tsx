@@ -26,7 +26,7 @@ export default async function Login({ params: { lang } }: {
         locales={ myConfig.locale['accept-lang'] } defaultLang={ myConfig.locale.default }
         useLang={ lang } localeLabels={ myConfig.locale.labels } userCount={ userCount }
       />
-      <Footer />
+      <Footer lang={ lang } />
     </>
   )
 }

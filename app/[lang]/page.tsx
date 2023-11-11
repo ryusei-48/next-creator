@@ -26,6 +26,7 @@ export default async function Home({ params: { lang } }: {
   params: { lang: AcceptLocales }
 }) {
 
+  if ( !lang ) lang = myConfig.locale.default as AcceptLocales;
   const localeStack = await dictionaries[ lang ].home();
   const localePathname = myConfig.locale.default === lang ? '' : lang;
 
@@ -85,7 +86,7 @@ export default async function Home({ params: { lang } }: {
           localeLabels={ myConfig.locale.labels }
         />
       </Container>
-      <Footer />
+      <Footer lang={ lang } />
     </>
   )
 }

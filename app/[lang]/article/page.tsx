@@ -188,7 +188,7 @@ export async function ArticleCommon({ postData, lang }: {
         </main>
       </Container>
       <Script src={`${ process.env.APP_URL }/scripts/article.js`} strategy='lazyOnload' />
-      <Footer />
+      <Footer lang={ lang } />
     </>
   )
 }
