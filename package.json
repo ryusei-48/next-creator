@@ -19,7 +19,7 @@
     "jschardet": "^3.0.0",
     "jsdom": "^22.1.0",
     "negotiator": "latest",
-    "next": "13.5.6",
+    "next": "14.0.2",
     "next-auth": "latest",
     "nodemailer": "^6.9.6",
     "sanitize-html": "^2.11.0",

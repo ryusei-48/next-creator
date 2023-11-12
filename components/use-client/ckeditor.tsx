@@ -173,7 +173,7 @@ export function CreateCkEditor({ lang, editorRef, selectoMedia, /*loadInputCount
           mediaEmbed: { previewsInData: true }, language: 'ja',
           codeBlock: {
             languages: [
-              { language: 'plaintext', label: 'Plain text', class: 'language-plaintext Plain Text' },
+              { language: 'plaintext', label: 'Plain text', class: 'language-plaintext Plain-Text' },
               { language: 'commandline', label: 'Commandline', class: 'language-plaintext Commandline' },
               { language: 'shell', label: 'Shell', class: 'language-shell Shell' },
               { language: 'c', label: 'C', class: 'language-c C' },
@@ -190,7 +190,8 @@ export function CreateCkEditor({ lang, editorRef, selectoMedia, /*loadInputCount
               { language: 'ruby', label: 'Ruby', class: 'language-ruby Ruby' },
               { language: 'sql', label: 'SQL', class: 'language-sql SQL' },
               { language: 'swift', label: 'Swift', class: 'language-swift Swift' },
-              { language: 'xml', label: 'XML', class: 'language-xml XML' }
+              { language: 'xml', label: 'XML', class: 'language-xml XML' },
+              { language: 'json', label: 'JSON', class: 'language-json JSON' }
             ]
           },
           link: {

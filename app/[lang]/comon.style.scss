@@ -50,15 +50,16 @@ aside.labeled_box {
   > h4.labeled_box_label {
     border: none;
     margin: 0;
-    padding: 4px 15px;
+    padding: 4px 15px !important;
     font-size: 15pt;
     border-radius: 6px;
     background-color: var( --primary-color );
     color: white;
-    position: absolute;
+    position: absolute !important;
     bottom: 100%;
     left: 20px;
     transform: translateY(50%);
+    cursor: default !important;
   }
   > div.labeled_box_description {
     width: 100%;

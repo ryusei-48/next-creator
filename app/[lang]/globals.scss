@@ -17,6 +17,7 @@
 
   --foreground-color: 0, 0, 0;
   --foreground-color-secondary: gray;
+  --foreground-color-code: #ffaf1c;
 
   //--background-image-main: linear-gradient(to right bottom, #7900ff, #6750ff, #6174ff, #6d91ff, #87abff, #87abff, #87abff, #87abff, #6d91ff, #6174ff, #6750ff, #7900ff);;
   --background-image-main: white;
@@ -58,6 +59,7 @@
 
   --foreground-color: 255, 255, 255;
   --foreground-color-secondary: rgb(181, 181, 181);
+  --foreground-color-code: #ffaf1c;
 
   //--background-image-main: linear-gradient(to right bottom, #000000, #290a19, #460434, #5f0058, #6e0086, #6e0086, #6e0086, #6e0086, #5f0058, #460434, #290a19, #000000);
   --background-image-main: black;
@@ -368,6 +370,17 @@ pre {
     padding-top: 2.5em !important;
     font-size: 16px !important;
   }
+}
+
+code {
+  color: var( --foreground-color-code ) !important;
+}
+
+p > code {
+  padding: 0px 4px 2px 4px;
+  border: 1px solid var( --foreground-color-code );
+  margin-left: 5px;
+  margin-right: 5px;
 }
 
 dialog {
