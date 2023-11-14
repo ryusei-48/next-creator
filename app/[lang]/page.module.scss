@@ -1,7 +1,7 @@
 @import "./comon.function.scss";
 
 main.post_entries {
-  flex-basis: calc( 100% - 355px );
+  flex-basis: calc( 100% - 375px );
   align-self: flex-start;
   padding: 5px;
   display: flex;
@@ -15,6 +15,7 @@ main.post_entries {
   }
   > h2 {
     flex-basis: 100%;
+    font-size: 20pt;
     @include sp_base() {
       margin-bottom: 0;
       text-align: center;

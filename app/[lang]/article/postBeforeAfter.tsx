@@ -17,13 +17,13 @@ export default async function PostBeforeAfter({ lang, postDate}: {
 }) {
 
   const previousPosts = await prisma.post.findFirst({
-    where: { register_date: { lt: postDate } },
+    where: { register_date: { lt: postDate }, status: 'publish' },
     orderBy: { register_date: 'desc' },
     select: { id: true, title: true, permalink: true }
   }) as PostData;
 
   const nextPost = await prisma.post.findFirst({
-    where: { register_date: { gt: postDate } },
+    where: { register_date: { gt: postDate }, status: 'publish' },
     orderBy: { register_date: 'asc' },
     select: { id: true, title: true, permalink: true }
   }) as PostData;

@@ -1,31 +1,52 @@
 'use client';
-//import { useEffect, useRef } from 'react';
+import { useEffect, useRef } from 'react';
 import Script from 'next/script';
 //import { useRouter, usePathname, useSearchParams } from 'next/navigation';
 
 declare global {
   interface Window {
-    gtag: any
+    gtag: any,
+    admaxads: { admax_id: string, type: string }[],
+    __admax_tag__: any
   }
 }
 
 export default function analyticsScript() {
 
-  /*const pathname = usePathname();
-  const searchParams = useSearchParams();
-  const firstSkip = useRef<number>( 0 );
-
   useEffect(() => {
-    if ( firstSkip.current < 3 ) {
-      firstSkip.current += 1;
-      return () => { return };
+
+    /*(window.admaxads = window.admaxads || []).push({admax_id: "e3cce704a48dbc4d3f2d02a6c335c235",type: "banner"});
+    (window.admaxads = window.admaxads || []).push({admax_id: "e3cce704a48dbc4d3f2d02a6c335c235",type: "banner"});
+    (window.admaxads = window.admaxads || []).push({admax_id: "e3cce704a48dbc4d3f2d02a6c335c235",type: "banner"});
+    (window.admaxads = window.admaxads || []).push({admax_id: "ef7b5aa165cb2626d4364bbeabb3f215",type: "banner"});
+    (window.admaxads = window.admaxads || []).push({admax_id: "ef7b5aa165cb2626d4364bbeabb3f215",type: "banner"});
+
+    const tag = document.createElement('script');
+    tag.src = 'https://adm.shinobi.jp/st/t.js';
+    tag.async = true;
+    document.body.appendChild( tag );*/
+
+    const adsbygoogle = document.createElement('script');
+    adsbygoogle.src = `https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${ process.env.NEXT_PUBLIC_CA_PUB || '' }`;
+    adsbygoogle.async = true;
+    adsbygoogle.setAttribute('crossorigin', 'anonymous');
+    document.head.appendChild( adsbygoogle );
+
+    const twitterTimeline = document.createElement('script');
+    twitterTimeline.src = 'https://platform.twitter.com/widgets.js';
+    twitterTimeline.async = true;
+    twitterTimeline.charset = 'utf-8';
+    document.body.appendChild( twitterTimeline );
+
+    return () => {
+      /*document.body.removeChild (tag );
+      window.admaxads = [];
+      window["__admax_tag__"] = undefined;*/
+      document.head.removeChild( adsbygoogle );
+      document.body.removeChild( twitterTimeline );
+      //console.log('unmount');
     }
-    console.log('first load.', firstSkip.current );
-    const url = process.env.NEXT_PUBLIC_APP_URL + pathname + searchParams.toString();
-    window.gtag("config", process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID, {
-      page_path: url,
-    });
-  }, [ pathname, searchParams ]);*/
+  }, [ /*pathname, searchParams*/ ]);
 
   return (
     <>

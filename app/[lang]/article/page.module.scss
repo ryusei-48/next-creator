@@ -37,13 +37,13 @@ header.post_title_wrap {
       padding-left: 15px;
       padding-right: 15px;
     }
-    div.categorys {
+    ul.categorys {
       flex-basis: auto;
       display: flex;
       flex-flow: wrap;
       align-items: center;
       gap: 20px;
-      span.category {
+      li.category {
         flex-basis: auto;
         .link_wrap {
           display: flex;
@@ -66,6 +66,7 @@ header.post_title_wrap {
               top: 50%; left: 50%;
               transform: translate( -50%, -50% );
               width: 100%;
+              height: 100%;
               border-radius: 50%;
             }
           }
@@ -105,7 +106,7 @@ header.post_title_wrap {
 }
 
 section.post_content {
-  width: calc(100% - 355px);
+  width: calc(100% - 375px);
   padding: 10px;
   @include sp_base() {
     width: 100%;
@@ -170,6 +171,34 @@ section.post_content {
       padding: 15px;
       img {
         width: 100%;
+      }
+    }
+  }
+  aside.advertise_content {
+    display: block;
+    width: 100%;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    > div.pc_double {
+      display: flex;
+      flex-flow: wrap;
+      justify-content: center;
+      gap: 15px;
+      width: 100%;
+      @include sp_base() {
+        display: none;
+      }
+      > div.left, > div.right {
+        flex-basis: calc( 50% - 7.5px );
+        text-align: center;
+      }
+    }
+    > div.sp_square {
+      display: none;
+      width: 100%;
+      //text-align: center;
+      @include sp_base() {
+        display: block;
       }
     }
   }

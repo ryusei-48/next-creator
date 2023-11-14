@@ -26,7 +26,6 @@ export default async function Home({ params: { lang } }: {
   params: { lang: AcceptLocales }
 }) {
 
-  if ( !lang ) lang = myConfig.locale.default as AcceptLocales;
   const localeStack = await dictionaries[ lang ].home();
   const localePathname = myConfig.locale.default === lang ? '' : lang;
 
@@ -48,7 +47,7 @@ export default async function Home({ params: { lang } }: {
   return (
     <>
       <Header lang={ lang } />
-      <Container>
+      <Container type='div' styleInit>
         <main className={ style.post_entries }>
           <h2>{ localeStack['latest-post-heading2'] }</h2>
           {
@@ -61,7 +60,7 @@ export default async function Home({ params: { lang } }: {
                       <figure>
                         {
                           post.media ?
-                          <img src={ `./api/media-stream?w=800&id=${ post.media.id }` } alt="サムネイル画像" loading="lazy" /> :
+                          <img src={ `/api/media-stream?w=800&id=${ post.media.id }` } alt="thumbnail image" loading="lazy" /> :
                           <span className={ style.no_image }>No Image</span>
                         }
                       </figure>

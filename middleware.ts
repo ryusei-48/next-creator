@@ -18,7 +18,7 @@ export function middleware( request: Request ) {
   //style-src 'self' 'nonce-${nonce}';
   const cspHeader = `
     default-src 'self';
-    script-src 'self' https://adm.shinobi.jp https://www.googletagmanager.com  https://www.google-analytics.com 'unsafe-inline' 'unsafe-eval';
+    script-src 'self' https://* 'unsafe-inline' 'unsafe-eval';
     style-src 'self' 'unsafe-inline';
     style-src-elem 'self' https://fonts.googleapis.com 'unsafe-inline';
     img-src 'self' https://* blob: data:;
@@ -32,11 +32,12 @@ export function middleware( request: Request ) {
   `;
 
   //requestHeaders.set( 'x-nonce', nonce );
-  /*requestHeaders.set(
+  requestHeaders.set(
     'Content-Security-Policy',
     // Replace newline characters and spaces
-    cspHeader.replace(/\s{2,}/g, ' ').trim()
-  );*/
+    //cspHeader.replace(/\s{2,}/g, ' ').trim()
+    "default-src * 'unsafe-inline' 'unsafe-eval' 'unsafe-hashes'"
+  );
 
   const { isRedirect, url, language } = getLocale( request );
   //console.log( isRedirect, url, language );
@@ -60,7 +61,7 @@ function getLocale( request: Request ): {
 } {
 
   const url = new URL( request.url );
-  const rootUrl = url.protocol + '//' + url.host;
+  //const rootUrl = url.protocol + '//' + url.host;
   const pathname = url.pathname;
   let language: string = '';
   let isRedirect: boolean = false;
@@ -83,7 +84,8 @@ function getLocale( request: Request ): {
         'accept-language': request.headers.get('accept-language') || undefined
       } }).language() || defaultLocal;
       //console.log( request.headers.get('accept-language') );
-      //console.log( requestedLanguage );
+      //console.log( 'request URL: ', request.url );
+      //console.log( 'requestedLanguage: ', requestedLanguage );
   
       language = match( [requestedLanguage], locals, defaultLocal );
   

@@ -32,7 +32,7 @@ export const metadata: Metadata = {
     type: 'website',
   },
   other: {
-    //"accept-locales": myConfig.locale['accept-lang'],
+    "google-adsense-account": process.env.NEXT_PUBLIC_CA_PUB || '',
     //"use-language": myConfig.locale.default
   }
 }

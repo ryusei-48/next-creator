@@ -13,6 +13,9 @@ const nextConfig = {
     serverComponentsExternalPackages: [ 'sharp', 'fs/promises', 'fs', 'bcrypt' ],
     //serverActions: true
   },
+  images: {
+    domains: [ process.env.APP_URL ],
+  },
   rewrites: async () => {
     return [
       { source: '/', destination: '/ja' },

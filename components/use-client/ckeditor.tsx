@@ -173,7 +173,7 @@ export function CreateCkEditor({ lang, editorRef, selectoMedia, /*loadInputCount
           mediaEmbed: { previewsInData: true }, language: 'ja',
           codeBlock: {
             languages: [
-              { language: 'plaintext', label: 'Plain text', class: 'language-plaintext Plain-Text' },
+              { language: 'text', label: 'Plain text', class: 'language-text Plain-Text' },
               { language: 'commandline', label: 'Commandline', class: 'language-plaintext Commandline' },
               { language: 'shell', label: 'Shell', class: 'language-shell Shell' },
               { language: 'c', label: 'C', class: 'language-c C' },

@@ -11,7 +11,7 @@
       display: block;
       .cat_link {
         display: block;
-        padding: 3px 6px;
+        padding: 6px 6px;
         padding-left: 15px;
         &:hover {
           background-color: var( --primary-color );
@@ -28,7 +28,8 @@
             position: absolute;
             top: 50%; left: 50%;
             transform: translate(-50%, -50%);
-            width: 1.2em;
+            width: 1.5em;
+            height: 1.5em;
             border-radius: 50%;
           }
           .fontawesome {

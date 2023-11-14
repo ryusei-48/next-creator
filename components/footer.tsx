@@ -1,4 +1,5 @@
 import style from './footer.module.scss';
+import CategoryList from './category-list';
 import AnalyticsScript from './analytics.script';
 import Link from 'next/link';
 import Script from 'next/script';
@@ -10,7 +11,7 @@ export default async function Footer({ lang }: { lang: AcceptLocales }) {
 
   return (
     <>
-      {/*<span className={ style.spacer }></span>*/}
+      <CategoryList lang={ lang } />
       <footer className={ style.footer }>
         <div className={ 'container ' + style.flex }>
           <nav>

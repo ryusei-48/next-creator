@@ -87,7 +87,9 @@ export default async function header({ lang }: { lang: AcceptLocales }) {
                 <li key={1}>
                   <button id="open-contactform">{ localeStack.contact }</button>
                 </li>
-                <li key={2}>{ localeStack.product }</li>
+                <li key={2}>
+                  <button aria-label='プロダクトリスト' id="open-product-list">{ localeStack.product }</button>
+                </li>
                 <li style={{ position: 'relative' }}>
                   <button id="open-category-dropdown">
                     { localeStack.category }&nbsp;

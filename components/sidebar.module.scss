@@ -1,7 +1,7 @@
 @import "../app/[lang]/comon.function.scss";
 
 div.sidebar {
-  flex-basis: calc( 355px - 15px );
+  width: calc( 375px - 15px );
   align-self: stretch;
   padding: 10px;
   @include sp_base() {
@@ -9,6 +9,26 @@ div.sidebar {
   }
   p {
     font-size: 16px;
+  }
+  aside.advertise_content {
+    display: block;
+    width: 100%;
+    > div.pc_square {
+      display: block;
+      width: 100%;
+      text-align: center;
+      @include sp_base() {
+        display: none;
+      }
+    }
+    > div.sp_square {
+      display: none;
+      width: 100%;
+      //text-align: center;
+      @include sp_base() {
+        display: block;
+      }
+    }
   }
   aside.profile {
     display: block;
@@ -47,6 +67,16 @@ div.sidebar {
         font-size: 12pt;
         margin: 0 5px;
       }
+    }
+  }
+  aside.x_timelinee {
+    display: block;
+    width: 100%;
+    padding-top: 30px;
+    padding-bottom: 30px;
+    > div.wrapper {
+      display: block;
+      width: 100%;
     }
   }
   div.sticky_content {

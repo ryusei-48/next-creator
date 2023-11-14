@@ -13,6 +13,7 @@ import { redirect } from 'next/navigation';
 import { getComments } from './discussion.actions';
 import { getStrDatetime } from '@/lib/functions';
 import Link from 'next/link';
+import Image from 'next/image';
 import type { Metadata, ResolvingMetadata } from 'next';
 
 type Props = {
@@ -98,24 +99,24 @@ export async function ArticleCommon({ postData, lang }: {
 
     <>
       <Header lang={ lang } />
-      <Container>
+      <Container type='div' styleInit>
         <main className={ `${ style.main }` }>
           <article className={ style.post_container }>
             <header className={ `animate__animated animate__fadeInDown animate__fast ` +  style.post_title_wrap }>
               <h1>{ postData ? postData.title[ lang ] : '' }</h1>
               <div className={ style.post_meta }>
-                <div className={ style.categorys }>
+                <ul className={ style.categorys }>
                   {
                     postData.CategoryPost.map((cat) => {
                       return (
-                        <span key={ cat.category.id } className={ style.category }>
+                        <li key={ cat.category.id } className={ style.category }>
                           <Link className={ style.link_wrap } href={`/category/${ cat.category.slug }`}>
                             <span className={ style.icon }>
                               {
                                 cat.category.icon_mime ?
                                 <span className={ style.image_wrap }>
-                                  <img src={`../api/media-stream/icon?id=${ cat.category.id }`}
-                                    loading="lazy" alt={`${ cat.category.name[ lang ] } - アイコン`}
+                                  <Image src={`/api/media-stream/icon?id=${ cat.category.id }`}
+                                    loading="lazy" width={`50`} height={`50`} alt={`${ cat.category.name[ lang ] } - アイコン`}
                                   />
                                 </span> :
                                 <FontAwesomeIcon icon={ faHashtag }></FontAwesomeIcon>
@@ -125,11 +126,11 @@ export async function ArticleCommon({ postData, lang }: {
                               { cat.category.name[ lang ] }
                             </span>
                           </Link>
-                        </span>
+                        </li>
                       )
                     })
                   }
-                </div>
+                </ul>
                 <div className={ style.datetime }>
                   {
                     isUpdad &&
@@ -156,7 +157,7 @@ export async function ArticleCommon({ postData, lang }: {
                       src={ `${ process.env.NEXT_PUBLIC_APP_URL }/api/media-stream?w=800&id=${ postData!.media!.id }` }
                       srcSet={
                         Object.keys( postData.media.url.paths ).map((size) => {
-                          return `${ process.env.NEXT_PUBLIC_APP_URL }/api/media-stream?w=${ size }&id=${ postData!.media!.id } w${ size }`;
+                          return `${ process.env.NEXT_PUBLIC_APP_URL }/api/media-stream?w=${ size }&id=${ postData!.media!.id } ${ size }w`;
                         }).join(', ')
                       }
                       sizes='100vw' width={ Object.keys( postData.media.url.paths ).splice(-1)[0] }
@@ -170,6 +171,20 @@ export async function ArticleCommon({ postData, lang }: {
                 className={ style.insert_html }
                 dangerouslySetInnerHTML={{ __html: postData ? postData?.body[ lang ] as string : '' }}
               ></div>
+              { /*<aside className={ style.advertise_content }>
+                <div className={ style.pc_double }>
+                  <div className={ style.left }>
+                    <div className="admax-ads" data-admax-id="e3cce704a48dbc4d3f2d02a6c335c235" style={{ display: 'inline-block', width: '336px', height: '280px' }}></div>
+                  </div>
+                  <div className={ style.right }>
+                    <div className="admax-ads" data-admax-id="e3cce704a48dbc4d3f2d02a6c335c235" style={{ display: 'inline-block', width: '336px', height: '280px' }}></div>
+                  </div>
+                  
+                </div>
+                <div className={ style.sp_square }>
+                  <div className="admax-ads" data-admax-id="ef7b5aa165cb2626d4364bbeabb3f215" style={{ display: 'inline-block', width: '300px' }}></div>
+                </div>
+              </aside> */}
               <RelatedPost lang={ lang } postId={ postData.id } postDate={ postData.register_date } categories={ postData.CategoryPost } />
               <section className={ style.discussion_wrap }>
                 <h2>Discussion</h2>

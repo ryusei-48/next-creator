@@ -30,6 +30,10 @@ export declare global {
 
   export namespace Category {
 
+    type List = {
+      //
+    }
+
     type CategoryRelatedPost = {
       id: number;
       name: {[key: string]: string},

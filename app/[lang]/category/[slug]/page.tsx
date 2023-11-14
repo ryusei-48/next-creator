@@ -31,7 +31,7 @@ export default async function Home({ params: { lang, slug } }: {
   return (
     <>
       <Header lang={ lang } />
-      <Container>
+      <Container type='div' styleInit>
         <main className={ style.post_entries }>
           <h2>最新記事 - { postList?.name[ lang ] }</h2>
           {

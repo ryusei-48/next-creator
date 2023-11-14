@@ -1,3 +1,5 @@
+@import '../app/[lang]/comon.function.scss';
+
 .footer {
   //position: absolute;
   //left: 0; bottom: 0;
@@ -5,8 +7,8 @@
   align-self: flex-end;
   width: 100%;
   margin-top: 15px;
-  padding: 10px 20px;
-  background-color: var( --background-secondary-color );
+  padding: 10px 15px;
+  background-color: var( --background-primary-color );
   > div.flex {
     display: flex;
     flex-flow: wrap;
@@ -15,15 +17,24 @@
   }
   nav {
     flex-basis: 50%;
+    @include sp_base() {
+      flex-basis: 100%;
+    }
     > ul {
       display: flex;
       flex-flow: wrap;
       justify-content: left;
       align-items: center;
       width: 100%;
+      @include sp_base() {
+        margin-bottom: 10px;
+      }
       > li {
         flex-basis: auto;
         padding: 3px 15px;
+        @include sp_base() {
+          padding: 3px 10px;
+        }
       }
     }
   }
@@ -31,6 +42,10 @@
     flex-basis: 50%;
     font-size: 12pt;
     text-align: right;
+    @include sp_base() {
+      flex-basis: 100%;
+      text-align: center;
+    }
   }
 }
 /*

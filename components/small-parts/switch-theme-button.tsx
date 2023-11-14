@@ -15,6 +15,11 @@ export default function ThemeChangeSwitch({ style }: { style: CSSProperties | un
   useEffect(() => {
     async function startFetching() {
       if ( !ignore ) {
+        const visited = getCookie('visited', { secure: true, sameSite: true }) as UseCookie | undefined;
+        if ( !visited ) {
+          setCookie('visited', 'ok', { maxAge: 60 * 60 * 24 * 30, secure: true, sameSite: true });
+          handleThemeChange( 'light' );
+        }
         const useTheme = getCookie('use-theme', { secure: true, sameSite: true }) as UseCookie | undefined;
         if ( useTheme && ["system", "light", "dark"].includes( useTheme ) ) {
           handleThemeChange( useTheme );

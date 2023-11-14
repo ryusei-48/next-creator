@@ -4,6 +4,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHashtag } from '@fortawesome/free-solid-svg-icons';
 import Link from 'next/link';
+import Image from 'next/image';
 import { getCategory } from '@/app/[lang]/admin/post/content';
 
 export default function CategoriesDropdown({ lang, defaultLang, isMobile }: {
@@ -50,9 +51,9 @@ export default function CategoriesDropdown({ lang, defaultLang, isMobile }: {
                     <span className={ style.icon } style={{ marginRight: cat.icon_mime ? '25px' : '10px' }}>
                       {
                         cat.icon_mime ?
-                        <img
-                          src={ `${ process.env.NEXT_PUBLIC_APP_URL }/api/media-stream/icon?id=${ cat.id }` }
-                          alt='category icon' loading="lazy"
+                        <Image
+                          src={ `/api/media-stream/icon?id=${ cat.id }` }
+                          alt='category icon' width={`50`} height={`50`} loading="lazy"
                         /> :
                         <FontAwesomeIcon className={ style.fontawesome } icon={ faHashtag }></FontAwesomeIcon>
                       }

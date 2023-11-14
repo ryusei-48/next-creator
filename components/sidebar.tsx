@@ -18,6 +18,14 @@ export default async function Sidebar({ useLang, defaultLang, locales, localeLab
 
   return (
     <div className={ `${ style.sidebar }` }>
+      {/* <aside className={ style.advertise_content }>
+        <div className={ style.pc_square }>
+          <div className="admax-ads" data-admax-id="e3cce704a48dbc4d3f2d02a6c335c235" style={{ display: 'inline-block', width: '336px', height: '280px' }}></div>
+        </div>
+        <div className={ style.sp_square }>
+          <div className="admax-ads" data-admax-id="ef7b5aa165cb2626d4364bbeabb3f215" style={{ display: 'inline-block', width: '300px' }}></div>
+        </div>
+      </aside>*/ }
       <aside className={ 'animate__animated animate__fadeIn ' + style.profile }>
         <h3>{ localeStack.profile }</h3>
         <div className={ style.card }>
@@ -54,6 +62,12 @@ export default async function Sidebar({ useLang, defaultLang, locales, localeLab
               <FontAwesomeIcon width={`20px`} icon={ faGithub }></FontAwesomeIcon>
             </a>
           </div>
+        </div>
+      </aside>
+      <aside className={ style.x_timelinee }>
+        <h3>X Timeline</h3>
+        <div className={ style.wrapper }>
+          <a className="twitter-timeline" data-chrome="noscrollbar noheader" data-height="400" data-theme="dark" href="https://twitter.com/ryusei__46?ref_src=twsrc%5Etfw">Tweets by ryusei__46</a>
         </div>
       </aside>
       <div className={ style.sticky_content }>

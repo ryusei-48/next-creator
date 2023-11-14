@@ -263,6 +263,7 @@
   outline: none;
   &:focus { outline: none; }
   &::selection {
+    color: white;
     background: var( --primary-color );
   }
 }
@@ -293,7 +294,7 @@ body {
   transition: all .4s;
 }
 
-div.container {
+div.container, article.container, ul.container {
   display: block;
   width: 100%;
   margin: 0 auto;
@@ -372,11 +373,8 @@ pre {
   }
 }
 
-code {
-  color: var( --foreground-color-code ) !important;
-}
-
 p > code {
+  color: var( --foreground-color-code ) !important;
   padding: 0px 4px 2px 4px;
   border: 1px solid var( --foreground-color-code );
   margin-left: 5px;
