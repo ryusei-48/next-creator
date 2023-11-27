@@ -1,6 +1,8 @@
 import profileImage from '@/app/[lang]/icon.png';
+import GoogleAdsense from './use-client/advertisement/google-adsense';
 import Image from 'next/image';
 import style from './sidebar.module.scss';
+import ArticleList from './article-list';
 import HeadingTable from './use-client/heading-table';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faGithub, faXTwitter } from '@fortawesome/free-brands-svg-icons';
@@ -8,6 +10,7 @@ import { pageJudg } from '@/lib/functions';
 import LocaleDict from '@/locales/dictionaries';
 import HeaderJson from '@/locales/ja/sidebar.json';
 export type ArticleIndexLocales = typeof HeaderJson["headline-heading2"];
+export type ArticleListLocale = typeof HeaderJson["article-list"];
 
 export default async function Sidebar({ useLang, defaultLang, locales, localeLabels }: {
   useLang: AcceptLocales, locales: string[], localeLabels: {[key: string]: {[key: string]: string}},
@@ -18,14 +21,17 @@ export default async function Sidebar({ useLang, defaultLang, locales, localeLab
 
   return (
     <div className={ `${ style.sidebar }` }>
-      {/* <aside className={ style.advertise_content }>
+      <aside className={ style.advertise_content }>
         <div className={ style.pc_square }>
-          <div className="admax-ads" data-admax-id="e3cce704a48dbc4d3f2d02a6c335c235" style={{ display: 'inline-block', width: '336px', height: '280px' }}></div>
+          <a href="https://px.a8.net/svt/ejp?a8mat=3BHRH7+9B7AUI+50+4YSWE9" rel="nofollow">
+            <img loading="lazy" width="336" height="280" alt="" src="https://www29.a8.net/svt/bgt?aid=200703067563&wid=012&eno=01&mid=s00000000018030032000&mc=1" />
+          </a>
+          <img loading="lazy" width="1" height="1" src="https://www19.a8.net/0.gif?a8mat=3BHRH7+9B7AUI+50+4YSWE9" alt="" />
         </div>
         <div className={ style.sp_square }>
-          <div className="admax-ads" data-admax-id="ef7b5aa165cb2626d4364bbeabb3f215" style={{ display: 'inline-block', width: '300px' }}></div>
+          <GoogleAdsense />
         </div>
-      </aside>*/ }
+      </aside>
       <aside className={ 'animate__animated animate__fadeIn ' + style.profile }>
         <h3>{ localeStack.profile }</h3>
         <div className={ style.card }>
@@ -70,6 +76,19 @@ export default async function Sidebar({ useLang, defaultLang, locales, localeLab
           <a className="twitter-timeline" data-chrome="noscrollbar noheader" data-height="400" data-theme="dark" href="https://twitter.com/ryusei__46?ref_src=twsrc%5Etfw">Tweets by ryusei__46</a>
         </div>
       </aside>
+      <aside className={ style.advertise_content }>
+        <h3>スポンサーリンク</h3>
+        <div className={ style.responsive }>
+          <GoogleAdsense />
+        </div>
+        { /*<div className={ style.pc_square }>
+          <GoogleAdsense />
+        </div>
+        <div className={ style.sp_square }>
+          <GoogleAdsense />
+        </div> */ }
+      </aside>
+      { pageJudg('post') && <ArticleList lang={ useLang } localeStack={ localeStack["article-list"] } /> }
       <div className={ style.sticky_content }>
         { pageJudg('post') && <HeadingTable lang={ useLang } localeStack={ localeStack['headline-heading2'] } /> }
       </div>

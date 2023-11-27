@@ -166,8 +166,9 @@ pre > span.controller {
   position: absolute;
   top: 0; right: 0;
   > button.copy {
+    color: white;
     padding: 2px 5px;
-    background-color: var( --primary-color );
+    background-color: blueviolet;
     > img.copy-icon {
       width: 1em;
     }

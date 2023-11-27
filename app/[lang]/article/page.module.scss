@@ -1,4 +1,4 @@
-@import "../comon.function.scss";
+@import "../../comon.function.scss";
 
 .main {
   display: block;
@@ -208,7 +208,7 @@ section.post_content {
     padding: 15px;
     padding-top: 5px;
     border-radius: 10px;
-    background-color: var( --background-primary-color );
+    background-color: var( --discussion-background-color );
     > h2 {
       margin-top: 5px;
       border-bottom: none;

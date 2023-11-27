@@ -19,7 +19,7 @@ export default async function Home({ params: { lang, slug } }: {
   const postListRes = await fetch(`${ process.env.API_ACCESS_ADDRESS }/api/category/get/related-post`, {
     method: 'POST', body: JSON.stringify( requestJson ), headers: {
       "API_ACCESS_TOKEN": process.env.API_ACCESS_TOKEN!
-    }, //cache: 'no-store', next: { revalidate: 1 }
+    }, next: { revalidate: 20 }
   });
 
   let postList: Category.CategoryRelatedPost = null;

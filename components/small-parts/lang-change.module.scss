@@ -6,7 +6,7 @@
     font-size: 12pt;
     padding: 3px 5px;
     background-color: transparent;
-    //transition: all .3s ease-in-out;
+    transition: all .3s ease;
     > span.flag {
       display: inline-block;
       width: 1em;
@@ -34,7 +34,7 @@ div.lang_selector_mobile {
   flex-direction: column;
   justify-content: center;
   padding: 5px;
-  background-color: var( --background-primary-color );
+  background-color: var( --categories-dropdown-background );
   @extend .common_base;
 }
 
@@ -45,10 +45,11 @@ div.lang_selector {
   flex-direction: column;
   justify-content: center;
   padding: 5px;
-  background-color: var( --background-primary-color );
+  background-color: var( --categories-dropdown-background );
+  box-shadow: 0px 0px 39px -10px #777777;
   z-index: -1;
   opacity: 0;
-  transition: all .3s ease-in-out;
+  transition: all .3s ease;
   > button {
     flex-basis: auto;
     flex-grow: 1;
@@ -56,7 +57,7 @@ div.lang_selector {
     font-size: 12pt;
     padding: 3px 5px;
     background-color: transparent;
-    //transition: all .3s ease-in-out;
+    transition: all .3s ease;
     > span.flag {
       display: inline-block;
       width: 1em;

@@ -1,5 +1,7 @@
 <svg width="400" height="255" viewBox="0 0 400 255" fill="none" xmlns="http://www.w3.org/2000/svg">
   <style>
+    rect { fill: white; }
+    path { fill: black; }
     @media ( prefers-color-scheme: light ) {
       rect { fill: gray; }
       path { fill: black; }

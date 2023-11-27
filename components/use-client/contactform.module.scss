@@ -1,4 +1,4 @@
-@import '../../app/[lang]/comon.function.scss';
+@import '../../app/comon.function.scss';
 
 dialog.contactform {
   top: 30%;
@@ -48,6 +48,7 @@ dialog.contactform {
         background-color: var( --primary-color );
         padding: 6px 17px;
         margin-right: 15px;
+        color: white;
       }
       > button.close {
         border: 2px solid var( --border-color );

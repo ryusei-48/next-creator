@@ -26,8 +26,9 @@ export async function generateMetadata(
     title: 'プライバシー・ポリシー',
     description: '当サイトのプライバシー・ポリシーを掲載するページです。',
     alternates: {
-      canonical: '/' + ( myConfig.locale.default === lang ? `` : `${ lang }` )
-    }
+      canonical: '/privacy-policy', languages: undefined
+    },
+    openGraph: undefined
   }
 }
 

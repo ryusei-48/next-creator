@@ -1,10 +1,11 @@
 import Header from '@/components/header';
 import Container from '@/components/container';
 import RelatedPost from './related';
+import GoogleAdsense from '@/components/use-client/advertisement/google-adsense';
 import Discussion from './discussion';
 import Sidebar from '@/components/sidebar';
+import ArticleScript from './article.script';
 import Footer from '@/components/footer';
-import Script from 'next/script';
 import style from './page.module.scss';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHashtag } from '@fortawesome/free-solid-svg-icons';
@@ -20,6 +21,8 @@ type Props = {
   params: { lang: AcceptLocales }
   searchParams: { id: string | undefined }
 }
+
+//export const revalidate = 5;
 
 export async function getPost( postId: string ) {
   return fetch(`${ process.env.API_ACCESS_ADDRESS }/api/post/get`, {
@@ -58,10 +61,18 @@ export async function generateMetadata(
     ogpImage = `${ process.env.APP_URL }/api/media-stream?id=${ postData.media.id }&w=${ size }`
   }
 
+  const thisPathname = `${ postData.permalink ? `article/${ postData.permalink }` : `article?id=${ postData.id }` }`;
+  const langParams: {[key: string]: string} = {}
+  for ( let lang of myConfig.locale['accept-lang'] ) {
+    langParams[ lang ] = `/${ lang }/${ thisPathname }`;
+  }
+  langParams['x-default'] = `/${ thisPathname }`;
+
   return {
     title: postData.title[ lang ],
     description: postData.description ? postData.description[ lang ]  : '',
     alternates: {
+      languages: langParams,
       canonical: '/article' + ( postData.permalink ? `/${ postData.permalink }` : `?id=${ postData.id }` )
     },
     openGraph: {
@@ -171,20 +182,19 @@ export async function ArticleCommon({ postData, lang }: {
                 className={ style.insert_html }
                 dangerouslySetInnerHTML={{ __html: postData ? postData?.body[ lang ] as string : '' }}
               ></div>
-              { /*<aside className={ style.advertise_content }>
+              <aside className={ style.advertise_content }>
                 <div className={ style.pc_double }>
                   <div className={ style.left }>
-                    <div className="admax-ads" data-admax-id="e3cce704a48dbc4d3f2d02a6c335c235" style={{ display: 'inline-block', width: '336px', height: '280px' }}></div>
+                    <GoogleAdsense />
                   </div>
                   <div className={ style.right }>
-                    <div className="admax-ads" data-admax-id="e3cce704a48dbc4d3f2d02a6c335c235" style={{ display: 'inline-block', width: '336px', height: '280px' }}></div>
+                    <GoogleAdsense />
                   </div>
-                  
                 </div>
                 <div className={ style.sp_square }>
-                  <div className="admax-ads" data-admax-id="ef7b5aa165cb2626d4364bbeabb3f215" style={{ display: 'inline-block', width: '300px' }}></div>
+                  { /*<GoogleAdsense />*/ }
                 </div>
-              </aside> */}
+              </aside>
               <RelatedPost lang={ lang } postId={ postData.id } postDate={ postData.register_date } categories={ postData.CategoryPost } />
               <section className={ style.discussion_wrap }>
                 <h2>Discussion</h2>
@@ -202,7 +212,7 @@ export async function ArticleCommon({ postData, lang }: {
           </article>
         </main>
       </Container>
-      <Script src={`${ process.env.APP_URL }/scripts/article.js`} strategy='lazyOnload' />
+      <ArticleScript />
       <Footer lang={ lang } />
     </>
   )

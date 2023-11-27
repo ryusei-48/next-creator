@@ -17,7 +17,7 @@
 
   --foreground-color: 0, 0, 0;
   --foreground-color-secondary: gray;
-  --foreground-color-code: #ffaf1c;
+  --foreground-color-code: orangered;
 
   //--background-image-main: linear-gradient(to right bottom, #7900ff, #6750ff, #6174ff, #6d91ff, #87abff, #87abff, #87abff, #87abff, #6d91ff, #6174ff, #6750ff, #7900ff);;
   --background-image-main: white;
@@ -25,8 +25,11 @@
   --background-primary-color: #cdcdcd;
   --background-primary-dark-color: #a5a5a5;
   --background-secondary-color: rgb(204, 225, 221);
+  --background-color-code: #fbfbfb;
+  --discussion-background-color: #f1f1f1;
+  --categories-dropdown-background: #fbfbfb;
 
-  --primary-color: darkOrchid;
+  --primary-color: violet;
   --secondary-color: mediumturquoise;
 
   // スクロールバー
@@ -53,6 +56,9 @@
   --react-select-primary25: rgb(189, 189, 189);
 
   --container-max-width: 1300px;
+
+  // tocbot
+  --tocbot-selected-background: #e7e7e7;
 }
 
 @mixin base-dark-theme() {
@@ -67,6 +73,9 @@
   --background-primary-color: #1e1d1d;
   --background-primary-dark-color: black;
   --background-secondary-color: rgb(45 49 49);
+  --background-color-code: var( --background-primary-color );
+  --discussion-background-color: var( --background-primary-color );
+  --categories-dropdown-background: var( --background-primary-dark-color );
 
   --primary-color: darkOrchid;
   --secondary-color: mediumturquoise;
@@ -91,6 +100,9 @@
   --react-select-neutral0: rgb(47, 47, 47);
   --react-select-primary: var( --primary-color );
   --react-select-primary25: rgb(87, 87, 87);
+
+  // tocbot
+  --tocbot-selected-background: var( --background-primary-color );
 }
 
 :root.ck-theme-dark {
@@ -205,7 +217,7 @@
   --ck-color-link-default: hsl(190, 100%, 75%);
 
   // code block
-  --ck-code-block-color: orange;
+  --ck-code-block-color: white;
   --ck-code-block-border: 1px solid gray;
   --ck-code-block-background-color: hsl(0deg 0.71% 30.64% / 30%);
 }
@@ -324,6 +336,13 @@ a {
   text-decoration: none;
 }
 
+#insert_post_html p > a, #insert_post_html li > a {
+  color: violet;
+  text-decoration: underline;
+  margin-left: 5px;
+  margin-right: 5px;
+}
+
 a.inline-decoration {
   color: var( --primary-color );
   text-decoration: underline;
@@ -345,7 +364,7 @@ button {
   padding: 0;
   border: none;
   background-color: transparent;
-  color: white;
+  color: var( --foreground-color );
   &:active::before, &:disabled::before {
     position: absolute;
     top: 0; left: 0;
@@ -363,7 +382,7 @@ pre {
   > span.lang_name {
     position: absolute;
     top: 0; left: 0;
-    padding: 4px;
+    padding: 2px 15px;
     background-color: gray;
     color: white;
   }
@@ -421,6 +440,12 @@ fieldset {
     padding-inline-start: unset;
     padding-inline-end: unset;
   }
+}
+
+figcaption {
+  background-color: var( --background-secondary-color );
+  padding: 5px;
+  text-align: center;
 }
 
 input[type="text"], input[type="search"],

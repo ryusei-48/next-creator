@@ -3,6 +3,7 @@ import Container from '@/components/container';
 import Sidebar from '@/components/sidebar';
 import Footer from '@/components/footer';
 import style from './page.module.scss'
+import { PrismaClient } from '@prisma/client';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faClock } from '@fortawesome/free-solid-svg-icons';
 import { getStrDatetime } from '@/lib/functions';
@@ -11,10 +12,20 @@ import dictionaries from '@/locales/dictionaries';
 import Link from 'next/link';
 import type { Metadata, ResolvingMetadata } from 'next';
 
+const prisma = new PrismaClient();
+
+function languageAdjustment( lang: string ): AcceptLocales {
+  if ( !myConfig.locale['accept-lang'].includes( lang ) ) {
+    lang = myConfig.locale.default;
+  }
+  return lang as AcceptLocales;
+}
+
 export async function generateMetadata(
   { params: { lang } }: { params: { lang: AcceptLocales } }, parent: ResolvingMetadata
 ): Promise<Metadata> {
 
+  lang = languageAdjustment( lang );
   const localeStack = await dictionaries[ lang ].home();
 
   return {
@@ -26,22 +37,23 @@ export default async function Home({ params: { lang } }: {
   params: { lang: AcceptLocales }
 }) {
 
+  lang = languageAdjustment( lang );
   const localeStack = await dictionaries[ lang ].home();
   const localePathname = myConfig.locale.default === lang ? '' : lang;
 
-  const postListRes = await fetch(`${ process.env.API_ACCESS_ADDRESS }/api/post/get-many`, {
-    method: 'POST', body: JSON.stringify({
-      orderBy: [{ register_date: 'desc' }], where: { status: 'publish' },
-      take: 20, skip: 0
-    }), headers: {
-      "API_ACCESS_TOKEN": process.env.API_ACCESS_TOKEN!
-    },
-    next: { revalidate: 30 }
-  });
+  const postData = await prisma.post.findMany({
+    orderBy: { register_date: 'desc' }, where: { status: 'publish' },
+    take: 10 + 1, skip: 0, select: {
+      id: true, title: true, status: true,
+      user: { select: { nameid: true } }, description: true,
+      permalink: true, media: { select: { id: true, url: true } },
+      CategoryPost: { select: { category: { select: { id: true, name: true } } } },
+      register_date: true, update_date: true
+    }
+  }) as unknown as Post.GetPost[];
 
-  let postList: { isNext: boolean, result: Post.GetPost[] } | null = null;
-  if ( postListRes.ok ) {
-    postList = await postListRes.json();
+  let postList: { isNext: boolean, result: Post.GetPost[] } = {
+    result: postData, isNext: postData.length === 11
   }
 
   return (

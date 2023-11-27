@@ -3,15 +3,15 @@ div.ck.ck-reset.ck-dropdown__panel.ck-dropdown__panel_se {
   overflow-y: auto;
 }
 
-.ck-content  code {
-  background-color: var( --ck-code-block-background-color ) !important;
+.ck-content code {
+  //background-color: var( --background-color-code ) !important;
   border: var( --ck-code-block-border );
   color: var( --ck-code-block-color );
 }
 
 .ck-content pre {
   background: unset !important;
-  background-color: var( --ck-code-block-background-color ) !important;
+  background-color: var( --background-color-code ) !important;
 }
 
 .ck-content pre code {

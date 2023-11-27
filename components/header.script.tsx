@@ -1,6 +1,7 @@
 'use client';
 import style from './header.script.module.scss';
 import CategoryDropDown from './use-client/categories-dropdown';
+import ProductsDropdown from './use-client/products.dropdown';
 import LanguageSelector from './small-parts/lang-change';
 import { useEffect, useState, useRef } from 'react';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -22,6 +23,7 @@ export default function HeaderScrpt({
   const [ isMenuVisible, setIsMenuVisible ] = useState( false );
   const [ isAddShowClass, setIsAddShowClass ] = useState( false );
   const categoriesRef = useRef<HTMLLIElement | null>( null );
+  const productRef = useRef<HTMLLIElement | null>( null );
   const langChangeRef = useRef<HTMLLIElement | null>( null );
   let ignore = false;
 
@@ -46,6 +48,7 @@ export default function HeaderScrpt({
         setTimeout(() => {
           setExpandContent( langChangeRef );
           setExpandContent( categoriesRef );
+          setExpandContent( productRef );
         }, 300);
       }
     }
@@ -124,7 +127,7 @@ export default function HeaderScrpt({
               />
             </div>
           </li>
-          <li>
+          <li ref={ productRef }>
             <div className={ style.expand_togle }>
               <span className={ style.name }>
                 <button>
@@ -135,6 +138,9 @@ export default function HeaderScrpt({
               <span className={ style.expand_icon }>
                 <FontAwesomeIcon icon={ faChevronRight }></FontAwesomeIcon>
               </span>
+            </div>
+            <div className={ style.content_expand }>
+              <ProductsDropdown lang={ lang } isMobile />
             </div>
           </li>
           <li>

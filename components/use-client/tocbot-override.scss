@@ -16,6 +16,6 @@
   > li.toc-list-item.is-active-li {
     font-weight: bold;
     border-left: 3px solid var( --primary-color );
-    background-color: var( --background-secondary-color );
+    background-color: var( --tocbot-selected-background );
   }
 }

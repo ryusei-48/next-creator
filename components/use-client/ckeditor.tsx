@@ -20,9 +20,9 @@ export default function CkEditor({
 
   const [ useLang, setUseLang ] = useState<string>( defaultLang );
   //const ckeditorRef = useRef<{[key: string]: Editor}>({});
-  let ignore = false;
+  //let ignore = false;
 
-  useEffect(() => {
+  /*useEffect(() => {
     async function startFetching() {
       if ( !ignore ) {
         if ( window.matchMedia('(prefers-color-scheme: dark)').matches ) {
@@ -33,7 +33,7 @@ export default function CkEditor({
 
     startFetching();
     return () => { ignore = true };
-  }, []);
+  }, []);*/
 
   const selectoMedia = () => {
     if ( mediaSelectDialog && mediaSelectDialog.current ) {

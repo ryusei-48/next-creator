@@ -1,4 +1,8 @@
 {
   "profile": "Profile",
+  "article-list": {
+    "heading2": "Latest Articles",
+    "go-to-article-list": "最新記事一覧へ"
+  },
   "headline-heading2": "記事の目次"
 }

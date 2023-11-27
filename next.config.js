@@ -6,6 +6,8 @@ const dns = require("dns");
 const defaultLang = myConfig.locale['default'];
 dns.setDefaultResultOrder("ipv4first");
 
+const APP_URL = new URL( process.env.APP_URL );
+
 const nextConfig = {
   reactStrictMode: true,
   productionBrowserSourceMaps: true,
@@ -14,7 +16,12 @@ const nextConfig = {
     //serverActions: true
   },
   images: {
-    domains: [ process.env.APP_URL ],
+    remotePatterns: [
+      {
+        protocol: APP_URL.protocol.replace(/:$/, ''),
+        hostname: APP_URL.hostname,
+      }
+    ]
   },
   rewrites: async () => {
     return [

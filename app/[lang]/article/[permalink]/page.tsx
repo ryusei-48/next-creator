@@ -53,10 +53,18 @@ export async function generateMetadata(
     ogpImage = `${ process.env.APP_URL }/api/media-stream?id=${ postData.media.id }&w=${ size }`
   }
 
+  const thisPathname = `${ postData.permalink ? `article/${ postData.permalink }` : `article?id=${ postData.id }` }`;
+  const langParams: {[key: string]: string} = {}
+  for ( let lang of myConfig.locale['accept-lang'] ) {
+    langParams[ lang ] = `/${ lang }/${ thisPathname }`;
+  }
+  langParams['x-default'] = `/${ thisPathname }`;
+
   return {
     title: postData.title[ lang ],
     description: postData.description ? postData.description[ lang ]  : '',
     alternates: {
+      languages: langParams,
       canonical: '/article' + ( postData.permalink ? `/${ postData.permalink }` : `?id=${ postData.id }` )
     },
     openGraph: {

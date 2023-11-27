@@ -1,8 +1,9 @@
 import style from './footer.module.scss';
 import CategoryList from './category-list';
+import FooterScript from './footer.script';
 import AnalyticsScript from './analytics.script';
 import Link from 'next/link';
-import Script from 'next/script';
+import { pageJudg } from '@/lib/functions';
 import LocaleDict from '@/locales/dictionaries';
 
 export default async function Footer({ lang }: { lang: AcceptLocales }) {
@@ -11,7 +12,7 @@ export default async function Footer({ lang }: { lang: AcceptLocales }) {
 
   return (
     <>
-      <CategoryList lang={ lang } />
+      { !pageJudg('admin') && <CategoryList lang={ lang } /> }
       <footer className={ style.footer }>
         <div className={ 'container ' + style.flex }>
           <nav>
@@ -28,7 +29,7 @@ export default async function Footer({ lang }: { lang: AcceptLocales }) {
           <small>Copy right © { process.env.NEXT_PUBLIC_SITE_TITLE } All rights reserved.</small>
         </div>
       </footer>
-      <Script id="footer-script" strategy='lazyOnload' src='/scripts/footer.js'></Script>
+      <FooterScript />
       <AnalyticsScript />
     </>
   )

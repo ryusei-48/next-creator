@@ -55,6 +55,7 @@ export function middleware( request: Request ) {
 }
 
 const langParamRexExp = new RegExp(`^\/(${ myConfig.locale['accept-lang'].join('|') })(\/|$)`);
+const exceptionPattern = /\/(static-icons|static-img|script)\/|\/(ads\.txt|robots\.txt)/;
 
 function getLocale( request: Request ): {
   isRedirect: boolean, language: string, url: string | undefined
@@ -65,6 +66,11 @@ function getLocale( request: Request ): {
   const pathname = url.pathname;
   let language: string = '';
   let isRedirect: boolean = false;
+
+  if ( exceptionPattern.test( pathname ) ) {
+    return { isRedirect: false, language, url: undefined };
+  }
+
   const locals = myConfig.locale['accept-lang'];
   const defaultLocal = myConfig.locale.default;
   const matchLang = pathname.match( langParamRexExp );
@@ -96,11 +102,11 @@ function getLocale( request: Request ): {
         return { isRedirect, language, url: redirectUrl };
       }
     }catch (e) {
-      console.log( e );
-      return { isRedirect, language, url: undefined };
+      //console.log( e );
+      return { isRedirect: false, language, url: undefined };
     }
   }
-  
+
   return { isRedirect, language, url: undefined };
 }
 

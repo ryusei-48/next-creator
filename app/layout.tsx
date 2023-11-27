@@ -12,6 +12,7 @@ const langParams: {[key: string]: string} = {}
 for ( let lang of myConfig.locale['accept-lang'] ) {
   langParams[ lang ] = `/${ lang }`;
 }
+langParams['x-default'] = '/';
 
 export const metadata: Metadata = {
   generator: 'Next.js',

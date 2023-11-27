@@ -2,6 +2,7 @@ import style from './header.module.scss';
 import { LoginButton, LogoutButton, RegisterButton } from "@/components/auth-button";
 import CategoriesDropdown from './use-client/categories-dropdown';
 import Contactform from './use-client/contactform';
+import ProductsDropdown from './use-client/products.dropdown';
 import LanguageSelector from './small-parts/lang-change';
 import CustomScript from './header.script';
 import { options } from '@/lib/auth-options';
@@ -50,7 +51,7 @@ export default async function header({ lang }: { lang: AcceptLocales }) {
             </nav>
           </div>
           <div className={ style.status_box }>
-            { /*<ThemeChangeButton style={{ height: '100%', fontSize: '16px' }} />*/ }
+            { <ThemeChangeButton style={{ height: '100%', fontSize: '16px' }} /> }
             <LogoutButton lang={ lang } localStack={{ logout: localeStack.adminbar.logout }} />
           </div>
         </div>
@@ -87,8 +88,9 @@ export default async function header({ lang }: { lang: AcceptLocales }) {
                 <li key={1}>
                   <button id="open-contactform">{ localeStack.contact }</button>
                 </li>
-                <li key={2}>
-                  <button aria-label='プロダクトリスト' id="open-product-list">{ localeStack.product }</button>
+                <li key={2} style={{ position: 'relative' }}>
+                  <button aria-label={ localeStack.product } id="open-product-list">{ localeStack.product }</button>
+                  <ProductsDropdown lang={ lang } />
                 </li>
                 <li style={{ position: 'relative' }}>
                   <button id="open-category-dropdown">

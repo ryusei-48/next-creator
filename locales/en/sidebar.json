@@ -1,4 +1,8 @@
 {
   "profile": "Profile",
+  "article-list": {
+    "heading2": "Latest Articles",
+    "go-to-article-list": "To Latest Articles List"
+  },
   "headline-heading2": "Article Index"
 }
