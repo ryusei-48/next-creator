@@ -154,6 +154,35 @@ div.wrapper {
           }
         }
       }
+      > div.post_type {
+        display: block;
+        width: 100%;
+        margin-top: 15px;
+        margin-bottom: 15px;
+        > div.input {
+          display: block;
+          width: 100%;
+          > span.radio {
+            display: inline-block;
+            margin-right: 10px;
+            //position: relative;
+            > input {
+              width: 0;
+              height: 0;
+            }
+            > label {
+              padding: 5px 15px;
+              font-size: 13pt;
+              border: 1px solid var( --border-color );
+              border-radius: 15px;
+              cursor: pointer;
+            }
+            > input[type="radio"]:checked + label {
+              background-color: var( --primary-color );
+            }
+          }
+        }
+      }
       > div.category {
         display: block;
         width: 100%;

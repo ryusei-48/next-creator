@@ -25,6 +25,7 @@ export default function Content({ useLang, defaultLang, locales, localeLabels }:
   const [ checkedCategorys, setCheckedCategorys ] = useState<{[key: number]: boolean } | null>( null );
   const [ mediaInsertMode, setMediaInsertMode ] = useState<'ck' | 'thumb'>('thumb');
   const [ thumbnail, setThumbnail ] = useState<React.JSX.Element | null>( null );
+  const [ postType, setPostType ] = useState<'post' | 'tips'>("post");
   //const [ inputLoadCounts, setInputLoadCounts ] = useState({ title: 0, editor: 0 });
   const thumbSelectDialog = useRef<HTMLDialogElement | null>( null );
   const titleInputRef = useRef<{[key: string]: HTMLInputElement}>({});
@@ -72,7 +73,8 @@ export default function Content({ useLang, defaultLang, locales, localeLabels }:
               }
             }
       
-            if ( postData.current?.permalink ) {
+            if ( postData.current && postData.current.permalink ) {
+              setPostType( postData.current.type );
               permalinkInput.current!.value = postData.current.permalink;
             }
       
@@ -233,11 +235,11 @@ export default function Content({ useLang, defaultLang, locales, localeLabels }:
     }
   
     const sendJson: any = {
-      title, body, description, permalink,
+      title, body, description, permalink, type: postType,
       media: { connect: { id: thumbnailId } }, CategoryPost,
       status: setStatus, user: { connect: { id: Number( session.data?.user?.id ) } }
     }
-  
+
     if ( !thumbnailId ) delete sendJson.media;
   
     fetch(`/api/post/${ ( postStatus === 'draft' || postStatus === 'publish' ) && mode === 'edit' ? 'update' : 'create' }`, {
@@ -337,6 +339,23 @@ export default function Content({ useLang, defaultLang, locales, localeLabels }:
               <input ref={ permalinkInput } type="text" placeholder="my-post" />
             </div>
           </div>
+          <div className={ style.post_type }>
+            <h3>投稿タイプ</h3>
+            <div className={ style.input }>
+              <span className={ style.radio }>
+                <input type="radio" id="post-type-input-post" name="post-type"
+                  checked={ postType === 'post' } onChange={() => setPostType("post")}
+                />
+                <label htmlFor="post-type-input-post">Post</label>
+              </span>
+              <span className={ style.radio }>
+                <input type="radio" id="post-type-input-tips" name="post-type"
+                  checked={ postType === 'tips' } onChange={() => setPostType("tips")}
+                />
+                <label htmlFor="post-type-input-tips">Tips</label>
+              </span>
+            </div>
+          </div>
           <div className={ style.category }>
             <h3>カテゴリー選択</h3>
             <div className={ style.tree_view }>
@@ -417,7 +436,7 @@ type GetPostData = {
   user: { nameid: string },
   CategoryPost: {
     category: { id: number, name: string }
-  }[]
+  }[], type: "post" | "tips"
 } | null
 
 async function getPostData( id: number ) {

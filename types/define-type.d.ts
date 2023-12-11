@@ -56,6 +56,36 @@ export declare global {
           }
         };
       }[];
+    } | null;
+
+    type CategoryRelatedTips = {
+      id: number;
+      name: {[key: string]: string},
+      slug: string;
+      CategoryPost: {
+        post: {
+          id: number,
+          body: {[key: string]: string},
+          title: {[key: string]: string},
+          description: {[key: string]: string} | null,
+          status: string, permalink: string,
+          register_date: string,
+          update_date: string,
+          media: {
+              id: number,
+              url: { paths: {[key: string]: string} },
+          } | null,
+          CategoryPost: {
+            category: {
+              id: number,
+              name: {[key: string]: string},
+            },
+          }[],
+          user: {
+            nameid: string
+          }
+        };
+      }[];
     } | null
   }
 

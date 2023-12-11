@@ -7,6 +7,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import NextCreatorPNG from '@/public/static-img/next-creator.png';
 import TwitterSpaceDownloaderPNG from '@/public/static-img/twitter-space-downloader.jpg';
+import TranscriberPNG from '@/public/static-img/transcriber.png';
 import GoogleSearchWithDuckDuckGoPNG from '@/public/static-img/google-search-with-duckduckgo.jpg';
 
 export default function ProductsDropdown({ lang, isMobile }: { lang: AcceptLocales, isMobile?: true }) {
@@ -67,6 +68,25 @@ export default function ProductsDropdown({ lang, isMobile }: { lang: AcceptLocal
                   lang === 'en' ?
                   `This web tool allows you to download archives of public X-space (formerly Twitter) recordings as audio files in "m4a" format.` :
                   `本Webツールは、Xスペース（旧Twitter）の公開済み録音アーカイブを、 「m4a」形式の音声ファイルとしてダウンロードできます。`                   
+                }
+              </span>
+            </div>
+          </a>
+        </li>
+        <li>
+          <a className={ style.link_box } target="_blank" href="https://transcriber.tools.ryusei.io">
+            <div className={ style.thumbnail }>
+              <span className={ style.wrapper }>
+                <Image width="150" height="75" src={ TranscriberPNG } alt="transcriber" />
+              </span>
+            </div>
+            <div className={ style.details }>
+              <span className={ style.title }>TRANSCRIBER</span>
+              <span className={ style.description }>
+                {
+                  lang === 'en' ?
+                  `This is a service that allows you to come and translate video and audio text and watch media for basically free!` :
+                  `基本無料で動画や音声の文字お越し・翻訳、メディアの視聴ができるサービスです。`                   
                 }
               </span>
             </div>

@@ -29,7 +29,7 @@ export default async function Sidebar({ useLang, defaultLang, locales, localeLab
           <img loading="lazy" width="1" height="1" src="https://www19.a8.net/0.gif?a8mat=3BHRH7+9B7AUI+50+4YSWE9" alt="" />
         </div>
         <div className={ style.sp_square }>
-          <GoogleAdsense />
+          { process.env.NODE_ENV === "production" && <GoogleAdsense /> }
         </div>
       </aside>
       <aside className={ 'animate__animated animate__fadeIn ' + style.profile }>
@@ -76,21 +76,24 @@ export default async function Sidebar({ useLang, defaultLang, locales, localeLab
           <a className="twitter-timeline" data-chrome="noscrollbar noheader" data-height="400" data-theme="dark" href="https://twitter.com/ryusei__46?ref_src=twsrc%5Etfw">Tweets by ryusei__46</a>
         </div>
       </aside>
-      <aside className={ style.advertise_content }>
-        <h3>スポンサーリンク</h3>
-        <div className={ style.responsive }>
-          <GoogleAdsense />
-        </div>
-        { /*<div className={ style.pc_square }>
-          <GoogleAdsense />
-        </div>
-        <div className={ style.sp_square }>
-          <GoogleAdsense />
-        </div> */ }
-      </aside>
+      {
+        process.env.NODE_ENV === "production" &&
+        <aside className={ style.advertise_content }>
+          <h3>スポンサーリンク</h3>
+          <div className={ style.responsive }>
+            <GoogleAdsense />
+          </div>
+          { /*<div className={ style.pc_square }>
+            <GoogleAdsense />
+          </div>
+          <div className={ style.sp_square }>
+            <GoogleAdsense />
+          </div> */ }
+        </aside>
+      }
       { pageJudg('post') && <ArticleList lang={ useLang } localeStack={ localeStack["article-list"] } /> }
       <div className={ style.sticky_content }>
-        { pageJudg('post') && <HeadingTable lang={ useLang } localeStack={ localeStack['headline-heading2'] } /> }
+        { (pageJudg('post') || pageJudg('tips')) && <HeadingTable lang={ useLang } localeStack={ localeStack['headline-heading2'] } /> }
       </div>
     </div>
   )

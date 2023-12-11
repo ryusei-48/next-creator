@@ -8,7 +8,7 @@ aside.related_articles {
     border-bottom: none !important;
     text-align: center;
   }
-  div.articles {
+  > div.articles {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     grid-gap: 10px;
@@ -47,6 +47,88 @@ aside.related_articles {
             padding: 0;
             font-weight: normal;
             line-height: 1.5em;
+          }
+        }
+      }
+    }
+  }
+  > div.tips_list {
+    display: block;
+    width: 100%;
+    container-type: inline-size;
+    > article.tips {
+      width: 100cqw;
+      background-color: var( --background-primary-dark-color );
+      container-type: inline-size;
+      > a.link_wrap {
+        display: block;
+        width: 100%;
+        padding: 7px;
+        border: 1px solid transparent;
+        transition: all .3s ease;
+        @container ( max-width: 500px ) {
+          background-color: var( --background-primary-color );
+        }
+        &:hover {
+          border: 1px solid var( --border-color-secondary );
+          background-color: var( --background-primary-color );
+        }
+        > div.meta_details {
+          width: 100%;
+          display: flex;
+          flex-direction: row;
+          align-items: center;
+          gap: 15px;
+          padding-bottom: 10px;
+          border-bottom: 1px dotted var( --border-color );
+          container-type: inline-size;
+          @container ( max-width: 500px ) {
+            flex-flow: wrap;
+          }
+          > div.categories {
+            max-width: 70cqw;
+            display: flex;
+            flex-flow: wrap;
+            align-items: center;
+            gap: 10px;
+            @container ( max-width: 500px ) {
+              max-width: 100cqw;
+              width: 100cqw;
+              justify-content: center;
+            }
+            > span {
+              display: inline-block;
+              padding: 5px 15px;
+              font-size: 11pt;
+              border-radius: 25px;
+              background-color: var( --background-secondary-color );
+            }
+          }
+          > div.time {
+            flex-basis: auto;
+            flex-grow: 1;
+            @container ( max-width: 500px ) {
+              flex-basis: 100%;
+            }
+            > span {
+              display: block;
+              width: 100%;
+              text-align: left;
+              font-size: 12pt;
+              @container ( max-width: 500px ) {
+                text-align: center;
+              }
+            }
+          }
+        }
+        > div.heading {
+          width: 100%;
+          padding: 10px;
+          > h3 {
+            display: block;
+            width: 100%;
+            font-size: 16pt;
+            margin: 0;
           }
         }
       }

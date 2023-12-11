@@ -1,0 +1,221 @@
+@import "../../comon.function.scss";
+
+.main {
+  display: block;
+  width: 100%;
+  article.post_container {
+    display: flex;
+    flex-flow: wrap;
+    justify-content: center;
+    gap: 15px;
+    width: 100%;
+  }
+}
+
+header.post_title_wrap {
+  flex-basis: 100%;
+  padding: 30px;
+  text-align: center;
+  @include sp_base() {
+    padding: 10px;
+  }
+  h1 {
+    font-size: 20pt;
+    font-weight: bold;
+  }
+  div.post_meta {
+    display: flex;
+    flex-flow: wrap;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    padding-top: 15px;
+    padding-left: 100px;
+    padding-right: 100px;
+    gap: 15px 30px;
+    @include sp_base() {
+      padding-left: 15px;
+      padding-right: 15px;
+    }
+    ul.categorys {
+      flex-basis: auto;
+      display: flex;
+      flex-flow: wrap;
+      align-items: center;
+      gap: 20px;
+      li.category {
+        flex-basis: auto;
+        .link_wrap {
+          display: flex;
+          flex-direction: row;
+          justify-content: center;
+          align-items: center;
+          gap: 10px;
+        }
+        span.icon {
+          flex-basis: 50px;
+          font-size: 18pt;
+          span.image_wrap {
+            display: block;
+            width: 1.3em;
+            height: 1.3em;
+            position: relative;
+            overflow: hidden;
+            img {
+              position: absolute;
+              top: 50%; left: 50%;
+              transform: translate( -50%, -50% );
+              width: 100%;
+              height: 100%;
+              border-radius: 50%;
+            }
+          }
+        }
+        span.name {
+          flex-basis: auto;
+          font-size: 13pt;
+          white-space: nowrap;
+        }
+      }
+    }
+    div.datetime {
+      min-width: 300px;
+      text-align: center;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: row;
+      @include sp_base() {
+        flex-direction: column;
+      }
+      gap: 15px;
+      > span.register_date,
+      > span.update_date {
+        flex-basis: auto;
+        font-size: 12pt;
+        @include sp_base() {
+          flex-basis: 100%;
+          text-align: center;
+        }
+        > time, > span.view {
+          font-size: 11pt;
+        }
+      }
+    }
+  }
+}
+
+section.post_content {
+  width: calc(100% - 375px);
+  padding: 10px;
+  @include sp_base() {
+    width: 100%;
+  }
+  ul {
+    display: block;
+    padding-left: 15px;
+    > li {
+      display: block;
+      padding-left: 2.3em;
+      margin-bottom: 10px;
+      font-size: 18px;
+      position: relative;
+      &::before {
+        position: absolute;
+        top: 50%;
+        left: 0;
+        transform: translateY(-50%);
+        content: var( --circle-chevron-right-svg );
+        font-size: 1.1em;
+        width: 1.1em;
+        height: 1.1em;
+      }
+    }
+  }
+  h2, h3, h4 {
+    padding-bottom: 15px;
+    border-bottom: 2px dotted var( --primary-color );
+  }
+  > div.post_content_top {
+    width: 100%;
+    > figure.thumbnail {
+      display: block;
+      width: 100%;
+      > img {
+        width: 100%;
+        border-radius: 10px;
+      }
+    }
+  }
+  > div.insert_html {
+    width: 100%;
+    padding: 10px;
+    h2, h3, h4, h5 {
+      padding-left: 22px;
+      position: relative;
+      cursor: pointer;
+      &::before {
+        position: absolute;
+        top: 0; left: -12px;
+        content: var( --clip-svg-icon );
+        //background-image: url("http://ryuseiweb.localhost/static-icons/clip.svg");
+        //background-color: white;
+        font-size: 1em;
+        margin-left: 10px;
+        margin-right: 10px;
+      }
+    }
+    figure {
+      display: block;
+      width: 100%;
+      padding: 15px;
+      img {
+        width: 100%;
+      }
+    }
+  }
+  aside.advertise_content {
+    display: block;
+    width: 100%;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    > div.pc_double {
+      display: flex;
+      flex-flow: wrap;
+      justify-content: center;
+      gap: 15px;
+      width: 100%;
+      @include sp_base() {
+        display: none;
+      }
+      > div.left, > div.right {
+        flex-basis: calc( 50% - 7.5px );
+        text-align: center;
+      }
+    }
+    > div.sp_square {
+      display: none;
+      width: 100%;
+      //text-align: center;
+      @include sp_base() {
+        display: block;
+      }
+    }
+  }
+  section.discussion_wrap {
+    width: 100%;
+    margin-top: 20px;
+    padding: 15px;
+    padding-top: 5px;
+    border-radius: 10px;
+    background-color: var( --discussion-background-color );
+    > h2 {
+      margin-top: 5px;
+      border-bottom: none;
+      text-align: center;
+    }
+    > div.content {
+      width: 100%;
+    }
+  }
+}

@@ -9,7 +9,7 @@ const prisma = new PrismaClient();
 type PostData = {
   id: number,
   title: {[key in AcceptLocales]: string},
-  permalink: string | null,
+  permalink: string | null, type: string
 } | null;
 
 export default async function PostBeforeAfter({ lang, postDate}: {
@@ -19,20 +19,20 @@ export default async function PostBeforeAfter({ lang, postDate}: {
   const previousPosts = await prisma.post.findFirst({
     where: { register_date: { lt: postDate }, status: 'publish' },
     orderBy: { register_date: 'desc' },
-    select: { id: true, title: true, permalink: true }
+    select: { id: true, title: true, permalink: true, type: true }
   }) as PostData;
 
   const nextPost = await prisma.post.findFirst({
     where: { register_date: { gt: postDate }, status: 'publish' },
     orderBy: { register_date: 'asc' },
-    select: { id: true, title: true, permalink: true }
+    select: { id: true, title: true, permalink: true, type: true }
   }) as PostData;
 
   return (
     <div className={ style.before_after_link }>
       {
         previousPosts &&
-        <Link className={`${ style.link_bar } ${ style.left }`} href={`/article${ previousPosts.permalink ? `/${ previousPosts.permalink }` : `?id=${ previousPosts.id }` }`}>
+        <Link className={`${ style.link_bar } ${ style.left }`} href={`/${ ( previousPosts.type === 'tips' ? 'tips' : 'article' ) + ( previousPosts.permalink ? `/${ previousPosts.permalink }` : `?id=${ previousPosts.id }` ) }`}>
           <span className={ style.icon_angle }>
             <FontAwesomeIcon icon={ faAngleLeft }></FontAwesomeIcon>
           </span>
@@ -41,7 +41,7 @@ export default async function PostBeforeAfter({ lang, postDate}: {
       }
       {
         nextPost &&
-        <Link className={`${ style.link_bar } ${ style.right }`} href={`/article${ nextPost.permalink ? `/${ nextPost.permalink }` : `?id=${ nextPost.id }` }`}>
+        <Link className={`${ style.link_bar } ${ style.right }`} href={`/${ ( nextPost.type === 'tips' ? 'tips' : 'article' ) + ( nextPost.permalink ? `/${ nextPost.permalink }` : `?id=${ nextPost.id }` ) }`}>
           <span className={ style.post_title } style={{ textAlign: 'right' }}>
             { nextPost.title[ lang ] }
           </span>

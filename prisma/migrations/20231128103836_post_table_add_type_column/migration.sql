@@ -1,0 +1,2 @@
+-- AlterTable
+ALTER TABLE `Post` ADD COLUMN `type` VARCHAR(15) NOT NULL DEFAULT 'post';

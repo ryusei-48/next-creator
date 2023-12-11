@@ -23,7 +23,7 @@ async function GetPost( request: NextRequest ) {
       permalink: true, user: { select: { nameid: true } },
       media: { select: { id: true, url: true } },
       CategoryPost: { select: { category: { select: { id: true, name: true, slug: true, icon_mime: true } } } },
-      register_date: true, update_date: true
+      register_date: true, update_date: true, type: true
     }
   });
 

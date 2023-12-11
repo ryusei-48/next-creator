@@ -43,6 +43,7 @@ model Post {
   thumbnail     Int?
   permalink     String?        @unique @db.VarChar(100)
   status        String         @db.VarChar(15)
+  type          String         @db.VarChar(15) @default("post")
   register_date DateTime       @default(now())
   update_date   DateTime       @updatedAt
 

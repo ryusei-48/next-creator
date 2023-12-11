@@ -37,6 +37,8 @@ const nextConfig = {
       { source: '/admin/:path', destination: `/${ defaultLang }/admin/:path` },
       { source: '/article', destination: `/${ defaultLang }/article` },
       { source: '/article/:path', destination: `/${ defaultLang }/article/:path` },
+      { source: '/tips', destination: `/${ defaultLang }/tips` },
+      { source: '/tips/:path', destination: `/${ defaultLang }/tips/:path` },
       { source: '/category', destination: `/${ defaultLang }/category` },
       { source: '/category/:path', destination: `/${ defaultLang }/category/:path` },
       { source: '/privacy-policy', destination: `/${ defaultLang }/privacy-policy` },

@@ -12,7 +12,7 @@ export default async function ArticleList({ lang, localeStack }: {
 }) {
 
   const postData = await prisma.post.findMany({
-    orderBy: { register_date: 'desc' }, where: { status: 'publish' },
+    orderBy: { register_date: 'desc' }, where: { status: 'publish', type: 'post' },
     take: 5, skip: 0, select: {
       id: true, title: true, status: true,
       user: { select: { nameid: true } }, description: true,

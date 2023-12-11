@@ -1,8 +1,8 @@
 import Header from '@/components/header';
 import Container from '@/components/container';
-import RelatedPost from './related';
+import RelatedPost from '../article/related';
 import GoogleAdsense from '@/components/use-client/advertisement/google-adsense';
-import Discussion from './discussion';
+import Discussion from '../article/discussion';
 import Sidebar from '@/components/sidebar';
 import ArticleScript from './article.script';
 import Footer from '@/components/footer';
@@ -11,7 +11,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHashtag } from '@fortawesome/free-solid-svg-icons';
 import myConfig from '@/public.config.json';
 import { redirect } from 'next/navigation';
-import { getComments } from './discussion.actions';
+import { getComments } from '../article/discussion.actions';
 import { getStrDatetime } from '@/lib/functions';
 import Link from 'next/link';
 import Image from 'next/image';
@@ -27,7 +27,7 @@ type Props = {
 //export const revalidate = 5;
 const prisma = new PrismaClient();
 
-export async function getPost( postId: string ) {
+async function getPost( postId: string ) {
   return await prisma.post.findFirst({
     where: { id: Number( postId ) }, select: {
       id: true, title: true, body: true, status: true, description: true,
@@ -225,7 +225,6 @@ export async function ArticleCommon({ postData, lang }: {
     </>
   )
 }
-
 
 export async function DiscussionComponent({ postId, lang }: {
   postId: number, lang: AcceptLocales

@@ -90,7 +90,7 @@ export function postBodyFormat( html: string ) {
   return html.replaceAll( "{{root-domain-url}}", process.env.APP_URL! );
 }
 
-type PageType = "home" | 'post' | 'admin';
+type PageType = "home" | 'post' | 'tips' | 'admin';
 export function pageJudg( page: PageType ) {
 
   const requestUrl = headers().get('x-url');
@@ -99,6 +99,7 @@ export function pageJudg( page: PageType ) {
   const pathname = new URL( requestUrl ).pathname;
   if ( page === 'home' && pathname.match(/^\/\w{0,2}$/) ) return true;
   else if ( page === 'post' && pathname.match(/^(\/\w{0,2})?\/article((\?[\w=]+)|(\/[\w-]+))?$/ ) ) return true;
+  else if ( page === 'tips' && pathname.match(/^(\/\w{0,2})?\/tips((\?[\w=]+)|(\/[\w-]+))?$/ ) ) return true;
   else if ( page === 'admin' && pathname.match(/^(\/\w{0,2})?\/admin\//) ) return true;
   else return false;
 }
