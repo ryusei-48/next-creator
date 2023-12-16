@@ -103,3 +103,15 @@ export function pageJudg( page: PageType ) {
   else if ( page === 'admin' && pathname.match(/^(\/\w{0,2})?\/admin\//) ) return true;
   else return false;
 }
+
+export function matchMedia( device: "desktop" ): boolean {
+
+  const requestHeaders = headers();
+  if ( device === "desktop" ) {
+    const userAgent = requestHeaders.get("user-agent") || "";
+    return !/mobile/i.test( userAgent );
+  }else {
+    const userAgent = requestHeaders.get("user-agent") || "";
+    return !/mobile/i.test( userAgent );
+  }
+}

@@ -68,3 +68,15 @@ export function utcToLocalDate( date: string, format: string ) {
 
   return getStrDatetime( format, localDate.toISOString() );
 }
+
+export function matchMedia( device?: "desktop" ): boolean {
+
+  switch ( device ) {
+    case "desktop":
+      if ( window.matchMedia(`(min-width: 1100px)`).matches ) return true
+      else return false;
+    default:
+      if ( window.matchMedia(`(min-width: 1100px)`).matches ) return true
+      else return false;
+  }
+}

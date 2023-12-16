@@ -1,6 +1,7 @@
 import style from './article-list.module.scss';
 import { PrismaClient } from '@prisma/client';
 import Image from 'next/image';
+import noImage from '@/public/static-img/no-image.svg';
 import Link from 'next/link';
 import myConfig from '@/public.config.json';
 import type { ArticleListLocale } from './sidebar';
@@ -34,7 +35,11 @@ export default async function ArticleList({ lang, localeStack }: {
               <li>
                 <Link href={ post.permalink ? `${ localePathname }/article/${ post.permalink }` : `${ localePathname }/article?id=${ post.id }` }>
                   <span className={ style.thumbnail }>
-                    <Image width="160" height="90" src={ `/api/media-stream?w=800&id=${ post.media!.id }` } alt="thumbnail" />
+                    {
+                      !post.media ?
+                      <Image width="160" height="90" src={ noImage } alt="No thumbnail" /> :
+                      <Image width="160" height="90" src={ `/api/media-stream?w=800&id=${ post.media!.id }` } alt="thumbnail" />
+                    }
                   </span>
                   <span className={ style.title }>{ post.title[ lang ] }</span>
                 </Link>

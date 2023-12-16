@@ -5,6 +5,7 @@ import GoogleAdsense from '@/components/use-client/advertisement/google-adsense'
 import Discussion from '../article/discussion';
 import Sidebar from '@/components/sidebar';
 import ArticleScript from './article.script';
+import FirstHeadingAd from '@/components/use-client/advertisement/insert-before-heading';
 import Footer from '@/components/footer';
 import style from './page.module.scss';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -12,7 +13,7 @@ import { faHashtag } from '@fortawesome/free-solid-svg-icons';
 import myConfig from '@/public.config.json';
 import { redirect } from 'next/navigation';
 import { getComments } from '../article/discussion.actions';
-import { getStrDatetime } from '@/lib/functions';
+import { getStrDatetime, matchMedia } from '@/lib/functions';
 import Link from 'next/link';
 import Image from 'next/image';
 import { PrismaClient } from '@prisma/client';
@@ -65,7 +66,9 @@ export async function generateMetadata(
   const thisPathname = `${ postData.permalink ? `article/${ postData.permalink }` : `article?id=${ postData.id }` }`;
   const langParams: {[key: string]: string} = {}
   for ( let lang of myConfig.locale['accept-lang'] ) {
-    langParams[ lang ] = `/${ lang }/${ thisPathname }`;
+    if ( postData.title[ lang ] !== "" ) {
+      langParams[ lang ] = `/${ lang }/${ thisPathname }`;
+    }
   }
   langParams['x-default'] = `/${ thisPathname }`;
 
@@ -119,7 +122,7 @@ export async function ArticleCommon({ postData, lang }: {
         <main className={ `${ style.main }` }>
           <article className={ style.post_container }>
             <header className={ `animate__animated animate__fadeInDown animate__fast ` +  style.post_title_wrap }>
-              <h1>{ postData ? postData.title[ lang ] : '' }</h1>
+              <h1>{ postData.title[ lang ] !== "" ? postData.title[ lang ] : postData.title[ myConfig.locale.default ] }</h1>
               <div className={ style.post_meta }>
                 <ul className={ style.categorys }>
                   {
@@ -185,22 +188,28 @@ export async function ArticleCommon({ postData, lang }: {
               <div
                 id="insert_post_html"
                 className={ style.insert_html }
-                dangerouslySetInnerHTML={{ __html: postData ? postData?.body[ lang ] as string : '' }}
+                dangerouslySetInnerHTML={{
+                  __html: postData.title[ lang ] !== "" ? postData?.body[ lang ] as string : postData?.body[ myConfig.locale.default ] as string
+                }}
               ></div>
+              { process.env.NODE_ENV === 'production' && <FirstHeadingAd /> }
               {
                 process.env.NODE_ENV === "production" &&
                 <aside className={ style.advertise_content }>
-                  <div className={ style.pc_double }>
-                    <div className={ style.left }>
+                  {
+                    matchMedia("desktop") ?
+                    <div className={ style.pc_double }>
+                      <div className={ style.left }>
+                        <GoogleAdsense />
+                      </div>
+                      <div className={ style.right }>
+                        <GoogleAdsense />
+                      </div>
+                    </div> :
+                    <div className={ style.sp_square }>
                       <GoogleAdsense />
                     </div>
-                    <div className={ style.right }>
-                      <GoogleAdsense />
-                    </div>
-                  </div>
-                  <div className={ style.sp_square }>
-                    { /*<GoogleAdsense />*/ }
-                  </div>
+                  }
                 </aside>
               }
               <RelatedPost lang={ lang } postId={ postData.id } postDate={ postData.register_date } categories={ postData.CategoryPost } />

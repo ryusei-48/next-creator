@@ -6,7 +6,7 @@ import style from './page.module.scss'
 import { PrismaClient } from '@prisma/client';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faClock } from '@fortawesome/free-solid-svg-icons';
-import { getStrDatetime } from '@/lib/functions';
+import { getStrDatetime, matchMedia } from '@/lib/functions';
 import myConfig from '@/public.config.json';
 import dictionaries from '@/locales/dictionaries';
 import Link from 'next/link';

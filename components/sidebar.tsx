@@ -6,7 +6,7 @@ import ArticleList from './article-list';
 import HeadingTable from './use-client/heading-table';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faGithub, faXTwitter } from '@fortawesome/free-brands-svg-icons';
-import { pageJudg } from '@/lib/functions';
+import { pageJudg, matchMedia } from '@/lib/functions';
 import LocaleDict from '@/locales/dictionaries';
 import HeaderJson from '@/locales/ja/sidebar.json';
 export type ArticleIndexLocales = typeof HeaderJson["headline-heading2"];
@@ -22,15 +22,18 @@ export default async function Sidebar({ useLang, defaultLang, locales, localeLab
   return (
     <div className={ `${ style.sidebar }` }>
       <aside className={ style.advertise_content }>
-        <div className={ style.pc_square }>
-          <a href="https://px.a8.net/svt/ejp?a8mat=3BHRH7+9B7AUI+50+4YSWE9" rel="nofollow">
-            <img loading="lazy" width="336" height="280" alt="" src="https://www29.a8.net/svt/bgt?aid=200703067563&wid=012&eno=01&mid=s00000000018030032000&mc=1" />
-          </a>
-          <img loading="lazy" width="1" height="1" src="https://www19.a8.net/0.gif?a8mat=3BHRH7+9B7AUI+50+4YSWE9" alt="" />
-        </div>
-        <div className={ style.sp_square }>
-          { process.env.NODE_ENV === "production" && <GoogleAdsense /> }
-        </div>
+        {
+          matchMedia("desktop") ?
+          <div className={ style.pc_square }>
+            <a href="https://px.a8.net/svt/ejp?a8mat=3BHRH7+9B7AUI+50+4YSWE9" rel="nofollow">
+              <img loading="lazy" width="336" height="280" alt="" src="https://www29.a8.net/svt/bgt?aid=200703067563&wid=012&eno=01&mid=s00000000018030032000&mc=1" />
+            </a>
+            <img loading="lazy" width="1" height="1" src="https://www19.a8.net/0.gif?a8mat=3BHRH7+9B7AUI+50+4YSWE9" alt="" />
+          </div> :
+          <div className={ style.sp_square }>
+            { process.env.NODE_ENV === "production" && <GoogleAdsense /> }
+          </div>
+        }
       </aside>
       <aside className={ 'animate__animated animate__fadeIn ' + style.profile }>
         <h3>{ localeStack.profile }</h3>

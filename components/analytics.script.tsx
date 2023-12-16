@@ -26,11 +26,11 @@ export default function analyticsScript() {
     tag.async = true;
     document.body.appendChild( tag );*/
 
-    const adsbygoogle = document.createElement('script');
+    /*const adsbygoogle = document.createElement('script');
     adsbygoogle.src = `https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${ process.env.NEXT_PUBLIC_CA_PUB || '' }`;
     adsbygoogle.async = true;
     adsbygoogle.setAttribute('crossorigin', 'anonymous');
-    document.head.appendChild( adsbygoogle );
+    document.head.appendChild( adsbygoogle );*/
 
     const twitterTimeline = document.createElement('script');
     twitterTimeline.src = 'https://platform.twitter.com/widgets.js';
@@ -42,7 +42,7 @@ export default function analyticsScript() {
       /*document.body.removeChild (tag );
       window.admaxads = [];
       window["__admax_tag__"] = undefined;*/
-      document.head.removeChild( adsbygoogle );
+      //document.head.removeChild( adsbygoogle );
       document.body.removeChild( twitterTimeline );
       //console.log('unmount');
     }
