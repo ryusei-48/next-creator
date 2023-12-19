@@ -336,7 +336,10 @@ a {
   text-decoration: none;
 }
 
-#insert_post_html p > a, #insert_post_html li > a {
+#insert_post_html p > a, #insert_post_html li > a,
+#insert_post_html th > a, #insert_post_html td > a,
+div.ck.ck-editor__main p > a, div.ck.ck-editor__main li > a,
+div.ck.ck-editor__main th > a, div.ck.ck-editor__main td > a {
   color: violet;
   text-decoration: underline;
   margin-left: 5px;
@@ -392,7 +395,7 @@ pre {
   }
 }
 
-p > code {
+p > code, li > code, td > code, th > code {
   color: var( --foreground-color-code ) !important;
   padding: 0px 4px 2px 4px;
   border: 1px solid var( --foreground-color-code );
@@ -457,6 +460,13 @@ input[type="email"], textarea, select {
 .animate__animated.animate__fadeIn {
   --animate-duration: 1000ms !important;
   --animate-delay: 0.2s !important;
+}
+
+figure > img {
+  display: block;
+  margin: 0 auto;
+  max-width: 100%;
+  height: auto;
 }
 
 @media (prefers-color-scheme: dark) {

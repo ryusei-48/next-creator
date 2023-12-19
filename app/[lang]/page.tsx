@@ -29,7 +29,7 @@ export async function generateMetadata(
   const localeStack = await dictionaries[ lang ].home();
 
   return {
-    title: `${ localeStack['title-tag-text'] } | ${ process.env.NEXT_PUBLIC_SITE_TITLE }`
+    title: `${ localeStack['title-tag-text'] }`
   }
 }
 
