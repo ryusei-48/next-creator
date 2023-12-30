@@ -1,5 +1,6 @@
 import Header from '@/components/header';
 import Container from '@/components/container';
+import PostCardLazy from './post-card-lazy';
 import Sidebar from '@/components/sidebar';
 import Footer from '@/components/footer';
 import style from './page.module.scss'
@@ -128,6 +129,12 @@ export default async function Home({ params: { lang } }: {
               )
             })
           }
+          <PostCardLazy
+            access_token={ process.env.API_ACCESS_TOKEN! }
+            isNext={ postList.isNext } skip={ 10 } type='post'
+            localePathname={ localePathname } lang={ lang }
+            localeStack={{ "more-post": localeStack['more-post'] }}
+          />
           { tipsList.result.length > 0 && <h2>Latest Tips</h2> }
           {
             tipsList.result.map((tips) => {
