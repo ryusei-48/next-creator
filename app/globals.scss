@@ -469,6 +469,24 @@ figure > img {
   height: auto;
 }
 
+.hljs {
+  background: #191e25 !important;
+  border: 1px dotted gray !important;
+}
+
+@include sp_base() {
+  figure {
+    margin: 0;
+    margin-bottom: 15px;
+    overflow-x: auto;
+    width: 100%;
+    > table {
+      width: 100% !important;
+      min-width: 650px;
+    }
+  }
+}
+
 @media (prefers-color-scheme: dark) {
   html {
     color-scheme: dark;

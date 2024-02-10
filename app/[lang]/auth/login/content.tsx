@@ -28,7 +28,7 @@ export default function LoginPage({ useLang, defaultLang, locales, localeLabels,
   const login = ( data: FieldValues ) => {
 
     try {
-     signIn("credentials", {
+      signIn("credentials", {
         redirect: false,
         email: data.nameId, password: data.password
         //email: 'yamazakifinal77@gmail.com',

@@ -54,7 +54,7 @@ export function getStrDatetime( format?: string, dateString?: string ) {
   const s = ('0' + date.getSeconds()).slice(-2);
 
   if ( format ) {
-    return format.replace('y', `${y}`).replace('m', `${m}`).replace('d', `${d}`)
+    return format.replace('y', `${y}`).replace('mt', `${m}`).replace('d', `${d}`)
       .replace('h', `${h}`).replace('mi', `${mi}`).replace('s', `${s}`);
   }
 
